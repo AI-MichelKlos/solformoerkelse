@@ -22,37 +22,59 @@
 html,body{height:100%}
 body{
   font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
-  background:#0a0e1f;color:#f0f2f8;overflow-x:hidden;
+  background:#080b1a;color:#f2f4fa;overflow-x:hidden;
   overscroll-behavior:none;-webkit-user-select:none;user-select:none;
+}
+/* Blødt lysskær bag indholdet */
+body::before{
+  content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:
+    radial-gradient(120% 65% at 50% -10%, rgba(255,196,110,.16), transparent 62%),
+    radial-gradient(95% 55% at 50% 108%, rgba(88,120,220,.16), transparent 60%);
 }
 input{-webkit-user-select:text;user-select:text}
 #stjerner{position:fixed;inset:0;z-index:0;pointer-events:none}
-.wrap{position:relative;z-index:1;max-width:520px;margin:0 auto;padding:16px 16px 40px;min-height:100%}
+.wrap{position:relative;z-index:1;max-width:520px;margin:0 auto;padding:16px 16px 44px;min-height:100%}
 
-h1{font-size:30px;line-height:1.15;letter-spacing:-.5px;margin-bottom:10px}
-h2{font-size:23px;line-height:1.2;margin-bottom:8px}
-p{font-size:17px;line-height:1.5;color:#c3cadf}
-.lille{font-size:14px;color:#8e97b5}
+h1{font-size:31px;line-height:1.12;letter-spacing:-.7px;margin-bottom:10px;
+  background:linear-gradient(180deg,#fff,#c8d0e8);-webkit-background-clip:text;
+  background-clip:text;color:transparent}
+h2{font-size:24px;line-height:1.2;margin-bottom:8px;letter-spacing:-.3px}
+p{font-size:17px;line-height:1.55;color:#c6cde0}
+.lille{font-size:14px;color:#939cba;line-height:1.5}
 
-.kort{background:rgba(255,255,255,.055);border:1px solid rgba(255,255,255,.11);
-  border-radius:20px;padding:18px;margin-bottom:14px;backdrop-filter:blur(6px)}
-.badge{display:inline-block;font-size:12px;font-weight:700;letter-spacing:1.4px;
-  text-transform:uppercase;color:#ffd166;background:rgba(255,209,102,.13);
-  border:1px solid rgba(255,209,102,.3);border-radius:99px;padding:5px 13px;margin-bottom:12px}
-.knap{display:block;width:100%;border:0;border-radius:16px;padding:17px 20px;
-  font-size:18px;font-weight:700;font-family:inherit;color:#0a0e1f;
-  background:linear-gradient(135deg,#ffd166,#ff9f45);cursor:pointer;margin-top:10px;
-  transition:transform .12s;box-shadow:0 6px 20px rgba(255,159,69,.28)}
-.knap:active{transform:scale(.97)}
-.knap.sekundaer{background:transparent;color:#c3cadf;
-  border:1.5px solid rgba(255,255,255,.2);box-shadow:none;font-size:16px}
+.kort{
+  background:linear-gradient(165deg,rgba(255,255,255,.085),rgba(255,255,255,.035));
+  border:1px solid rgba(255,255,255,.1);border-radius:22px;padding:19px;margin-bottom:14px;
+  box-shadow:0 10px 30px rgba(0,0,0,.28), inset 0 1px 0 rgba(255,255,255,.07);
+  backdrop-filter:blur(8px);
+}
+.badge{display:inline-block;font-size:11.5px;font-weight:700;letter-spacing:1.5px;
+  text-transform:uppercase;color:#ffd68a;
+  background:linear-gradient(180deg,rgba(255,209,102,.2),rgba(255,209,102,.08));
+  border:1px solid rgba(255,209,102,.28);border-radius:99px;padding:6px 14px;margin-bottom:13px}
+.knap{position:relative;display:block;width:100%;border:0;border-radius:17px;padding:17px 20px;
+  font-size:18px;font-weight:700;font-family:inherit;color:#191203;overflow:hidden;
+  background:linear-gradient(135deg,#ffdc8b,#ffab4d);cursor:pointer;margin-top:11px;
+  transition:transform .12s,box-shadow .2s;
+  box-shadow:0 8px 24px rgba(255,159,69,.3), inset 0 1px 0 rgba(255,255,255,.45)}
+.knap::after{content:"";position:absolute;inset:0;
+  background:linear-gradient(105deg,transparent 40%,rgba(255,255,255,.4) 50%,transparent 60%);
+  transform:translateX(-120%);transition:transform .7s}
+.knap:active{transform:scale(.975);box-shadow:0 4px 14px rgba(255,159,69,.26)}
+.knap:active::after{transform:translateX(120%)}
+.knap.sekundaer{background:rgba(255,255,255,.045);color:#c6cde0;
+  border:1.5px solid rgba(255,255,255,.16);box-shadow:none;font-size:16px;font-weight:600}
 .skjul{display:none !important}
 
-.top{display:flex;align-items:center;gap:10px;margin-bottom:16px;padding-top:6px}
-.bar{flex:1;height:8px;background:rgba(255,255,255,.1);border-radius:99px;overflow:hidden}
+.top{display:flex;align-items:center;gap:11px;margin-bottom:18px;padding-top:6px}
+.bar{position:relative;flex:1;height:9px;background:rgba(255,255,255,.09);
+  border-radius:99px;overflow:hidden;box-shadow:inset 0 1px 2px rgba(0,0,0,.35)}
 .bar>i{display:block;height:100%;width:0;border-radius:99px;
-  background:linear-gradient(90deg,#ffd166,#ff9f45);transition:width .5s}
-.stjernetal{font-size:16px;font-weight:800;color:#ffd166;white-space:nowrap}
+  background:linear-gradient(90deg,#ffd166,#ff9f45);transition:width .6s cubic-bezier(.4,1.3,.5,1);
+  box-shadow:0 0 12px rgba(255,180,80,.6)}
+.stjernetal{font-size:16px;font-weight:800;color:#ffd68a;white-space:nowrap;
+  text-shadow:0 0 14px rgba(255,200,90,.35)}
 
 .tur{display:flex;align-items:center;gap:9px;justify-content:center;font-size:15px;
   font-weight:700;margin-bottom:14px;padding:9px;border-radius:14px;background:rgba(255,255,255,.05)}
@@ -83,18 +105,42 @@ p{font-size:17px;line-height:1.5;color:#c3cadf}
 .videoslot .ikon{font-size:30px;margin-bottom:8px;opacity:.5}
 .videoslot .txt{font-size:13px;color:#8e97b5;line-height:1.45}
 
-.valg{display:grid;gap:11px;margin-top:14px}
-.valg button{width:100%;text-align:left;font-family:inherit;font-size:17px;font-weight:600;
-  color:#f0f2f8;background:rgba(255,255,255,.07);border:1.5px solid rgba(255,255,255,.15);
-  border-radius:16px;padding:16px 18px;cursor:pointer;transition:all .15s;line-height:1.35}
-.valg button:active{transform:scale(.98)}
-.valg button.rigtigt{background:rgba(107,222,138,.2);border-color:#6bde8a;color:#c8f7d4}
-.valg button.forkert{background:rgba(255,107,107,.16);border-color:#ff6b6b;color:#ffc9c9}
-.valg button:disabled{cursor:default;opacity:.85}
+/* Tegneserie */
+.billedslot{position:relative;width:100%;min-height:180px;border-radius:18px;overflow:hidden;
+  background:rgba(255,255,255,.04);border:1.5px dashed rgba(255,255,255,.2);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;padding:20px;margin-bottom:14px}
+.billedslot img{position:relative;z-index:1;width:calc(100% + 40px);margin:-20px;
+  display:block;border-radius:18px}
+.billedslot .ikon{font-size:30px;margin-bottom:8px;opacity:.5}
+.billedslot .txt{font-size:13px;color:#8e97b5;line-height:1.45}
+.billedslot:has(img){border-style:solid;border-color:rgba(255,255,255,.12);padding:0}
+.billedslot:has(img) .ikon,.billedslot:has(img) .txt{display:none}
 
-.feedback{margin-top:14px;padding:15px 17px;border-radius:16px;font-size:16px;line-height:1.5;
-  border-left:4px solid #ffd166;background:rgba(255,209,102,.1);color:#f4e7c8}
-.feedback b{color:#ffd166}
+.valg{display:grid;gap:11px;margin-top:15px}
+.valg button{position:relative;width:100%;text-align:left;font-family:inherit;font-size:17px;
+  font-weight:600;color:#f2f4fa;line-height:1.35;padding:17px 19px;cursor:pointer;
+  background:linear-gradient(165deg,rgba(255,255,255,.09),rgba(255,255,255,.04));
+  border:1.5px solid rgba(255,255,255,.13);border-radius:17px;
+  transition:all .2s;box-shadow:inset 0 1px 0 rgba(255,255,255,.06)}
+.valg button:active{transform:scale(.985);border-color:rgba(255,214,138,.5)}
+/* Dæmpet markering: det rigtige lyser blødt op, det forkerte falmer bare */
+.valg button.rigtigt{
+  background:linear-gradient(165deg,rgba(120,215,160,.2),rgba(120,215,160,.08));
+  border-color:rgba(130,222,170,.55);color:#dbf5e6}
+.valg button.rigtigt::after{content:"Rigtigt";position:absolute;right:16px;top:50%;
+  transform:translateY(-50%);font-size:11px;font-weight:700;letter-spacing:1.2px;
+  text-transform:uppercase;color:#8fe0b0;opacity:.85}
+.valg button.forkert{background:rgba(255,255,255,.03);border-color:rgba(255,255,255,.1);
+  color:#8b93ad}
+.valg button:disabled{cursor:default}
+.valg button.blegn{opacity:.4}
+
+.feedback{margin-top:15px;padding:16px 18px;border-radius:18px;font-size:16px;line-height:1.55;
+  border:1px solid rgba(255,209,102,.22);border-left:4px solid #ffd166;
+  background:linear-gradient(120deg,rgba(255,209,102,.13),rgba(255,209,102,.05));
+  color:#f6ead0;box-shadow:0 8px 24px rgba(0,0,0,.2)}
+.feedback b{color:#ffd68a}
 
 #scene{position:relative;width:100%;aspect-ratio:1/1;max-height:min(58vh,420px);
   border-radius:22px;overflow:hidden;margin-bottom:12px;touch-action:none;
@@ -193,6 +239,24 @@ const VIDEOER = {
   sikker:   "videos/sol5.mp4"    // Barn tager solformørkelsesbriller på
 };
 
+/* ==================================================================
+   1b) TEGNESERIER
+   ------------------------------------------------------------------
+   Læg dine tegneserie-billeder i mappen "billeder/" med disse navne.
+   Hvert felt er ÉT billede — enten en hel stribe i én fil, eller et
+   billede du selv har sat sammen af 3-5 ruder.
+   Mangler filen, viser spillet en tekstbeskrivelse i stedet.
+   ================================================================== */
+const BILLEDER = {
+  lysrejse: "billeder/tegneserie1.png",   // Sollysets rejse til Jorden
+  stoerrelse: "billeder/tegneserie2.png"  // Hvorfor sol og måne ser lige store ud
+};
+
+const BILLEDTEKST = {
+  lysrejse:   "Tegneserie: sollysets 8 minutter lange rejse fra solen til Jorden.",
+  stoerrelse: "Tegneserie: solen er kæmpestor og langt væk — månen er lille og tæt på."
+};
+
 /* Tekst der vises, hvis videofilen ikke findes */
 const VIDEOTEKST = {
   intro:    "Solen på en blå himmel — månen glider langsomt ind foran og gør himlen mørkere.",
@@ -260,7 +324,7 @@ const lydWow = () => { [523,659,784,1047].forEach((h,i)=>setTimeout(()=>bip(h,.3
 const app = document.getElementById('app');
 let stjerner = 0, trin = 0;
 let navne = ["Spiller 1"];            // 1 eller 2 navne
-const ANTAL_TRIN = 9;
+const ANTAL_TRIN = 12;
 
 const O = {
   get solo(){ return navne.length === 1; },
@@ -295,6 +359,25 @@ function videoHTML(noegle){
     ? `<video src="${kilde}" controls playsinline preload="auto" onerror="this.remove()"></video>`
     : `<iframe src="${kilde}" allow="autoplay;accelerometer;encrypted-media;gyroscope;picture-in-picture" allowfullscreen></iframe>`;
   return `<div class="videoslot">${pladsholder}${medie}</div>`;
+}
+
+function billedHTML(noegle){
+  const kilde = BILLEDER[noegle];
+  const pladsholder = `<div class="ikon">🖼️</div><div class="txt">${BILLEDTEKST[noegle]||''}</div>`;
+  if(!kilde) return `<div class="billedslot">${pladsholder}</div>`;
+  return `<div class="billedslot">${pladsholder}
+    <img src="${kilde}" alt="${BILLEDTEKST[noegle]||''}" onerror="this.remove()">
+  </div>`;
+}
+
+function tegneserieSkaerm(noegle, overskrift, undertekst, naeste){
+  vis(`
+    <div class="badge">🖼️ Tegneserie</div>
+    <h2>${overskrift}</h2>
+    <p class="lille" style="margin-bottom:14px">${undertekst}</p>
+    ${billedHTML(noegle)}
+    <button class="knap" onclick="${naeste}">Videre →</button>
+  `);
 }
 
 /* ================================================================
@@ -388,7 +471,7 @@ function start(){
       </div>
     </div>
 
-    <p class="lille" style="text-align:center">🕐 Ca. 15 minutter &nbsp;·&nbsp; ⭐ Saml stjerner
+    <p class="lille" style="text-align:center">🕐 Ca. 20 minutter &nbsp;·&nbsp; ⭐ Saml stjerner
     &nbsp;·&nbsp; 📱 Virker bedst på mobil</p>
     ${KREDIT}
   `);
@@ -453,10 +536,18 @@ function briefing(){
 function kapitel1(){
   trin = 1; opdaterTop();
   vis(`
-    <div class="badge">Kapitel 1 af 3 · Tidsmaskinen</div>
-    <h2>Hvad troede folk før i tiden?</h2>
-    <p style="margin-bottom:14px">For 1000 år siden vidste ingen hvorfor solen pludselig
-    blev væk. Så de fandt på forklaringer.</p>
+    <div class="badge">Kapitel 1 af 4 · Tidsmaskinen</div>
+    <h2>Passer det — eller er det opfundet?</h2>
+    <p>For 1000 år siden vidste ingen, hvorfor solen pludselig blev væk.
+    Så de fandt på deres egne forklaringer.</p>
+    <div class="kort" style="margin-top:14px">
+      <p style="font-size:16px"><b style="color:#ffd68a">Nogle historier passer.</b>
+      De skete rigtigt, og vi ved det i dag.</p>
+      <p style="font-size:16px;margin-top:9px"><b style="color:#ffd68a">Andre er opfundet.</b>
+      Nogen fandt på dem for længe siden, og så troede folk på dem — men de passer ikke.</p>
+      <p class="lille" style="margin-top:11px">${O.dinStor()} opgave er at gætte,
+      hvad der er hvad. Det er svært — og det må det gerne være.</p>
+    </div>
     ${tur(0)}
     <button class="knap" onclick="myter(0)">Fyr løs 🕰️</button>
   `);
@@ -478,15 +569,15 @@ const MYTER = [
 ];
 
 function myter(i){
-  if(i >= MYTER.length) return video3();
+  if(i >= MYTER.length) return kapitelFakta();
   const m = MYTER[i];
   vis(`
-    <div class="badge">Kapitel 1 · Myte eller sandt (${i+1}/${MYTER.length})</div>
+    <div class="badge">Kapitel 1 · Passer det? (${i+1}/${MYTER.length})</div>
     ${tur(m.spiller)}
-    <div class="kort"><p style="font-size:19px;color:#f0f2f8">${m.t}</p></div>
+    <div class="kort"><p style="font-size:19px;color:#f2f4fa">${m.t}</p></div>
     <div class="valg" id="valg">
-      <button onclick="svarMyte(${i},'sandt')">✅ Det er sandt</button>
-      <button onclick="svarMyte(${i},'myte')">❌ Det er en myte</button>
+      <button onclick="svarMyte(${i},'sandt')">Det passer</button>
+      <button onclick="svarMyte(${i},'myte')">Det er opfundet</button>
     </div>
     <div id="fb"></div>
   `);
@@ -495,24 +586,107 @@ function myter(i){
 function svarMyte(i, valgt){
   const m = MYTER[i], rigtigt = valgt === m.svar;
   const knapper = document.querySelectorAll('#valg button');
-  knapper.forEach(b => b.disabled = true);
-  knapper[m.svar === 'sandt' ? 0 : 1].classList.add('rigtigt');
-  if(!rigtigt) knapper[valgt === 'sandt' ? 0 : 1].classList.add('forkert');
+  knapper.forEach(b => { b.disabled = true; b.classList.add('blegn'); });
+  const rigtigKnap = knapper[m.svar === 'sandt' ? 0 : 1];
+  rigtigKnap.classList.add('rigtigt'); rigtigKnap.classList.remove('blegn');
+  if(!rigtigt){
+    const valgtKnap = knapper[valgt === 'sandt' ? 0 : 1];
+    valgtKnap.classList.add('forkert'); valgtKnap.classList.remove('blegn');
+  }
   if(rigtigt){ giv(1); lydJa(); } else lydNej();
   document.getElementById('fb').innerHTML = `
     <div class="feedback">
-      <b>${rigtigt ? '⭐ Rigtigt, ' + navnPaa(m.spiller) + '!' : 'Godt gæt — men nej.'}</b><br>${m.forklaring}
+      <b>${rigtigt ? '⭐ Flot, ' + navnPaa(m.spiller) + '!' : 'Godt gæt — men nej.'}</b><br>${m.forklaring}
     </div>
     <button class="knap" onclick="${i === 0 ? 'video2()' : 'myter(' + (i+1) + ')'}">Videre →</button>`;
 }
 
 /* ================================================================
-   KAPITEL 2 — MÅNEMISSIONEN
+   KAPITEL 2 — SOL OG MÅNE (fakta)
+   ================================================================ */
+function kapitelFakta(){
+  trin = 3; opdaterTop();
+  vis(`
+    <div class="badge">Kapitel 2 af 4 · Sol og Måne</div>
+    <h2>Nu til det, der passer</h2>
+    <p>Nok om ulve og drager. Her kommer fem ting om solen og månen,
+    som er helt rigtige — og alligevel næsten for vilde til at tro på.</p>
+    ${tur(0)}
+    <button class="knap" onclick="fakta(0)">Kom med det 🔭</button>
+  `);
+}
+
+const FAKTASPM = [
+  { sp:"Solen er meget langt væk. Hvor lang tid tager sollyset om at nå ned til os?",
+    valg:["Det kommer med det samme","Cirka 8 minutter","Cirka 8 timer"],
+    r:1, spiller:0,
+    fb:"Cirka <b>8 minutter</b>. Lyset er det hurtigste i hele universet, og alligevel tager rejsen 8 minutter. Det betyder, at når {I} kigger på solen, ser {I} faktisk hvordan den så ud for 8 minutter siden." },
+
+  { sp:"Månen lyser om natten. Men hvor kommer lyset fra?",
+    valg:["Månen brænder ligesom solen","Månen spejler sollys","Månen har lys indeni"],
+    r:1, spiller:1,
+    fb:"Månen laver <b>ikke selv lys</b>. Den er en kold, grå klippekugle — men solen skinner på den, og noget af lyset kastes tilbage til os. Ligesom når et spejl fanger sollyset i et vindue." },
+
+  { sp:"Sol og måne ser næsten lige store ud på himlen. Hvorfor egentlig?",
+    valg:["De er faktisk lige store","Solen er 400 gange større, men også 400 gange længere væk","Månen vokser, når den kommer tæt på"],
+    r:1, spiller:'begge',
+    fb:"Et helt vildt tilfælde! Solen er cirka <b>400 gange større</b> end månen — men den er også cirka <b>400 gange længere væk</b>. Derfor ser de lige store ud fra Jorden. Og det er præcis derfor, månen kan nå at dække solen." },
+
+  { sp:"Hvor mange jordkloder kan der være inde i solen?",
+    valg:["Cirka 100","Cirka 10.000","Over en million"],
+    r:2, spiller:1,
+    fb:"Over <b>en million</b> — cirka 1.300.000 jordkloder. Solen er så stor, at alt andet i solsystemet er som smuler ved siden af." },
+
+  { sp:"Der er ingen vind og intet vejr på månen. Hvad sker der så med astronauternes fodspor?",
+    valg:["De blæser væk efter et par dage","De bliver liggende i millioner af år","De smelter i solen"],
+    r:1, spiller:0,
+    fb:"De bliver liggende i <b>millioner af år</b>. Uden vind og regn er der ingenting, der kan viske dem ud. Fodsporene fra 1969 står der stadig — helt skarpe." }
+];
+
+function fakta(i){
+  if(i >= FAKTASPM.length) return video3();
+  const f = FAKTASPM[i];
+  vis(`
+    <div class="badge">Kapitel 2 · Sol og Måne (${i+1}/${FAKTASPM.length})</div>
+    ${tur(f.spiller)}
+    <div class="kort"><p style="font-size:19px;color:#f2f4fa">${tk(f.sp)}</p></div>
+    <div class="valg" id="valg">
+      ${f.valg.map((v,n)=>`<button onclick="svarFakta(${i},${n})">${v}</button>`).join('')}
+    </div>
+    <div id="fb"></div>
+  `);
+}
+
+function svarFakta(i, valgt){
+  const f = FAKTASPM[i], knapper = document.querySelectorAll('#valg button');
+  knapper.forEach(b => { b.disabled = true; b.classList.add('blegn'); });
+  knapper[f.r].classList.add('rigtigt'); knapper[f.r].classList.remove('blegn');
+  const rigtigt = valgt === f.r;
+  if(!rigtigt){ knapper[valgt].classList.add('forkert'); knapper[valgt].classList.remove('blegn'); }
+  if(rigtigt){ giv(1); lydJa(); } else lydNej();
+  // Efter spørgsmål 1 og 3 kommer der en tegneserie som belønning
+  const naeste = i === 0 ? 'tegneserie1()' : i === 2 ? 'tegneserie2()' : 'fakta(' + (i+1) + ')';
+  document.getElementById('fb').innerHTML = `
+    <div class="feedback"><b>${rigtigt ? '⭐ Flot!' : 'Godt gæt — men nej.'}</b><br>${tk(f.fb)}</div>
+    <button class="knap" onclick="${naeste}">Videre →</button>`;
+}
+
+function tegneserie1(){
+  tegneserieSkaerm('lysrejse', 'Lysets lange rejse',
+    'Følg en solstråle hele vejen fra solen ned til Jorden.', 'fakta(1)');
+}
+function tegneserie2(){
+  tegneserieSkaerm('stoerrelse', 'Stor og langt væk — lille og tæt på',
+    'Derfor kan den lille måne dække den kæmpestore sol.', 'fakta(3)');
+}
+
+/* ================================================================
+   KAPITEL 3 — MÅNEMISSIONEN
    ================================================================ */
 function kapitel2Intro(){
-  trin = 4; opdaterTop();
+  trin = 5; opdaterTop();
   vis(`
-    <div class="badge">Kapitel 2 af 3 · Månemissionen</div>
+    <div class="badge">Kapitel 3 af 4 · Månemissionen</div>
     <h2>Nu er ${O.du()} månen</h2>
     <p>Sådan her sker det i virkeligheden: månen kører rundt om Jorden, og en sjælden gang
     imellem lægger den sig præcis i vejen for sollyset.</p>
@@ -536,9 +710,9 @@ function overlapProcent(d, rSol, rMaane){
 let maxNaaet = 0;
 
 function maanespil(){
-  trin = 5; opdaterTop(); maxNaaet = 0;
+  trin = 6; opdaterTop(); maxNaaet = 0;
   vis(`
-    <div class="badge">Kapitel 2 · Skab formørkelsen</div>
+    <div class="badge">Kapitel 3 · Skab formørkelsen</div>
     ${tur('begge')}
     <div class="maalere">
       <div class="maaler"><div class="v" id="mDaek">0 %</div><div class="n">DÆKKET</div></div>
@@ -635,9 +809,9 @@ function ramt(pct){
 }
 
 function hvorfor(){
-  trin = 6; opdaterTop();
+  trin = 7; opdaterTop();
   vis(`
-    <div class="badge">Kapitel 2 · Det store spørgsmål</div>
+    <div class="badge">Kapitel 3 · Det store spørgsmål</div>
     <h2>Hvorfor sker det ikke hver måned?</h2>
     <p>Månen kører rundt om Jorden én gang hver måned. Så hvorfor er der ikke
     solformørkelse hver eneste måned?</p>
@@ -663,7 +837,7 @@ function hvorfor(){
       Kun når den rammer <b>præcis</b> i stregen, bliver der formørkelse. Det er derfor det er så sjældent.
     </div>
     ${tur(1)}
-    <button class="knap" onclick="video4()">Videre til kapitel 3 →</button>
+    <button class="knap" onclick="video4()">Videre til kapitel 4 →</button>
   `);
   const s = document.getElementById('haeld'),
         m = document.getElementById('bmaane'),
@@ -687,9 +861,9 @@ function hvorfor(){
    KAPITEL 3 — MISSION MØRKE
    ================================================================ */
 function kapitel3(){
-  trin = 7; opdaterTop();
+  trin = 8; opdaterTop();
   vis(`
-    <div class="badge">Kapitel 3 af 3 · Mission Mørke</div>
+    <div class="badge">Kapitel 4 af 4 · Mission Mørke</div>
     <h2>Detektivopgave</h2>
     <p>Den 12. august kl. ca. ${FAKTA.maksimum} sker der noget mærkeligt rundt omkring ${O.dig()} —
     ikke kun på himlen. Hvad tror ${O.du()} sker på jorden?</p>
@@ -717,7 +891,7 @@ function detektiv(i){
   if(i >= DETEKTIV.length) return video5();
   const d = DETEKTIV[i];
   vis(`
-    <div class="badge">Kapitel 3 · Detektivopgave ${i+1}/${DETEKTIV.length}</div>
+    <div class="badge">Kapitel 4 · Detektivopgave ${i+1}/${DETEKTIV.length}</div>
     ${tur(d.spiller)}
     <div class="kort"><p style="font-size:19px;color:#f0f2f8">${tk(d.sp)}</p></div>
     <div class="valg" id="valg">
@@ -729,10 +903,10 @@ function detektiv(i){
 
 function svarDet(i, valgt){
   const d = DETEKTIV[i], knapper = document.querySelectorAll('#valg button');
-  knapper.forEach(b => b.disabled = true);
-  knapper[d.r].classList.add('rigtigt');
+  knapper.forEach(b => { b.disabled = true; b.classList.add('blegn'); });
+  knapper[d.r].classList.add('rigtigt'); knapper[d.r].classList.remove('blegn');
   const rigtigt = valgt === d.r;
-  if(!rigtigt) knapper[valgt].classList.add('forkert');
+  if(!rigtigt){ knapper[valgt].classList.add('forkert'); knapper[valgt].classList.remove('blegn'); }
   if(rigtigt){ giv(1); lydJa(); } else lydNej();
   document.getElementById('fb').innerHTML = `
     <div class="feedback"><b>${rigtigt ? '⭐ Flot!' : 'Ikke helt.'}</b><br>${tk(d.fb)}</div>
@@ -750,9 +924,9 @@ const TING = [
 let sorteret = 0;
 
 function sikkerhed(){
-  trin = 8; opdaterTop(); sorteret = 0;
+  trin = 10; opdaterTop(); sorteret = 0;
   vis(`
-    <div class="badge">Kapitel 3 · Den vigtigste opgave</div>
+    <div class="badge">Kapitel 4 · Den vigtigste opgave</div>
     <h2>Hvad må man kigge igennem?</h2>
     <div class="advarsel">
       <b>⚠️ Den her del er alvor</b>
@@ -790,7 +964,7 @@ function trykTing(i){
    DIPLOM + NEDTÆLLING
    ================================================================ */
 function diplom(){
-  trin = 9; opdaterTop(); lydWow();
+  trin = 12; opdaterTop(); lydWow();
   vis(`
     <div id="diplom">
       <div class="segl">🏅</div>
