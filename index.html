@@ -76,6 +76,49 @@ p{font-size:17px;line-height:1.55;color:#c6cde0}
   text-shadow:0 0 14px rgba(255,200,90,.35)}
 
 
+/* ---------- Forsiden ---------- */
+.forside{text-align:center;padding:6px 0 4px}
+.hero{position:relative;width:min(74vw,270px);aspect-ratio:1;margin:0 auto 4px}
+.hero svg{width:100%;height:100%;overflow:visible}
+.hero .glod{transform-box:fill-box;transform-origin:center;
+  animation:glodpuls 11s ease-in-out infinite}
+.hero .straaler{transform-box:fill-box;transform-origin:center;
+  animation:roter 60s linear infinite, glodpuls 11s ease-in-out infinite}
+.hero .hmaane{animation:maanetur 11s ease-in-out infinite}
+@keyframes maanetur{
+  0%   {transform:translate(-125px,26px)}
+  50%  {transform:translate(0,0)}
+  100% {transform:translate(125px,-26px)}
+}
+@keyframes glodpuls{
+  0%,100%{opacity:.95;transform:scale(1.04)}
+  50%    {opacity:.3; transform:scale(.72)}
+}
+@keyframes roter{to{transform:rotate(360deg)}}
+
+.titel{font-size:min(11.4vw,42px);line-height:1.02;font-weight:800;letter-spacing:-1.4px;
+  margin:2px 0 12px;background:linear-gradient(175deg,#fff 10%,#ffd68a 60%,#ff9f45 100%);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  filter:drop-shadow(0 4px 26px rgba(255,180,80,.3))}
+.underrubrik{font-size:17px;line-height:1.5;color:#c6cde0;max-width:22em;margin:0 auto}
+.tal{color:#ffd68a;font-weight:700}
+
+.taeller{display:inline-flex;align-items:center;gap:9px;margin:18px 0 4px;
+  padding:10px 18px 10px 14px;border-radius:99px;
+  background:linear-gradient(180deg,rgba(255,209,102,.16),rgba(255,209,102,.06));
+  border:1px solid rgba(255,209,102,.3);
+  box-shadow:0 6px 22px rgba(255,170,60,.12)}
+.taeller .dage{font-size:26px;font-weight:800;color:#ffd68a;line-height:1;
+  text-shadow:0 0 18px rgba(255,200,90,.4)}
+.taeller .hvad{font-size:12.5px;line-height:1.3;color:#c6cde0;text-align:left;letter-spacing:.2px}
+
+.forside .knap{margin-top:20px;font-size:19px;padding:19px 20px}
+.fakta3{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:20px}
+.fakta3 div{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.07);
+  border-radius:15px;padding:13px 6px}
+.fakta3 .t{font-size:18px;font-weight:800;color:#ffd68a;line-height:1.1}
+.fakta3 .u{font-size:10.5px;color:#8e97b5;margin-top:4px;letter-spacing:.3px;line-height:1.3}
+
 /* Videoplads */
 .videoslot{position:relative;width:100%;aspect-ratio:16/9;border-radius:16px;overflow:hidden;
   background:rgba(255,255,255,.04);border:1.5px dashed rgba(255,255,255,.22);
@@ -108,9 +151,8 @@ p{font-size:17px;line-height:1.55;color:#c6cde0}
 .valg button.rigtigt{
   background:linear-gradient(165deg,rgba(120,215,160,.2),rgba(120,215,160,.08));
   border-color:rgba(130,222,170,.55);color:#dbf5e6}
-.valg button.rigtigt::after{content:"Rigtigt";position:absolute;right:16px;top:50%;
-  transform:translateY(-50%);font-size:11px;font-weight:700;letter-spacing:1.2px;
-  text-transform:uppercase;color:#8fe0b0;opacity:.85}
+.valg button.rigtigt::after{content:"\2713";position:absolute;right:16px;top:50%;
+  transform:translateY(-50%);font-size:19px;font-weight:700;color:#8fe0b0;opacity:.9}
 .valg button.forkert{background:rgba(255,255,255,.03);border-color:rgba(255,255,255,.1);
   color:#8b93ad}
 .valg button:disabled{cursor:default}
@@ -421,31 +463,71 @@ const KREDIT = `<div class="kredit">
 function start(){
   document.getElementById('top').classList.add('skjul');
   stjerner = 0; trin = 0;
+
+  const dage = Math.ceil((FAKTA.maalTid - new Date()) / 86400000);
+  const taeller = dage > 1
+    ? `<div class="taeller"><span class="dage">${dage}</span>
+         <span class="hvad">dage til<br>${FAKTA.dato}</span></div>`
+    : dage === 1
+    ? `<div class="taeller"><span class="dage">I morgen</span>
+         <span class="hvad">er det<br>${FAKTA.dato}</span></div>`
+    : dage === 0
+    ? `<div class="taeller"><span class="dage">I dag!</span>
+         <span class="hvad">kl. ${FAKTA.start}–${FAKTA.slut}<br>topper ${FAKTA.maksimum}</span></div>`
+    : `<div class="taeller"><span class="dage">🌘</span>
+         <span class="hvad">Formørkelsen<br>er overstået</span></div>`;
+
   vis(`
-    <div style="text-align:center;padding:26px 0 10px">
-      <div style="font-size:74px;line-height:1" class="pulser">🌘</div>
-      <h1 style="margin-top:14px">Solformørkelses-<br>Missionen</h1>
-      <p style="margin-top:10px">Den <b style="color:#ffd166">${FAKTA.dato}</b> forsvinder
-      op mod <b style="color:#ffd166">88 %</b> af solen over Danmark.<br>
+    <div class="forside">
+      <div class="hero">
+        <svg viewBox="0 0 300 300" aria-hidden="true">
+          <defs>
+            <radialGradient id="hg">
+              <stop offset="34%" stop-color="#fff6cf" stop-opacity=".95"/>
+              <stop offset="58%" stop-color="#ffc46e" stop-opacity=".45"/>
+              <stop offset="100%" stop-color="#ff9f45" stop-opacity="0"/>
+            </radialGradient>
+            <radialGradient id="hs">
+              <stop offset="60%" stop-color="#fff3c0"/>
+              <stop offset="100%" stop-color="#ffcf6b"/>
+            </radialGradient>
+            <clipPath id="hklip"><circle cx="150" cy="150" r="146"/></clipPath>
+          </defs>
+          <g clip-path="url(#hklip)">
+            <circle class="glod" cx="150" cy="150" r="140" fill="url(#hg)"/>
+            <g class="straaler" opacity=".5">
+              ${Array.from({length:12},(_,i)=>{
+                const a = i*30*Math.PI/180;
+                return `<line x1="${150+Math.cos(a)*72}" y1="${150+Math.sin(a)*72}"
+                              x2="${150+Math.cos(a)*128}" y2="${150+Math.sin(a)*128}"
+                              stroke="#ffd68a" stroke-width="2.5" stroke-linecap="round" opacity=".5"/>`;
+              }).join('')}
+            </g>
+            <circle cx="150" cy="150" r="66" fill="url(#hs)"/>
+            <circle class="hmaane" cx="150" cy="150" r="62" fill="#080b1a"/>
+          </g>
+        </svg>
+      </div>
+
+      <h1 class="titel">Solformørkelses-<br>Missionen</h1>
+      <p class="underrubrik">Den <span class="tal">12. august 2026</span> forsvinder
+      op mod <span class="tal">88 %</span> af solen over Danmark.
       Det er den kraftigste siden 2015.</p>
-      <p class="lille" style="margin-top:16px">Et spil af <b style="color:#a8b2d1">Michel Klos</b></p>
-    </div>
 
-    <div class="kort" style="margin-top:22px">
-      <div class="badge">Missionsbriefing</div>
-      <p>Den ${FAKTA.dato} sker der noget, der ikke er sket i Danmark siden år 2015 —
-      og som ikke sker igen, før du er voksen.</p>
-      <p style="margin-top:10px">Månen skubber sig ind foran solen, og
-      <b style="color:#ffd166">${FAKTA.daekning} %</b> af solen forsvinder.
-      Himlen bliver mørk midt om aftenen.</p>
-      <p style="margin-top:10px">Din opgave: find ud af hvorfor det sker,
-      lav formørkelsen selv — og lær at se på den uden at komme til skade.</p>
-    </div>
+      ${taeller}
 
-    <button class="knap" onclick="video1()">Start missionen 🚀</button>
-    <p class="lille" style="text-align:center;margin-top:14px">🕐 Ca. 20 minutter
-    &nbsp;·&nbsp; ⭐ Saml stjerner &nbsp;·&nbsp; 📱 Virker bedst på mobil</p>
-    ${KREDIT}
+      <button class="knap" onclick="video1()">Start missionen 🚀</button>
+
+      <div class="fakta3">
+        <div><div class="t">4</div><div class="u">KAPITLER</div></div>
+        <div><div class="t">20</div><div class="u">MINUTTER</div></div>
+        <div><div class="t">24</div><div class="u">STJERNER</div></div>
+      </div>
+
+      <p class="lille" style="margin-top:18px">Et spil af
+      <b style="color:#a8b2d1">Michel Klos</b><br>
+      Bedst på mobil · virker uden internet efter første indlæsning</p>
+    </div>
   `);
 }
 
@@ -456,17 +538,11 @@ function kapitel1(){
   trin = 1; opdaterTop();
   vis(`
     <div class="badge">Kapitel 1 af 4 · Tidsmaskinen</div>
-    <h2>Passer det — eller er det opfundet?</h2>
+    <h2>Rigtigt eller forkert?</h2>
     <p>For 1000 år siden vidste ingen, hvorfor solen pludselig blev væk.
     Så de fandt på deres egne forklaringer.</p>
-    <div class="kort" style="margin-top:14px">
-      <p style="font-size:16px"><b style="color:#ffd68a">Nogle historier passer.</b>
-      De skete rigtigt, og vi ved det i dag.</p>
-      <p style="font-size:16px;margin-top:9px"><b style="color:#ffd68a">Andre er opfundet.</b>
-      Nogen fandt på dem for længe siden, og så troede folk på dem — men de passer ikke.</p>
-      <p class="lille" style="margin-top:11px">${O.dinStor()} opgave er at gætte,
-      hvad der er hvad. Det er svært — og det må det gerne være.</p>
-    </div>
+    <p style="margin-top:10px">Her kommer fire påstande. Gæt om de er rigtige eller forkerte —
+    det er sværere, end det lyder.</p>
     ${tur(0)}
     <button class="knap" onclick="myter(0)">Fyr løs 🕰️</button>
   `);
@@ -491,12 +567,12 @@ function myter(i){
   if(i >= MYTER.length) return kapitelFakta();
   const m = MYTER[i];
   vis(`
-    <div class="badge">Kapitel 1 · Passer det? (${i+1}/${MYTER.length})</div>
+    <div class="badge">Kapitel 1 · Rigtigt eller forkert? (${i+1}/${MYTER.length})</div>
     ${tur(m.spiller)}
     <div class="kort"><p style="font-size:19px;color:#f2f4fa">${m.t}</p></div>
     <div class="valg" id="valg">
-      <button onclick="svarMyte(${i},'sandt')">Det passer</button>
-      <button onclick="svarMyte(${i},'myte')">Det er opfundet</button>
+      <button onclick="svarMyte(${i},'sandt')">Rigtigt</button>
+      <button onclick="svarMyte(${i},'myte')">Forkert</button>
     </div>
     <div id="fb"></div>
   `);
