@@ -105,17 +105,16 @@ p{font-size:17px;line-height:1.55;color:#c6cde0}
 .videoslot .ikon{font-size:30px;margin-bottom:8px;opacity:.5}
 .videoslot .txt{font-size:13px;color:#8e97b5;line-height:1.45}
 
-/* Tegneserie */
-.billedslot{position:relative;width:100%;min-height:180px;border-radius:18px;overflow:hidden;
-  background:rgba(255,255,255,.04);border:1.5px dashed rgba(255,255,255,.2);
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-  text-align:center;padding:20px;margin-bottom:14px}
-.billedslot img{position:relative;z-index:1;width:calc(100% + 40px);margin:-20px;
-  display:block;border-radius:18px}
+/* Tegneserie — lodret stribe, så hver rude fylder hele skærmbredden */
+.billedslot{position:relative;width:100%;border-radius:18px;overflow:hidden;
+  background:rgba(255,255,255,.04);border:1.5px solid rgba(255,255,255,.12);
+  margin-bottom:14px;box-shadow:0 10px 30px rgba(0,0,0,.25)}
+.billedslot img{display:block;width:100%;height:auto}
+.billedslot .ph{display:none;padding:26px 20px;text-align:center}
+.billedslot.fejl{border-style:dashed;border-color:rgba(255,255,255,.2);box-shadow:none}
+.billedslot.fejl .ph{display:block}
 .billedslot .ikon{font-size:30px;margin-bottom:8px;opacity:.5}
 .billedslot .txt{font-size:13px;color:#8e97b5;line-height:1.45}
-.billedslot:has(img){border-style:solid;border-color:rgba(255,255,255,.12);padding:0}
-.billedslot:has(img) .ikon,.billedslot:has(img) .txt{display:none}
 
 .valg{display:grid;gap:11px;margin-top:15px}
 .valg button{position:relative;width:100%;text-align:left;font-family:inherit;font-size:17px;
@@ -363,10 +362,13 @@ function videoHTML(noegle){
 
 function billedHTML(noegle){
   const kilde = BILLEDER[noegle];
-  const pladsholder = `<div class="ikon">🖼️</div><div class="txt">${BILLEDTEKST[noegle]||''}</div>`;
-  if(!kilde) return `<div class="billedslot">${pladsholder}</div>`;
-  return `<div class="billedslot">${pladsholder}
-    <img src="${kilde}" alt="${BILLEDTEKST[noegle]||''}" onerror="this.remove()">
+  const pladsholder =
+    `<div class="ph"><div class="ikon">🖼️</div><div class="txt">${BILLEDTEKST[noegle]||''}</div></div>`;
+  if(!kilde) return `<div class="billedslot fejl">${pladsholder}</div>`;
+  return `<div class="billedslot">
+    <img src="${kilde}" alt="${BILLEDTEKST[noegle]||''}"
+         onerror="this.closest('.billedslot').classList.add('fejl'); this.remove();">
+    ${pladsholder}
   </div>`;
 }
 
