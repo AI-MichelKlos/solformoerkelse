@@ -119,6 +119,29 @@ p{font-size:17px;line-height:1.55;color:#c6cde0}
 .fakta3 .t{font-size:18px;font-weight:800;color:#ffd68a;line-height:1.1}
 .fakta3 .u{font-size:10.5px;color:#8e97b5;margin-top:4px;letter-spacing:.3px;line-height:1.3}
 
+/* ---------- Filmsekvens: tekstslide -> video -> videre ---------- */
+.slide{display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;min-height:min(66vh,520px);padding:20px 6px;
+  animation:blidind .5s ease-out}
+.slidetxt{font-size:clamp(21px,5.6vw,27px);line-height:1.4;font-weight:600;color:#f2f4fa;
+  max-width:17em;letter-spacing:-.3px}
+.slidebar{width:96px;height:4px;border-radius:99px;background:rgba(255,255,255,.14);
+  margin-top:30px;overflow:hidden}
+.slidebar>i{display:block;height:100%;width:0;border-radius:99px;
+  background:linear-gradient(90deg,#ffd166,#ff9f45);animation:fyldop var(--tid) linear forwards}
+@keyframes fyldop{to{width:100%}}
+@keyframes blidind{from{opacity:0}to{opacity:1}}
+@keyframes bliddud{to{opacity:0}}
+.udtoning{animation:bliddud .45s ease-in forwards}
+
+.filmramme{display:flex;align-items:center;justify-content:center;
+  min-height:min(66vh,520px);animation:blidind .45s ease-out}
+.filmramme video{width:100%;max-height:min(66vh,520px);border-radius:20px;background:#000;
+  display:block;box-shadow:0 16px 46px rgba(0,0,0,.5)}
+.spring{display:block;width:100%;margin-top:18px;background:none;border:0;cursor:pointer;
+  font-family:inherit;font-size:13.5px;color:#6f7899;letter-spacing:.3px}
+.spring:active{color:#c6cde0}
+
 /* Videoplads */
 .videoslot{position:relative;width:100%;aspect-ratio:16/9;border-radius:16px;overflow:hidden;
   background:rgba(255,255,255,.04);border:1.5px dashed rgba(255,255,255,.22);
@@ -345,6 +368,7 @@ const lydWow = () => { [523,659,784,1047].forEach((h,i)=>setTimeout(()=>bip(h,.3
 /* ====================== Tilstand ====================== */
 const app = document.getElementById('app');
 let stjerner = 0, trin = 0;
+const ANTAL_TRIN = 12;
 const O = {
   solo: true,
   du(){ return 'du'; },
@@ -400,52 +424,102 @@ function tegneserieSkaerm(noegle, overskrift, undertekst, naeste){
 }
 
 /* ================================================================
-   BELØNNINGSSKÆRM — videoen starter af sig selv
+   FILMSEKVENS
+   Tryk på "Videre" -> kort tekstslide (ca. 3,5 sek) -> videoen kører
+   alene uden knapper -> når den er slut, glider den selv videre.
    ================================================================ */
-function videoSkaerm(noegle, overskrift, undertekst, naeste){
-  vis(`
-    <div class="badge">🎬 Belønning</div>
-    <h2>${overskrift}</h2>
-    <p class="lille" style="margin-bottom:14px">${undertekst}</p>
-    ${videoHTML(noegle)}
-    <div id="lydknap"></div>
-    <button class="knap" id="vidkn" onclick="${naeste}">Videre →</button>
-  `);
-  startVideo();
+let sekvensId = 0;        // så gamle timere ikke forstyrrer
+let forberedtVideo = null;
+
+function videoSekvens(noegle, tekst, naeste){
+  const mit = ++sekvensId;
+  forberedtVideo = null;
+
+  // Videoen laves med det samme, mens brugerens tryk stadig "tæller",
+  // så den må starte af sig selv bagefter — også på iPhone.
+  const kilde = VIDEOER[noegle];
+  if(kilde && /\.(mp4|webm|mov|m4v)(\?|$)/i.test(kilde)){
+    const v = document.createElement('video');
+    v.src = kilde; v.preload = 'auto';
+    v.playsInline = true; v.setAttribute('playsinline','');
+    const p = v.play();
+    if(p && p.then){
+      p.then(() => { v.pause(); v.currentTime = 0; })
+       .catch(() => { v.muted = true; });   // lyd blokeret — kør lydløst
+    }
+    forberedtVideo = v;
+  }
+
+  tekstSlide(mit, tekst, () => filmen(mit, naeste));
 }
 
-function startVideo(){
-  const v = document.querySelector('.videoslot video');
-  const knap = document.getElementById('vidkn');
-  if(!v){ if(knap) knap.classList.add('pulser'); return; }
+function tekstSlide(mit, tekst, naar){
+  const tid = 3600;
+  vis(`
+    <div class="slide" id="slide">
+      <p class="slidetxt">${tekst}</p>
+      <div class="slidebar" style="--tid:${tid}ms"><i></i></div>
+    </div>
+  `);
+  const gaa = () => {
+    if(mit !== sekvensId) return;
+    const el = document.getElementById('slide');
+    if(el) el.classList.add('udtoning');
+    setTimeout(() => { if(mit === sekvensId) naar(); }, 380);
+  };
+  setTimeout(gaa, tid);
+  // Utålmodig? Tryk hvor som helst for at springe teksten over
+  setTimeout(() => {
+    const el = document.getElementById('slide');
+    if(el) el.addEventListener('click', gaa, {once:true});
+  }, 400);
+}
 
-  // Når videoen er slut, blinker Videre-knappen
-  v.addEventListener('ended', () => { if(knap) knap.classList.add('pulser'); });
+function filmen(mit, naeste){
+  const v = forberedtVideo;
+  const videre = () => {
+    if(mit !== sekvensId) return;
+    sekvensId++;                       // stop alt andet i denne sekvens
+    const r = document.getElementById('film');
+    if(r) r.classList.add('udtoning');
+    setTimeout(naeste, 380);
+  };
 
-  // Prøv med lyd. Blokerer browseren det, kører den lydløst med en knap til at slå lyd til.
-  const forsoeg = v.play();
-  if(forsoeg && forsoeg.catch){
-    forsoeg.catch(() => {
+  if(!v){ return videre(); }           // ingen videofil — gå bare videre
+
+  vis(`<div class="filmramme" id="film"></div>
+       <button class="spring" onclick="springOver()">Spring over →</button>`);
+  document.getElementById('film').appendChild(v);
+  v.controls = false;
+  v.addEventListener('ended', videre);
+  v.addEventListener('error', videre);
+  window.springOver = videre;
+
+  const kør = v.play();
+  if(kør && kør.catch){
+    kør.catch(() => {
       v.muted = true;
-      v.play().catch(() => { if(knap) knap.classList.add('pulser'); });
-      const lk = document.getElementById('lydknap');
-      if(lk) lk.innerHTML =
-        `<button class="knap sekundaer" onclick="lydPaa(this)">🔊 Tænd lyden</button>`;
+      v.play().catch(videre);          // kan den slet ikke, går vi videre
     });
   }
+  // Sikkerhedsnet: kommer den aldrig i gang, går vi videre af os selv
+  let startet = false;
+  v.addEventListener('playing', () => startet = true);
+  setTimeout(() => { if(mit === sekvensId && !startet) videre(); }, 6000);
 }
 
-function lydPaa(b){
-  const v = document.querySelector('.videoslot video');
-  if(v){ v.muted = false; v.play().catch(()=>{}); }
-  b.remove();
-}
+window.springOver = () => {};
 
-function video1(){ videoSkaerm('intro',    'Se hvad der sker',        'Månen på vej ind foran solen.',                    'kapitel1()'); }
-function video2(){ videoSkaerm('historie', 'Sådan så vikingerne det', 'Ulven Sköll jagter solen hen over himlen.',        'myter(1)'); }
-function video3(){ videoSkaerm('maane',    'Set helt oppe fra rummet','Månens skygge på vej hen over Jorden.',            'kapitel2Intro()'); }
-function video4(){ videoSkaerm('moerke',   'Når lyset forsvinder',    'Læg mærke til, hvor stille der bliver.',           'kapitel3()'); }
-function video5(){ videoSkaerm('sikker',   'Sådan gør man',           'Se godt efter — det er sådan brillerne bruges.',   'sikkerhed()'); }
+function video1(){ videoSekvens('intro',
+  'Se hvad der sker, når månen skubber sig ind foran solen.', kapitel1); }
+function video2(){ videoSekvens('historie',
+  'Vikingerne troede, at ulven Sköll jagtede solen. Sådan så de det for sig.', () => myter(1)); }
+function video3(){ videoSekvens('maane',
+  'Sådan ser det ud helt oppe fra rummet.', kapitel2Intro); }
+function video4(){ videoSekvens('moerke',
+  'Læg mærke til, hvor stille der bliver, når lyset forsvinder.', kapitel3); }
+function video5(){ videoSekvens('sikker',
+  'Til sidst det vigtigste: sådan bruger man solformørkelsesbriller.', sikkerhed); }
 
 function tur(){ return ''; }
 
