@@ -32,7 +32,6 @@ body::before{
     radial-gradient(120% 65% at 50% -10%, rgba(255,196,110,.16), transparent 62%),
     radial-gradient(95% 55% at 50% 108%, rgba(88,120,220,.16), transparent 60%);
 }
-input{-webkit-user-select:text;user-select:text}
 #stjerner{position:fixed;inset:0;z-index:0;pointer-events:none}
 .wrap{position:relative;z-index:1;max-width:520px;margin:0 auto;padding:16px 16px 44px;min-height:100%}
 
@@ -76,24 +75,6 @@ p{font-size:17px;line-height:1.55;color:#c6cde0}
 .stjernetal{font-size:16px;font-weight:800;color:#ffd68a;white-space:nowrap;
   text-shadow:0 0 14px rgba(255,200,90,.35)}
 
-.tur{display:flex;align-items:center;gap:9px;justify-content:center;font-size:15px;
-  font-weight:700;margin-bottom:14px;padding:9px;border-radius:14px;background:rgba(255,255,255,.05)}
-.prik{width:11px;height:11px;border-radius:50%;flex:none}
-.p1{background:#7ad7f0}.p2{background:#f78fb3}.pb{background:#ffd166}
-
-/* Opsætning: antal spillere + navne */
-.spillervalg{display:grid;gap:11px}
-.spillervalg button{display:flex;align-items:center;gap:12px;width:100%;font-family:inherit;
-  font-size:19px;font-weight:700;color:#f0f2f8;text-align:left;background:rgba(255,255,255,.07);
-  border:1.5px solid rgba(255,255,255,.16);border-radius:16px;padding:16px 18px;
-  cursor:pointer;transition:transform .12s}
-.spillervalg button:active{transform:scale(.97)}
-.spillervalg small{font-size:13px;font-weight:500;color:#8e97b5;margin-left:auto;text-align:right}
-.navnefelt{display:flex;align-items:center;gap:11px;margin-bottom:11px}
-.navnefelt input{flex:1;font-family:inherit;font-size:18px;font-weight:600;color:#f0f2f8;
-  background:rgba(255,255,255,.07);border:1.5px solid rgba(255,255,255,.16);
-  border-radius:14px;padding:14px 16px;outline:none;min-width:0}
-.navnefelt input:focus{border-color:#ffd166}
 
 /* Videoplads */
 .videoslot{position:relative;width:100%;aspect-ratio:16/9;border-radius:16px;overflow:hidden;
@@ -322,20 +303,14 @@ const lydWow = () => { [523,659,784,1047].forEach((h,i)=>setTimeout(()=>bip(h,.3
 /* ====================== Tilstand ====================== */
 const app = document.getElementById('app');
 let stjerner = 0, trin = 0;
-let navne = ["Spiller 1"];            // 1 eller 2 navne
-const ANTAL_TRIN = 12;
-
 const O = {
-  get solo(){ return navne.length === 1; },
-  du(){     return this.solo ? 'du'  : 'I'; },
-  duStor(){ return this.solo ? 'Du'  : 'I'; },
-  dig(){    return this.solo ? 'dig' : 'jer'; },
-  dinStor(){return this.solo ? 'Din' : 'Jeres'; },
-  erVoksne(){ return this.solo ? 'du er voksen' : 'I er voksne'; },
-  alle(){   return this.solo ? sikkerTekst(navne[0])
-                             : sikkerTekst(navne[0]) + ' &amp; ' + sikkerTekst(navne[1]); },
-  titel(){  return this.solo ? 'Certificeret Solformørkelses-ekspert'
-                             : 'Certificerede Solformørkelses-eksperter'; }
+  solo: true,
+  du(){ return 'du'; },
+  duStor(){ return 'Du'; },
+  dig(){ return 'dig'; },
+  dinStor(){ return 'Din'; },
+  erVoksne(){ return 'du er voksen'; },
+  titel(){ return 'Certificeret Solformørkelses-ekspert'; }
 };
 
 function opdaterTop(){
@@ -430,16 +405,7 @@ function video3(){ videoSkaerm('maane',    'Set helt oppe fra rummet','Månens s
 function video4(){ videoSkaerm('moerke',   'Når lyset forsvinder',    'Læg mærke til, hvor stille der bliver.',           'kapitel3()'); }
 function video5(){ videoSkaerm('sikker',   'Sådan gør man',           'Se godt efter — det er sådan brillerne bruges.',   'sikkerhed()'); }
 
-/* nr: 0 = første spiller, 1 = anden spiller, 'begge' = sammen */
-function tur(nr){
-  if(O.solo) return `<div class="tur"><span class="prik p1"></span>${sikkerTekst(navne[0])}</div>`;
-  if(nr === 'begge')
-    return `<div class="tur"><span class="prik pb"></span>${sikkerTekst(navne[0])} og ${sikkerTekst(navne[1])} — sammen!</div>`;
-  return `<div class="tur"><span class="prik p${nr+1}"></span>${sikkerTekst(navne[nr])}s tur</div>`;
-}
-function navnPaa(nr){
-  return sikkerTekst(O.solo ? navne[0] : navne[nr === 'begge' ? 0 : nr]);
-}
+function tur(){ return ''; }
 
 function vis(html){
   app.innerHTML = `<div class="skaerm">${html}</div>`;
@@ -465,70 +431,21 @@ function start(){
       <p class="lille" style="margin-top:16px">Et spil af <b style="color:#a8b2d1">Michel Klos</b></p>
     </div>
 
-    <div class="kort" style="margin-top:24px">
-      <div class="badge">Hvor mange spiller?</div>
-      <div class="spillervalg">
-        <button onclick="opsaet(1)"><span class="prik p1"></span>Én spiller<small>alene</small></button>
-        <button onclick="opsaet(2)"><span class="prik pb"></span>To spillere<small>skiftes til opgaverne</small></button>
-      </div>
-    </div>
-
-    <p class="lille" style="text-align:center">🕐 Ca. 20 minutter &nbsp;·&nbsp; ⭐ Saml stjerner
-    &nbsp;·&nbsp; 📱 Virker bedst på mobil</p>
-    ${KREDIT}
-  `);
-}
-
-function opsaet(antal){
-  lydJa();
-  vis(`
-    <div class="badge" style="margin-top:20px">Næsten klar</div>
-    <h2>Hvad hedder ${antal === 1 ? 'du' : 'I'}?</h2>
-    <p class="lille" style="margin-bottom:14px">Navnet kommer på diplomet til sidst.
-    ${antal === 1 ? 'Du kan også bare springe over.' : 'I kan også bare springe over.'}</p>
-    <div class="kort">
-      <div class="navnefelt">
-        <span class="prik p1"></span>
-        <input id="n0" maxlength="14" placeholder="Navn" autocomplete="off" autocorrect="off">
-      </div>
-      ${antal === 2 ? `<div class="navnefelt" style="margin-bottom:0">
-        <span class="prik p2"></span>
-        <input id="n1" maxlength="14" placeholder="Navn" autocomplete="off" autocorrect="off">
-      </div>` : ''}
-    </div>
-    <button class="knap" onclick="gemNavne(${antal})">Videre →</button>
-    <button class="knap sekundaer" onclick="start()">← Tilbage</button>
-  `);
-  setTimeout(() => {
-    const f = document.getElementById('n0');
-    if(f) f.addEventListener('keydown', e => { if(e.key === 'Enter') gemNavne(antal); });
-  }, 60);
-}
-
-function gemNavne(antal){
-  const v = i => { const el = document.getElementById('n'+i); return el ? el.value.trim() : ''; };
-  navne = antal === 1
-    ? [v(0) || 'Rumforsker']
-    : [v(0) || 'Spiller 1', v(1) || 'Spiller 2'];
-  briefing();
-}
-
-function briefing(){
-  vis(`
-    <div class="badge" style="margin-top:20px">Missionsbriefing</div>
-    <h2>${O.dinStor()} opgave</h2>
-    <div class="kort" style="margin-top:12px">
-      <p>Godt ${O.solo ? 'du er' : 'I er'} her, <b style="color:#ffd166">${O.alle()}</b>.</p>
-      <p style="margin-top:10px">Den <b style="color:#ffd166">${FAKTA.dato}</b> sker der noget,
-      der ikke er sket i Danmark siden år 2015 — og som ikke sker igen, før ${O.erVoksne()}.</p>
+    <div class="kort" style="margin-top:22px">
+      <div class="badge">Missionsbriefing</div>
+      <p>Den ${FAKTA.dato} sker der noget, der ikke er sket i Danmark siden år 2015 —
+      og som ikke sker igen, før du er voksen.</p>
       <p style="margin-top:10px">Månen skubber sig ind foran solen, og
       <b style="color:#ffd166">${FAKTA.daekning} %</b> af solen forsvinder.
       Himlen bliver mørk midt om aftenen.</p>
-      <p style="margin-top:10px">${O.dinStor()} opgave: find ud af hvorfor det sker,
+      <p style="margin-top:10px">Din opgave: find ud af hvorfor det sker,
       lav formørkelsen selv — og lær at se på den uden at komme til skade.</p>
     </div>
+
     <button class="knap" onclick="video1()">Start missionen 🚀</button>
-    <button class="knap sekundaer" onclick="start()">← Tilbage til forsiden</button>
+    <p class="lille" style="text-align:center;margin-top:14px">🕐 Ca. 20 minutter
+    &nbsp;·&nbsp; ⭐ Saml stjerner &nbsp;·&nbsp; 📱 Virker bedst på mobil</p>
+    ${KREDIT}
   `);
 }
 
@@ -598,7 +515,7 @@ function svarMyte(i, valgt){
   if(rigtigt){ giv(1); lydJa(); } else lydNej();
   document.getElementById('fb').innerHTML = `
     <div class="feedback">
-      <b>${rigtigt ? '⭐ Flot, ' + navnPaa(m.spiller) + '!' : 'Godt gæt — men nej.'}</b><br>${m.forklaring}
+      <b>${rigtigt ? '⭐ Flot!' : 'Godt gæt — men nej.'}</b><br>${m.forklaring}
     </div>
     <button class="knap" onclick="${i === 0 ? 'video2()' : 'myter(' + (i+1) + ')'}">Videre →</button>`;
 }
@@ -971,9 +888,8 @@ function diplom(){
     <div id="diplom">
       <div class="segl">🏅</div>
       <div class="badge">Officielt bevis</div>
-      <p style="font-size:15px">Hermed udnævnes</p>
-      <div class="navne">${O.alle()}</div>
-      <p style="font-size:15px">til <b style="color:#ffd166">${O.titel()}</b></p>
+      <p style="font-size:15px">Hermed udnævnes du til</p>
+      <div class="navne">${O.titel()}</div>
       <hr>
       <p style="font-size:15px">Samlet: <b style="color:#ffd166;font-size:20px">⭐ ${stjerner} stjerner</b></p>
       <hr>
