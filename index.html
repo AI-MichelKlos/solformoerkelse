@@ -186,11 +186,11 @@ ul.huske li::before{content:"\2611";position:absolute;left:0;top:8px;color:#ffd1
    intro: "https://www.youtube.com/embed/XXXXXXXXXXX"
    ================================================================== */
 const VIDEOER = {
-  intro:    "videos/sol1.mp4",
-  historie: "videos/sol2.mp4",
-  maane:    "videos/sol3.mp4",
-  moerke:   "videos/sol4.mp4",
-  sikker:   "videos/sol5.mp4"
+  intro:    "videos/sol1.mp4",   // Månen glider ind foran solen
+  historie: "videos/sol2.mp4",   // Ulven Sköll bider i solen
+  maane:    "videos/sol3.mp4",   // Set fra rummet: månens skygge rammer Jorden
+  moerke:   "videos/sol4.mp4",   // Fuglene bliver stille, lyset bliver gråt
+  sikker:   "videos/sol5.mp4"    // Barn tager solformørkelsesbriller på
 };
 
 /* Tekst der vises, hvis videofilen ikke findes */
@@ -292,10 +292,58 @@ function videoHTML(noegle){
   if(!kilde) return `<div class="videoslot">${pladsholder}</div>`;
   const erFil = /\.(mp4|webm|mov|m4v)(\?|$)/i.test(kilde);
   const medie = erFil
-    ? `<video src="${kilde}" controls playsinline preload="metadata" onerror="this.remove()"></video>`
-    : `<iframe src="${kilde}" allow="accelerometer;autoplay;encrypted-media;gyroscope;picture-in-picture" allowfullscreen></iframe>`;
+    ? `<video src="${kilde}" controls playsinline preload="auto" onerror="this.remove()"></video>`
+    : `<iframe src="${kilde}" allow="autoplay;accelerometer;encrypted-media;gyroscope;picture-in-picture" allowfullscreen></iframe>`;
   return `<div class="videoslot">${pladsholder}${medie}</div>`;
 }
+
+/* ================================================================
+   BELØNNINGSSKÆRM — videoen starter af sig selv
+   ================================================================ */
+function videoSkaerm(noegle, overskrift, undertekst, naeste){
+  vis(`
+    <div class="badge">🎬 Belønning</div>
+    <h2>${overskrift}</h2>
+    <p class="lille" style="margin-bottom:14px">${undertekst}</p>
+    ${videoHTML(noegle)}
+    <div id="lydknap"></div>
+    <button class="knap" id="vidkn" onclick="${naeste}">Videre →</button>
+  `);
+  startVideo();
+}
+
+function startVideo(){
+  const v = document.querySelector('.videoslot video');
+  const knap = document.getElementById('vidkn');
+  if(!v){ if(knap) knap.classList.add('pulser'); return; }
+
+  // Når videoen er slut, blinker Videre-knappen
+  v.addEventListener('ended', () => { if(knap) knap.classList.add('pulser'); });
+
+  // Prøv med lyd. Blokerer browseren det, kører den lydløst med en knap til at slå lyd til.
+  const forsoeg = v.play();
+  if(forsoeg && forsoeg.catch){
+    forsoeg.catch(() => {
+      v.muted = true;
+      v.play().catch(() => { if(knap) knap.classList.add('pulser'); });
+      const lk = document.getElementById('lydknap');
+      if(lk) lk.innerHTML =
+        `<button class="knap sekundaer" onclick="lydPaa(this)">🔊 Tænd lyden</button>`;
+    });
+  }
+}
+
+function lydPaa(b){
+  const v = document.querySelector('.videoslot video');
+  if(v){ v.muted = false; v.play().catch(()=>{}); }
+  b.remove();
+}
+
+function video1(){ videoSkaerm('intro',    'Se hvad der sker',        'Månen på vej ind foran solen.',                    'kapitel1()'); }
+function video2(){ videoSkaerm('historie', 'Sådan så vikingerne det', 'Ulven Sköll jagter solen hen over himlen.',        'myter(1)'); }
+function video3(){ videoSkaerm('maane',    'Set helt oppe fra rummet','Månens skygge på vej hen over Jorden.',            'kapitel2Intro()'); }
+function video4(){ videoSkaerm('moerke',   'Når lyset forsvinder',    'Læg mærke til, hvor stille der bliver.',           'kapitel3()'); }
+function video5(){ videoSkaerm('sikker',   'Sådan gør man',           'Se godt efter — det er sådan brillerne bruges.',   'sikkerhed()'); }
 
 /* nr: 0 = første spiller, 1 = anden spiller, 'begge' = sammen */
 function tur(nr){
@@ -394,7 +442,7 @@ function briefing(){
       <p style="margin-top:10px">${O.dinStor()} opgave: find ud af hvorfor det sker,
       lav formørkelsen selv — og lær at se på den uden at komme til skade.</p>
     </div>
-    <button class="knap" onclick="kapitel1()">Start missionen 🚀</button>
+    <button class="knap" onclick="video1()">Start missionen 🚀</button>
     <button class="knap sekundaer" onclick="start()">← Tilbage til forsiden</button>
   `);
 }
@@ -409,7 +457,6 @@ function kapitel1(){
     <h2>Hvad troede folk før i tiden?</h2>
     <p style="margin-bottom:14px">For 1000 år siden vidste ingen hvorfor solen pludselig
     blev væk. Så de fandt på forklaringer.</p>
-    ${videoHTML('intro')}
     ${tur(0)}
     <button class="knap" onclick="myter(0)">Fyr løs 🕰️</button>
   `);
@@ -431,12 +478,11 @@ const MYTER = [
 ];
 
 function myter(i){
-  if(i >= MYTER.length) return kapitel2Intro();
+  if(i >= MYTER.length) return video3();
   const m = MYTER[i];
   vis(`
     <div class="badge">Kapitel 1 · Myte eller sandt (${i+1}/${MYTER.length})</div>
     ${tur(m.spiller)}
-    ${i === 1 ? videoHTML('historie') : ''}
     <div class="kort"><p style="font-size:19px;color:#f0f2f8">${m.t}</p></div>
     <div class="valg" id="valg">
       <button onclick="svarMyte(${i},'sandt')">✅ Det er sandt</button>
@@ -457,7 +503,7 @@ function svarMyte(i, valgt){
     <div class="feedback">
       <b>${rigtigt ? '⭐ Rigtigt, ' + navnPaa(m.spiller) + '!' : 'Godt gæt — men nej.'}</b><br>${m.forklaring}
     </div>
-    <button class="knap" onclick="myter(${i+1})">Videre →</button>`;
+    <button class="knap" onclick="${i === 0 ? 'video2()' : 'myter(' + (i+1) + ')'}">Videre →</button>`;
 }
 
 /* ================================================================
@@ -472,7 +518,6 @@ function kapitel2Intro(){
     imellem lægger den sig præcis i vejen for sollyset.</p>
     <p style="margin-top:10px">${O.dinStor()} skygge er nu månens skygge.
     <b style="color:#ffd166">Træk månen hen foran solen med fingeren.</b></p>
-    ${videoHTML('maane')}
     ${tur('begge')}
     <button class="knap" onclick="maanespil()">Tag fat i månen 🌑</button>
   `);
@@ -618,7 +663,7 @@ function hvorfor(){
       Kun når den rammer <b>præcis</b> i stregen, bliver der formørkelse. Det er derfor det er så sjældent.
     </div>
     ${tur(1)}
-    <button class="knap" onclick="kapitel3()">Videre til kapitel 3 →</button>
+    <button class="knap" onclick="video4()">Videre til kapitel 3 →</button>
   `);
   const s = document.getElementById('haeld'),
         m = document.getElementById('bmaane'),
@@ -648,7 +693,6 @@ function kapitel3(){
     <h2>Detektivopgave</h2>
     <p>Den 12. august kl. ca. ${FAKTA.maksimum} sker der noget mærkeligt rundt omkring ${O.dig()} —
     ikke kun på himlen. Hvad tror ${O.du()} sker på jorden?</p>
-    ${videoHTML('moerke')}
     ${tur(1)}
     <button class="knap" onclick="detektiv(0)">Start efterforskningen 🔍</button>
   `);
@@ -670,7 +714,7 @@ const DETEKTIV = [
 ];
 
 function detektiv(i){
-  if(i >= DETEKTIV.length) return sikkerhed();
+  if(i >= DETEKTIV.length) return video5();
   const d = DETEKTIV[i];
   vis(`
     <div class="badge">Kapitel 3 · Detektivopgave ${i+1}/${DETEKTIV.length}</div>
@@ -715,7 +759,6 @@ function sikkerhed(){
       <p>Solen er lige så farlig at kigge på under en formørkelse som alle andre dage.
       Forskellen er, at man får lyst til at kigge.</p>
     </div>
-    ${videoHTML('sikker')}
     ${tur('begge')}
     <p class="lille" style="margin-top:4px">Tryk på alle 6 og find ud af, hvad der er sikkert:</p>
     <div class="ting" id="ting">
