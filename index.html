@@ -247,8 +247,8 @@ const VIDEOER = {
    Mangler filen, viser spillet en tekstbeskrivelse i stedet.
    ================================================================== */
 const BILLEDER = {
-  lysrejse: "billeder/tegneserie1.png",   // Sollysets rejse til Jorden
-  stoerrelse: "billeder/tegneserie2.png"  // Hvorfor sol og måne ser lige store ud
+  lysrejse: "billeder/tegneserie1.jpg",   // Sollysets rejse til Jorden
+  stoerrelse: "billeder/tegneserie2.jpg"  // Hvorfor sol og måne ser lige store ud
 };
 
 const BILLEDTEKST = {
@@ -977,14 +977,7 @@ function diplom(){
       <hr>
       <p style="font-size:15px">Samlet: <b style="color:#ffd166;font-size:20px">⭐ ${stjerner} stjerner</b></p>
       <hr>
-      <p class="lille" style="letter-spacing:1px;margin-bottom:8px">DER ER NU</p>
-      <div class="nedtael">
-        <div><div class="t" id="nD">–</div><div class="l">DAGE</div></div>
-        <div><div class="t" id="nT">–</div><div class="l">TIMER</div></div>
-        <div><div class="t" id="nM">–</div><div class="l">MIN</div></div>
-        <div><div class="t" id="nS">–</div><div class="l">SEK</div></div>
-      </div>
-      <p class="lille">til formørkelsen topper ${FAKTA.dato} kl. ${FAKTA.maksimum}</p>
+      <div id="nedtaelling"></div>
     </div>
 
     <div class="kort" style="margin-top:14px">
@@ -1010,16 +1003,51 @@ function diplom(){
 }
 
 function tikTak(){
+  const boks = document.getElementById('nedtaelling');
+  if(!boks) return;
+
+  const slutTid = new Date(2026, 7, 12, 20, 54, 0);   // formørkelsen er helt ovre
+  const dagSlut = new Date(2026, 7, 13,  4,  0, 0);   // natten efter
+
   function opd(){
-    const el = document.getElementById('nD');
-    if(!el) return;
-    let ms = FAKTA.maalTid - new Date();
-    if(ms < 0) ms = 0;
-    const s = Math.floor(ms/1000);
-    el.textContent = Math.floor(s/86400);
-    document.getElementById('nT').textContent = Math.floor(s%86400/3600);
-    document.getElementById('nM').textContent = Math.floor(s%3600/60);
-    document.getElementById('nS').textContent = s%60;
+    if(!document.getElementById('nedtaelling')) return;   // brugeren er gået videre
+    const nu = new Date(), ms = FAKTA.maalTid - nu;
+
+    if(ms > 0){
+      // Før formørkelsen — tæl ned
+      const s = Math.floor(ms/1000);
+      boks.innerHTML = `
+        <p class="lille" style="letter-spacing:1px;margin-bottom:8px">DER ER NU</p>
+        <div class="nedtael">
+          <div><div class="t">${Math.floor(s/86400)}</div><div class="l">DAGE</div></div>
+          <div><div class="t">${Math.floor(s%86400/3600)}</div><div class="l">TIMER</div></div>
+          <div><div class="t">${Math.floor(s%3600/60)}</div><div class="l">MIN</div></div>
+          <div><div class="t">${s%60}</div><div class="l">SEK</div></div>
+        </div>
+        <p class="lille">til formørkelsen topper ${FAKTA.dato} kl. ${FAKTA.maksimum}</p>`;
+
+    }else if(nu < slutTid){
+      // Midt i det hele
+      boks.innerHTML = `
+        <p style="font-size:22px;font-weight:800;color:#ffd68a;margin:6px 0">Det sker lige nu! 🌘</p>
+        <p class="lille">Kig mod vest og nordvest — med solformørkelsesbriller på.</p>`;
+
+    }else if(nu < dagSlut){
+      // Samme aften, bagefter
+      boks.innerHTML = `
+        <p style="font-size:22px;font-weight:800;color:#ffd68a;margin:6px 0">Det skete i aften 🌘</p>
+        <p class="lille">Håber ${O.du()} så det. Bliv ude lidt endnu —
+        stjerneskuddene fra Perseiderne topper i nat.</p>`;
+
+    }else{
+      // Bagefter — tæl den anden vej
+      const dage = Math.floor((nu - FAKTA.maalTid)/86400000);
+      boks.innerHTML = `
+        <p style="font-size:20px;font-weight:800;color:#ffd68a;margin:6px 0">Formørkelsen er overstået 🌘</p>
+        <p class="lille">Det er <b style="color:#ffd68a">${dage}</b>
+        ${dage === 1 ? 'dag' : 'dage'} siden den 12. august 2026.<br>
+        Den næste lige så kraftige solformørkelse i Danmark er i <b style="color:#ffd68a">2048</b>.</p>`;
+    }
     setTimeout(opd, 1000);
   }
   opd();
