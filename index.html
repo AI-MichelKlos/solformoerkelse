@@ -112,7 +112,12 @@ p{font-size:17px;line-height:1.55;color:#c6cde0}
   text-shadow:0 0 18px rgba(255,200,90,.4)}
 .taeller .hvad{font-size:12.5px;line-height:1.3;color:#c6cde0;text-align:left;letter-spacing:.2px}
 
-.forside .knap{margin-top:20px;font-size:19px;padding:19px 20px}
+.forside .knap{margin-top:11px;font-size:19px;padding:17px 20px}
+.niveauvalg{margin-top:20px}
+.niveauvalg .knap small{display:block;font-size:12.5px;font-weight:500;opacity:.72;margin-top:3px}
+.nivchip{display:inline-block;font-size:10.5px;font-weight:800;letter-spacing:.8px;
+  text-transform:uppercase;color:#0d1024;background:#9fb4dd;border-radius:99px;
+  padding:3px 8px;vertical-align:2px}
 .fakta3{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:20px}
 .fakta3 div{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.07);
   border-radius:15px;padding:13px 6px}
@@ -410,6 +415,7 @@ const lydWow = () => { [523,659,784,1047].forEach((h,i)=>setTimeout(()=>bip(h,.3
 const app = document.getElementById('app');
 let stjerner = 0, trin = 0;
 const ANTAL_TRIN = 12;
+let niveau = 'barn';        // 'barn' = 2-3 svar, 'voksen' = 4-5 svar
 const O = {
   solo: true,
   du(){ return 'du'; },
@@ -423,9 +429,14 @@ const O = {
 function opdaterTop(){
   document.getElementById('top').classList.remove('skjul');
   document.getElementById('barfyld').style.width = (trin/ANTAL_TRIN*100) + '%';
-  document.getElementById('stjernetal').textContent = '⭐ ' + stjerner;
+  document.getElementById('stjernetal').innerHTML =
+    (niveau === 'voksen' ? '<span class="nivchip">Voksen</span> ' : '') + '⭐ ' + stjerner;
 }
 function giv(n){ stjerner += n; opdaterTop(); }
+function svarSaet(q){
+  return (niveau === 'voksen' && q.voksen) ? q.voksen : q;
+}
+
 function tk(s){ return s.replace(/\{I\}/g,O.du()).replace(/\{Is\}/g,O.duStor()).replace(/\{jer\}/g,O.dig()); }
 function sikkerTekst(s){
   return String(s).replace(/[<>&"]/g, c => ({'<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;'}[c]));
@@ -725,7 +736,12 @@ function start(){
 
       ${taeller}
 
-      <button class="knap" onclick="video1()">Start missionen 🚀</button>
+      <div class="niveauvalg">
+        <button class="knap" onclick="vaelgNiveau('barn')">
+          Jeg er barn <small>2-3 svar at vælge imellem</small></button>
+        <button class="knap sekundaer" onclick="vaelgNiveau('voksen')">
+          Jeg er voksen <small>Flere svar — og nogle af dem driller</small></button>
+      </div>
 
       <div class="fakta3">
         <div><div class="t">4</div><div class="u">KAPITLER</div></div>
@@ -743,6 +759,10 @@ function start(){
 /* ================================================================
    KAPITEL 1 — TIDSMASKINEN
    ================================================================ */
+function vaelgNiveau(n){
+  niveau = n; lydJa(); video1();
+}
+
 function kapitel1(){
   trin = 1; opdaterTop();
   vis(`
@@ -760,15 +780,22 @@ function kapitel1(){
 const MYTER = [
   { t:"Vikingerne troede, at en kæmpe ulv ved navn Sköll jagtede solen og bed et stykke af den.",
     svar:"sandt", spiller:0,
-    forklaring:"Rigtigt — det troede de faktisk! Folk råbte og larmede for at skræmme ulven væk. Og hver gang virkede det jo … solen kom altid tilbage." },
+    voksen:{ valg:["Rigtigt — men Sköll jagtede månen, ikke solen","Forkert — i nordisk mytologi var det en kæmpeslange","Rigtigt — og folk larmede for at skræmme ulven væk","Forkert — historien er opdigtet i 1800-tallet"], r:2 },
+    forklaring:"Rigtigt — det troede de faktisk! Folk råbte og larmede for at skræmme ulven væk. Og hver gang virkede det jo … solen kom altid tilbage. <i>Der var to ulve: Sköll jagtede solen, mens Hate jagtede månen.</i>" },
+
   { t:"I Kina troede man, at en drage var i gang med at spise solen.",
     svar:"sandt", spiller:1,
-    forklaring:"Sandt! Man slog på trommer og gryder for at få dragen til at spytte solen ud igen." },
+    voksen:{ valg:["Rigtigt — men kun ved måneformørkelser","Forkert — kinesiske astronomer kunne forudsige formørkelser","Forkert — dragen hører til i japansk mytologi","Rigtigt — man slog på trommer for at få dragen til at spytte den ud"], r:3 },
+    forklaring:"Sandt! Man slog på trommer og gryder for at få dragen til at spytte solen ud igen. <i>Kinesiske astronomer kunne godt forudsige formørkelser — men myten levede videre ved siden af.</i>" },
+
   { t:"Man bliver syg, hvis man er udenfor under en solformørkelse.",
     svar:"myte", spiller:0,
-    forklaring:"Myte. Der sker absolut ingenting med kroppen. Det eneste farlige er at <b>kigge lige ind i solen</b> — det handler kapitel 3 om." },
+    voksen:{ valg:["Forkert — men gravide blev historisk frarådet at gå ud, og det holder stik","Forkert — kroppen tager ingen skade; kun øjnene, hvis man kigger direkte på solen","Rigtigt — UV-strålingen stiger, når solskiven dækkes","Rigtigt — men kun for helt små børn"], r:1 },
+    forklaring:"Myte. Der sker absolut ingenting med kroppen. Det eneste farlige er at <b>kigge lige ind i solen</b> — det handler kapitel 4 om. <i>Og nej: strålingen stiger ikke, den falder.</i>" },
+
   { t:"En solformørkelse har engang stoppet en krig midt i et slag.",
     svar:"sandt", spiller:1,
+    voksen:{ valg:["Rigtigt — slaget mellem mederne og lyderne omkring år 585 f.Kr.","Rigtigt — slaget ved Hastings i 1066","Forkert — men én forsinkede et slag under romerkrigene","Forkert — historien stammer fra en roman"], r:0 },
     forklaring:"Sandt! For ca. 2600 år siden blev det pludselig mørkt midt i et slag mellem mederne og lyderne. Begge hære blev så forskrækkede, at de lagde våbnene og sluttede fred." }
 ];
 
@@ -780,23 +807,23 @@ function myter(i){
     ${tur(m.spiller)}
     <div class="kort"><p style="font-size:19px;color:#f2f4fa">${m.t}</p></div>
     <div class="valg" id="valg">
-      <button onclick="svarMyte(${i},'sandt')">Rigtigt</button>
-      <button onclick="svarMyte(${i},'myte')">Forkert</button>
+      ${myteValg(m).valg.map((v,n)=>`<button onclick="svarMyte(${i},${n})">${v}</button>`).join('')}
     </div>
     <div id="fb"></div>
   `);
 }
 
+function myteValg(m){
+  if(niveau === 'voksen' && m.voksen) return m.voksen;
+  return { valg:['Rigtigt','Forkert'], r: m.svar === 'sandt' ? 0 : 1 };
+}
+
 function svarMyte(i, valgt){
-  const m = MYTER[i], rigtigt = valgt === m.svar;
+  const m = MYTER[i], sæt = myteValg(m), rigtigt = valgt === sæt.r;
   const knapper = document.querySelectorAll('#valg button');
   knapper.forEach(b => { b.disabled = true; b.classList.add('blegn'); });
-  const rigtigKnap = knapper[m.svar === 'sandt' ? 0 : 1];
-  rigtigKnap.classList.add('rigtigt'); rigtigKnap.classList.remove('blegn');
-  if(!rigtigt){
-    const valgtKnap = knapper[valgt === 'sandt' ? 0 : 1];
-    valgtKnap.classList.add('forkert'); valgtKnap.classList.remove('blegn');
-  }
+  knapper[sæt.r].classList.add('rigtigt'); knapper[sæt.r].classList.remove('blegn');
+  if(!rigtigt){ knapper[valgt].classList.add('forkert'); knapper[valgt].classList.remove('blegn'); }
   if(rigtigt){ giv(1); lydJa(); } else lydNej();
   document.getElementById('fb').innerHTML = `
     <div class="feedback">
@@ -822,29 +849,29 @@ function kapitelFakta(){
 
 const FAKTASPM = [
   { sp:"Solen er meget langt væk. Hvor lang tid tager sollyset om at nå ned til os?",
-    valg:["Det kommer med det samme","Cirka 8 minutter","Cirka 8 timer"],
-    r:1, spiller:0,
-    fb:"Cirka <b>8 minutter</b>. Lyset er det hurtigste i hele universet, og alligevel tager rejsen 8 minutter. Det betyder, at når {I} kigger på solen, ser {I} faktisk hvordan den så ud for 8 minutter siden." },
+    valg:["Det kommer med det samme","Cirka 8 timer","Cirka 8 minutter"], r:2, spiller:0,
+    voksen:{ valg:["1,3 sekunder","Cirka 8 minutter","Cirka 22 minutter","Cirka 8 timer","Det kommer med det samme"], r:1 },
+    fb:"Cirka <b>8 minutter</b>. Lyset er det hurtigste i hele universet, og alligevel tager rejsen 8 minutter. Det betyder, at når {I} kigger på solen, ser {I} hvordan den så ud for 8 minutter siden. <i>1,3 sekunder er derimod lysets vej fra månen.</i>" },
 
   { sp:"Månen lyser om natten. Men hvor kommer lyset fra?",
-    valg:["Månen brænder ligesom solen","Månen spejler sollys","Månen har lys indeni"],
-    r:1, spiller:1,
-    fb:"Månen laver <b>ikke selv lys</b>. Den er en kold, grå klippekugle — men solen skinner på den, og noget af lyset kastes tilbage til os. Ligesom når et spejl fanger sollyset i et vindue." },
+    valg:["Månen spejler sollys","Månen brænder ligesom solen","Månen har lys indeni"], r:0, spiller:1,
+    voksen:{ valg:["Den gløder svagt af sig selv","Den lyser af jordskin","Solvinden får overfladen til at lyse","Den spejler sollys","Den brænder som en stjerne, bare koldere"], r:3 },
+    fb:"Månen laver <b>ikke selv lys</b>. Den er en kold, grå klippekugle — men solen skinner på den, og noget af lyset kastes tilbage til os. <i>Jordskin findes godt nok: sollys fra Jorden gør den mørke del af nymånen svagt synlig. Men det er ikke der, månelyset kommer fra.</i>" },
 
   { sp:"Sol og måne ser næsten lige store ud på himlen. Hvorfor egentlig?",
-    valg:["De er faktisk lige store","Solen er 400 gange større, men også 400 gange længere væk","Månen vokser, når den kommer tæt på"],
-    r:1, spiller:'begge',
-    fb:"Et helt vildt tilfælde! Solen er cirka <b>400 gange større</b> end månen — men den er også cirka <b>400 gange længere væk</b>. Derfor ser de lige store ud fra Jorden. Og det er præcis derfor, månen kan nå at dække solen." },
+    valg:["De er faktisk lige store","Solen er 400 gange større, men også 400 gange længere væk","Månen vokser, når den kommer tæt på"], r:1, spiller:'begge',
+    voksen:{ valg:["De er faktisk lige store","Solen er 100 gange større og 100 gange længere væk","Solen er 400 gange større, men også 400 gange længere væk","Månen er 400 gange større, men står tættere på","Det ser kun sådan ud på vores breddegrader"], r:2 },
+    fb:"Et helt vildt tilfælde! Solen er cirka <b>400 gange større</b> end månen — men den er også cirka <b>400 gange længere væk</b>. Derfor ser de lige store ud fra Jorden, uanset hvor på kloden man står. Og det er præcis derfor, månen kan nå at dække solen." },
 
   { sp:"Hvor mange jordkloder kan der være inde i solen?",
-    valg:["Cirka 100","Cirka 10.000","Over en million"],
-    r:2, spiller:1,
-    fb:"Over <b>en million</b> — cirka 1.300.000 jordkloder. Solen er så stor, at alt andet i solsystemet er som smuler ved siden af." },
+    valg:["Cirka 100","Cirka 10.000","Over en million"], r:2, spiller:1,
+    voksen:{ valg:["Cirka 1.300","Cirka 130.000","Cirka 13 millioner","Cirka 1,3 milliarder","Cirka 1,3 millioner"], r:4 },
+    fb:"Cirka <b>1,3 millioner</b>. Solen er så stor, at alt andet i solsystemet er som smuler ved siden af. <i>1.300 er derimod antallet af jordkloder der er plads til i Jupiter.</i>" },
 
   { sp:"Der er ingen vind og intet vejr på månen. Hvad sker der så med astronauternes fodspor?",
-    valg:["De blæser væk efter et par dage","De bliver liggende i millioner af år","De smelter i solen"],
-    r:1, spiller:0,
-    fb:"De bliver liggende i <b>millioner af år</b>. Uden vind og regn er der ingenting, der kan viske dem ud. Fodsporene fra 1969 står der stadig — helt skarpe." }
+    valg:["De bliver liggende i millioner af år","De blæser væk efter et par dage","De smelter i solen"], r:0, spiller:0,
+    voksen:{ valg:["De bliver liggende i millioner af år","De er allerede væk","De holder nogle hundrede år","De holder til næste månelanding","De forsvinder ved den næste måneformørkelse"], r:0 },
+    fb:"De bliver liggende i <b>millioner af år</b>. Uden vind og regn er der ingenting, der kan viske dem ud. Fodsporene fra 1969 står der stadig — helt skarpe. <i>Kun mikroskopiske meteorstøv sliber langsomt på dem, og det tager titusinder af årtusinder.</i>" }
 ];
 
 function fakta(i){
@@ -855,17 +882,17 @@ function fakta(i){
     ${tur(f.spiller)}
     <div class="kort"><p style="font-size:19px;color:#f2f4fa">${tk(f.sp)}</p></div>
     <div class="valg" id="valg">
-      ${f.valg.map((v,n)=>`<button onclick="svarFakta(${i},${n})">${v}</button>`).join('')}
+      ${svarSaet(f).valg.map((v,n)=>`<button onclick="svarFakta(${i},${n})">${v}</button>`).join('')}
     </div>
     <div id="fb"></div>
   `);
 }
 
 function svarFakta(i, valgt){
-  const f = FAKTASPM[i], knapper = document.querySelectorAll('#valg button');
+  const f = FAKTASPM[i], sæt = svarSaet(f), knapper = document.querySelectorAll('#valg button');
   knapper.forEach(b => { b.disabled = true; b.classList.add('blegn'); });
-  knapper[f.r].classList.add('rigtigt'); knapper[f.r].classList.remove('blegn');
-  const rigtigt = valgt === f.r;
+  knapper[sæt.r].classList.add('rigtigt'); knapper[sæt.r].classList.remove('blegn');
+  const rigtigt = valgt === sæt.r;
   if(!rigtigt){ knapper[valgt].classList.add('forkert'); knapper[valgt].classList.remove('blegn'); }
   if(rigtigt){ giv(1); lydJa(); } else lydNej();
   // Efter spørgsmål 1 og 3 kommer der en tegneserie som belønning
@@ -1108,17 +1135,19 @@ function kapitel3(){
 
 const DETEKTIV = [
   { sp:"Hvad gør fuglene, når det pludselig bliver mørkt om aftenen?",
-    valg:["De begynder at synge ekstra højt","De bliver stille og flyver hjem i seng","De flyver i en stor cirkel"],
-    r:1, spiller:1,
-    fb:"Rigtigt! Fuglene tror, det er ved at blive nat, og bliver helt stille. Mange har fortalt, at det mest uhyggelige ved en solformørkelse er <b>stilheden</b>." },
+    valg:["De bliver stille og flyver hjem i seng","De begynder at synge ekstra højt","De flyver i en stor cirkel"], r:0, spiller:1,
+    voksen:{ valg:["De begynder at synge ekstra højt","De flyver højere op for at finde lyset","De bliver stille og søger mod reden","De reagerer ikke — 83 % er ikke nok","De flokkes og kredser"], r:2 },
+    fb:"Fuglene tror, det er ved at blive nat, og bliver helt stille. Mange har fortalt, at det mest uhyggelige ved en solformørkelse er <b>stilheden</b>." },
+
   { sp:"Hvad sker der med temperaturen?",
-    valg:["Den falder et par grader","Den stiger","Der sker ikke noget"],
-    r:0, spiller:0,
-    fb:"Rigtigt — der forsvinder pludselig en masse varme fra solen, og det kan falde 2–5 grader. Tag en trøje med!" },
+    valg:["Den stiger","Der sker ikke noget","Den falder et par grader"], r:2, spiller:0,
+    voksen:{ valg:["Den falder 10-15 grader","Den stiger let, fordi vinden lægger sig","Den ændrer sig ikke målbart","Den falder typisk 2-5 grader","Den falder først en time bagefter"], r:3 },
+    fb:"Der forsvinder pludselig en masse varme fra solen, og det kan falde 2-5 grader. Tag en trøje med! <i>Det laveste punkt kommer typisk nogle minutter efter maksimum — jorden når ikke at følge med.</i>" },
+
   { sp:"Se ned under et træ, mens formørkelsen sker. Hvad kan {I} se på jorden?",
-    valg:["Almindelige runde lyspletter","Hundredvis af små måneformede segl","Ingenting særligt"],
-    r:1, spiller:'begge',
-    fb:"Det fedeste trick af dem alle! Hullerne mellem bladene virker som bittesmå kameraer, og hver eneste lysplet på jorden får <b>samme form som den halvspiste sol</b>. Prøv det — {I} kan også lave det selv med et dørslag." }
+    valg:["Almindelige runde lyspletter","Hundredvis af små måneformede segl","Ingenting særligt"], r:1, spiller:'begge',
+    voksen:{ valg:["Almindelige runde lyspletter, bare svagere","Hundredvis af små måneformede segl","Skarpe firkantede pletter","Bølgende mørke striber der løber hen over jorden","Ingenting — der er for lidt lys"], r:1 },
+    fb:"Det fedeste trick af dem alle! Hullerne mellem bladene virker som bittesmå kameraer, og hver eneste lysplet på jorden får <b>samme form som den halvspiste sol</b>. Prøv det — {I} kan også lave det selv med et dørslag. <i>De bølgende striber findes, men ses kun lige omkring en total formørkelse.</i>" }
 ];
 
 function detektiv(i){
@@ -1129,17 +1158,17 @@ function detektiv(i){
     ${tur(d.spiller)}
     <div class="kort"><p style="font-size:19px;color:#f0f2f8">${tk(d.sp)}</p></div>
     <div class="valg" id="valg">
-      ${d.valg.map((v,n)=>`<button onclick="svarDet(${i},${n})">${v}</button>`).join('')}
+      ${svarSaet(d).valg.map((v,n)=>`<button onclick="svarDet(${i},${n})">${v}</button>`).join('')}
     </div>
     <div id="fb"></div>
   `);
 }
 
 function svarDet(i, valgt){
-  const d = DETEKTIV[i], knapper = document.querySelectorAll('#valg button');
+  const d = DETEKTIV[i], sæt = svarSaet(d), knapper = document.querySelectorAll('#valg button');
   knapper.forEach(b => { b.disabled = true; b.classList.add('blegn'); });
-  knapper[d.r].classList.add('rigtigt'); knapper[d.r].classList.remove('blegn');
-  const rigtigt = valgt === d.r;
+  knapper[sæt.r].classList.add('rigtigt'); knapper[sæt.r].classList.remove('blegn');
+  const rigtigt = valgt === sæt.r;
   if(!rigtigt){ knapper[valgt].classList.add('forkert'); knapper[valgt].classList.remove('blegn'); }
   if(rigtigt){ giv(1); lydJa(); } else lydNej();
   document.getElementById('fb').innerHTML = `
