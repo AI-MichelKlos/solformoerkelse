@@ -162,6 +162,23 @@ p{font-size:17px;line-height:1.55;color:#c6cde0}
 .billedslot.fejl .ph{display:block}
 .billedslot .ikon{font-size:30px;margin-bottom:8px;opacity:.5}
 .billedslot .txt{font-size:13px;color:#8e97b5;line-height:1.45}
+.ruder{position:absolute;inset:0;pointer-events:none}
+.stribe{border-radius:18px;overflow:hidden;border:1.5px solid rgba(255,255,255,.12);
+  box-shadow:0 10px 30px rgba(0,0,0,.25);margin-bottom:14px;background:#0a1024}
+.pnl{position:relative;width:100%;aspect-ratio:941/557;background-repeat:no-repeat;
+  border-bottom:1px solid rgba(0,0,0,.6)}
+.pnl:last-child{border-bottom:0}
+.pnl svg{display:block;width:100%;height:100%}
+.pnl img.egen{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+.pnl .rude{top:auto;bottom:0;height:52%}
+.billedslot.fejl .ruder{display:none}
+.rude{position:absolute;left:0;right:0;display:flex;align-items:flex-end;padding:0 11px 9px;
+  background:linear-gradient(to top,rgba(0,0,0,.86) 0%,rgba(0,0,0,.55) 26%,transparent 58%)}
+.rude span{display:flex;align-items:center;gap:9px;width:100%;
+  font-size:clamp(12.5px,3.5vw,15.5px);line-height:1.3;font-weight:600;color:#fff;
+  text-shadow:0 1px 5px rgba(0,0,0,.85)}
+.rude b{flex:none;display:grid;place-items:center;width:21px;height:21px;border-radius:50%;
+  background:#ffd166;color:#1a1204;font-size:12px;font-weight:800;text-shadow:none}
 
 .valg{display:grid;gap:11px;margin-top:15px}
 .valg button{position:relative;width:100%;text-align:left;font-family:inherit;font-size:17px;
@@ -187,11 +204,10 @@ p{font-size:17px;line-height:1.55;color:#c6cde0}
   color:#f6ead0;box-shadow:0 8px 24px rgba(0,0,0,.2)}
 .feedback b{color:#ffd68a}
 
-#scene{position:relative;width:100%;aspect-ratio:1/1;max-height:min(58vh,420px);
+#scene{position:relative;width:100%;aspect-ratio:1/1;max-height:min(58vh,420px);cursor:grab;
   border-radius:22px;overflow:hidden;margin-bottom:12px;touch-action:none;
   background:linear-gradient(#1d3b7a,#4a7fc4 55%,#f0a868)}
 #scene svg{position:absolute;inset:0;width:100%;height:100%}
-#maanehaand{cursor:grab}
 #hjaelp{position:absolute;left:50%;bottom:12px;transform:translateX(-50%);font-size:13px;
   font-weight:600;color:#fff;background:rgba(0,0,0,.45);padding:8px 15px;border-radius:99px;
   white-space:nowrap;pointer-events:none;transition:opacity .3s}
@@ -293,8 +309,31 @@ const VIDEOER = {
    Mangler filen, viser spillet en tekstbeskrivelse i stedet.
    ================================================================== */
 const BILLEDER = {
-  lysrejse: "billeder/tegneserie1.jpg",   // Sollysets rejse til Jorden
-  stoerrelse: "billeder/tegneserie2.jpg"  // Hvorfor sol og måne ser lige store ud
+  lysrejse: {
+    fil: "billeder/tegneserie1.jpg",     // én stribe med 4 ruder
+    tekster: [
+      "Solen sender en lysstråle af sted mod Jorden.",
+      "Den suser gennem det tomme rum, forbi stjernerne.",
+      "Undervejs passerer den månen. Turen er lang.",
+      "Efter 8 minutter rammer den din kind."
+    ]
+  },
+
+  /* Denne stribe er blandet. Hver rude kan være:
+       {stribe:i}  -> rude nr. i klippet ud af "fil"
+       {tegning:1} -> tegnes af spillet (nøjagtig geometri)
+       {fil:"..."} -> sit eget billede
+     Ligger den egne fil ikke der, falder ruden tilbage til striben. */
+  stoerrelse: {
+    fil: "billeder/tegneserie2.jpg",
+    afStribe: 3,                          // striben indeholder 3 ruder
+    ruder: [
+      { stribe: 0, tekst: "Solen er kæmpestor. Månen er som en lille sten ved siden af." },
+      { tegning: 1, tekst: "Men solen står også 400 gange længere væk end månen." },
+      { fil: "billeder/rude3.jpg", stribe: 2,
+        tekst: "Derfor ser de lige store ud — og månen kan dække solen." }
+    ]
+  }
 };
 
 const BILLEDTEKST = {
@@ -402,16 +441,102 @@ function videoHTML(noegle){
 }
 
 function billedHTML(noegle){
-  const kilde = BILLEDER[noegle];
+  const b = BILLEDER[noegle];
   const pladsholder =
     `<div class="ph"><div class="ikon">🖼️</div><div class="txt">${BILLEDTEKST[noegle]||''}</div></div>`;
-  if(!kilde) return `<div class="billedslot fejl">${pladsholder}</div>`;
+  if(!b || !b.fil) return `<div class="billedslot fejl">${pladsholder}</div>`;
+  const tekst = (i,t) => `<div class="rude"><span><b>${i+1}</b>${t}</span></div>`;
+
+  // Blandet stribe
+  if(b.ruder){
+    const n = b.afStribe;
+    const udsnit = i => `background-image:url('${b.fil}');background-size:100% ${n*100}%;` +
+                        `background-position:center ${(i/(n-1)*100).toFixed(2)}%`;
+    const ruder = b.ruder.map((r,i) => {
+      if(r.tegning) return `<div class="pnl tegning">${stoerrelsesTegning()}${tekst(i,r.tekst)}</div>`;
+      if(r.fil)
+        // eget billede, med striben som reserve hvis filen mangler
+        return `<div class="pnl" style="${udsnit(r.stribe)}">
+                  <img class="egen" src="${r.fil}" alt="" onerror="this.remove()">
+                  ${tekst(i,r.tekst)}</div>`;
+      return `<div class="pnl" style="${udsnit(r.stribe)}">${tekst(i,r.tekst)}</div>`;
+    }).join('');
+    return `<div class="stribe">${ruder}</div>`;
+  }
+
+  // Almindelig stribe: ét billede med teksterne lagt oven på
+  const n = b.tekster.length;
+  const ruder = b.tekster.map((t,i) =>
+    `<div class="rude" style="top:${(i*100/n).toFixed(4)}%;height:${(100/n).toFixed(4)}%">
+       <span><b>${i+1}</b>${t}</span>
+     </div>`).join('');
   return `<div class="billedslot">
-    <img src="${kilde}" alt="${BILLEDTEKST[noegle]||''}"
+    <img src="${b.fil}" alt=""
          onerror="this.closest('.billedslot').classList.add('fejl'); this.remove();">
+    <div class="ruder">${ruder}</div>
     ${pladsholder}
   </div>`;
 }
+/* Rude der tegnes af spillet: linjerne fra Jorden rører præcis
+   både månens og solens kant — det er hele pointen, og en
+   billedmodel rammer det aldrig helt.                        */
+function stoerrelsesTegning(){
+  const stjerner = [[90,90],[300,70],[430,150],[520,60],[700,110],[790,220],
+                    [250,480],[420,520],[610,470],[830,430],[160,420],[880,120]];
+  return `<svg viewBox="0 0 1000 592" role="img"
+               aria-label="Linjer fra Jorden rører både månens og solens kant">
+    <defs>
+      <radialGradient id="dsol">
+        <stop offset="55%" stop-color="#fff0b8"/><stop offset="100%" stop-color="#ffb44d"/>
+      </radialGradient>
+      <radialGradient id="dskaer">
+        <stop offset="28%" stop-color="#ffca70" stop-opacity=".42"/>
+        <stop offset="62%" stop-color="#ffb44d" stop-opacity=".13"/>
+        <stop offset="100%" stop-color="#ffb44d" stop-opacity="0"/>
+      </radialGradient>
+      <radialGradient id="djord">
+        <stop offset="45%" stop-color="#7cc0f0"/><stop offset="100%" stop-color="#2f6bb0"/>
+      </radialGradient>
+      <radialGradient id="dmaane">
+        <stop offset="40%" stop-color="#d8dae2"/><stop offset="100%" stop-color="#8d919e"/>
+      </radialGradient>
+    </defs>
+    <rect width="1000" height="592" fill="#0a1024"/>
+    ${stjerner.map(([x,y])=>`<circle cx="${x}" cy="${y}" r="1.6" fill="#fff" opacity=".5"/>`).join('')}
+
+    <circle cx="140" cy="296" r="210" fill="url(#dskaer)"/>
+    <circle cx="140" cy="296" r="105" fill="url(#dsol)"/>
+    <g fill="#c8791f" opacity=".8">
+      <ellipse cx="112" cy="278" rx="8" ry="11"/>
+      <ellipse cx="168" cy="278" rx="8" ry="11"/>
+      <path d="M108 318 q32 26 64 0 q-32 12 -64 0 z"/>
+    </g>
+    <circle cx="98" cy="306" r="11" fill="#ff9b73" opacity=".33"/>
+    <circle cx="182" cy="306" r="11" fill="#ff9b73" opacity=".33"/>
+
+    <line x1="930" y1="296" x2="20" y2="173.97" stroke="#ffd166" stroke-width="3"
+          stroke-dasharray="11 9" stroke-linecap="round" opacity=".95"/>
+    <line x1="930" y1="296" x2="20" y2="418.03" stroke="#ffd166" stroke-width="3"
+          stroke-dasharray="11 9" stroke-linecap="round" opacity=".95"/>
+
+    <circle cx="600" cy="296" r="43.86" fill="url(#dmaane)"/>
+    <circle cx="588" cy="284" r="7" fill="#9ba0ac" opacity=".7"/>
+    <circle cx="611" cy="308" r="5" fill="#9ba0ac" opacity=".6"/>
+    <circle cx="604" cy="277" r="4" fill="#9ba0ac" opacity=".5"/>
+
+    <circle cx="930" cy="296" r="26" fill="url(#djord)"/>
+    <path d="M918 288 q8 -5 16 1 q-4 7 -12 6 z" fill="#5aa06a" opacity=".85"/>
+    <path d="M925 306 q10 -3 14 4 q-8 4 -14 -1 z" fill="#5aa06a" opacity=".8"/>
+
+    <text x="140" y="436" fill="#ffd68a" font-size="30" font-weight="700"
+          text-anchor="middle" font-family="inherit">Solen</text>
+    <text x="600" y="386" fill="#c9cddb" font-size="26" font-weight="700"
+          text-anchor="middle" font-family="inherit">Månen</text>
+    <text x="930" y="358" fill="#9dc6ee" font-size="26" font-weight="700"
+          text-anchor="middle" font-family="inherit">Jorden</text>
+  </svg>`;
+}
+
 
 function tegneserieSkaerm(noegle, overskrift, undertekst, naeste){
   vis(`
@@ -801,10 +926,10 @@ function maanespil(){
           <path d="M0 246 Q 55 214 110 244 Q 165 268 220 240 Q 262 218 300 240 L300 300 L0 300 Z" fill="#22331f"/>
           <path d="M150 246 l-9 -26 l9 -9 l9 9 l-9 26 z" fill="#1a2817"/>
         </g>
-        <circle id="maane" cx="150" cy="-70" r="48.5" fill="#12141f"/>
-        <circle id="maanehaand" cx="150" cy="-70" r="72" fill="transparent"/>
+        <circle id="maane" cx="58" cy="48" r="48.5" fill="#12141f"
+                stroke="rgba(255,255,255,.35)" stroke-width="1.5"/>
       </svg>
-      <div id="hjaelp">👆 Træk den mørke måne ned over solen</div>
+      <div id="hjaelp">👆 Træk månen hen over solen</div>
     </div>
     <div id="besked" class="feedback" style="display:none"></div>
     <div id="naeste"></div>
@@ -815,7 +940,6 @@ function maanespil(){
 function saetTraek(){
   const svg   = document.getElementById('svg'),
         maane = document.getElementById('maane'),
-        haand = document.getElementById('maanehaand'),
         scene = document.getElementById('scene'),
         himmel= document.getElementById('himmel'),
         glow  = document.getElementById('glow'),
@@ -823,14 +947,23 @@ function saetTraek(){
   const rSol = 52, rMaane = 48.5, solX = 150, solY = 120;
   let traekker = false, laast = false;
 
+  // SVG'ens egen omregning fra skærm til tegning — så det passer,
+  // uanset hvor bred eller høj rammen bliver på den enkelte telefon.
   function tilSVG(e){
-    const r = svg.getBoundingClientRect();
-    const p = e.touches ? e.touches[0] : e;
-    return { x:(p.clientX - r.left)/r.width*300, y:(p.clientY - r.top)/r.height*300 };
+    const m = svg.getScreenCTM && svg.getScreenCTM();
+    if(m && svg.createSVGPoint){
+      const pt = svg.createSVGPoint();
+      pt.x = e.clientX; pt.y = e.clientY;
+      const q = pt.matrixTransform(m.inverse());
+      return { x:q.x, y:q.y };
+    }
+    const r = svg.getBoundingClientRect();          // nødløsning
+    return { x:(e.clientX-r.left)/r.width*300, y:(e.clientY-r.top)/r.height*300 };
   }
+
   function flyt(x, y){
-    x = Math.max(20, Math.min(280, x));
-    y = Math.max(-70, Math.min(215, y));
+    x = Math.max(18, Math.min(282, x));
+    y = Math.max(18, Math.min(230, y));
     // Lille "magnet" tæt på solen, så små fingre også kan ramme rent
     let d = Math.hypot(x - solX, y - solY);
     if(d > 0 && d < 30){
@@ -840,7 +973,6 @@ function saetTraek(){
       d = nyD;
     }
     maane.setAttribute('cx', x); maane.setAttribute('cy', y);
-    haand.setAttribute('cx', x); haand.setAttribute('cy', y);
 
     const pct = overlapProcent(d, rSol, rMaane);
     if(pct > maxNaaet) maxNaaet = pct;
@@ -850,18 +982,41 @@ function saetTraek(){
     document.getElementById('mTemp').textContent = Math.round(22 - pct/100*5) + '°';
     himmel.style.opacity = Math.pow(pct/100, 2.6) * .82;
     glow.setAttribute('r', 96 - pct*0.42);
-    if(pct > 8) hjaelp.style.opacity = 0;
+    if(pct > 8 && hjaelp) hjaelp.style.opacity = 0;
     if(pct >= 78 && !laast){ laast = true; ramt(Math.round(maxNaaet)); }
   }
 
-  const ned  = e => { if(!laast){ traekker = true; e.preventDefault(); } };
-  const over = e => { if(traekker && !laast){ const p = tilSVG(e); flyt(p.x, p.y); e.preventDefault(); } };
-  const op   = () => traekker = false;
-  haand.addEventListener('touchstart', ned, {passive:false});
-  haand.addEventListener('mousedown', ned);
-  scene.addEventListener('touchmove', over, {passive:false});
-  scene.addEventListener('mousemove', over);
-  addEventListener('touchend', op); addEventListener('mouseup', op);
+  // Man må tage fat hvor som helst i billedet — månen følger fingeren
+  function ned(e){
+    if(laast) return;
+    traekker = true;
+    if(scene.setPointerCapture && e.pointerId !== undefined){
+      try{ scene.setPointerCapture(e.pointerId); }catch(err){}
+    }
+    const p = tilSVG(e); flyt(p.x, p.y);
+    e.preventDefault();
+  }
+  function over(e){
+    if(!traekker || laast) return;
+    const p = tilSVG(e); flyt(p.x, p.y);
+    e.preventDefault();
+  }
+  const op = () => { traekker = false; };
+
+  if(window.PointerEvent){
+    scene.addEventListener('pointerdown', ned);
+    scene.addEventListener('pointermove', over);
+    scene.addEventListener('pointerup', op);
+    scene.addEventListener('pointercancel', op);
+  }else{
+    const touch = f => e => f(e.touches && e.touches[0] ? e.touches[0] : e);
+    scene.addEventListener('touchstart', touch(ned), {passive:false});
+    scene.addEventListener('touchmove',  touch(over), {passive:false});
+    scene.addEventListener('touchend', op);
+    scene.addEventListener('mousedown', ned);
+    scene.addEventListener('mousemove', over);
+    addEventListener('mouseup', op);
+  }
 }
 
 function ramt(pct){
