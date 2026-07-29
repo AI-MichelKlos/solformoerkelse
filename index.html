@@ -165,7 +165,7 @@ p{font-size:17px;line-height:1.55;color:#c6cde0}
 .ruder{position:absolute;inset:0;pointer-events:none}
 .stribe{border-radius:18px;overflow:hidden;border:1.5px solid rgba(255,255,255,.12);
   box-shadow:0 10px 30px rgba(0,0,0,.25);margin-bottom:14px;background:#0a1024}
-.pnl{position:relative;width:100%;aspect-ratio:941/557;background-repeat:no-repeat;
+.pnl{position:relative;width:100%;aspect-ratio:1000/592;background-repeat:no-repeat;
   border-bottom:1px solid rgba(0,0,0,.6)}
 .pnl:last-child{border-bottom:0}
 .pnl svg{display:block;width:100%;height:100%}
@@ -319,18 +319,20 @@ const BILLEDER = {
     ]
   },
 
-  /* Denne stribe er blandet. Hver rude kan være:
-       {stribe:i}  -> rude nr. i klippet ud af "fil"
-       {tegning:1} -> tegnes af spillet (nøjagtig geometri)
-       {fil:"..."} -> sit eget billede
-     Ligger den egne fil ikke der, falder ruden tilbage til striben. */
+  /* Denne stribe er sat sammen af tre kilder:
+       udsnit  -> et udklip af en større fil, målt i procent
+       tegning -> tegnes af spillet, så geometrien bliver nøjagtig
+       fil     -> sit eget billede                                  */
   stoerrelse: {
-    fil: "billeder/tegneserie2.jpg",
-    afStribe: 3,                          // striben indeholder 3 ruder
     ruder: [
-      { stribe: 0, tekst: "Solen er kæmpestor. Månen er som en lille sten ved siden af." },
-      { tegning: 1, tekst: "Men solen står også 400 gange længere væk end månen." },
-      { fil: "billeder/rude3.jpg", stribe: 2,
+      { fil: "billeder/tegneserie2.jpg",
+        udsnit: { x:12.68, y:0.06, bredde:74.56, hoejde:32.78 },
+        tekst: "Solen er kæmpestor. Månen er som en lille sten ved siden af." },
+
+      { tegning: 1,
+        tekst: "Men solen står også 400 gange længere væk end månen." },
+
+      { fil: "billeder/rude3.jpg", reserve: "billeder/rude3.png",
         tekst: "Derfor ser de lige store ud — og månen kan dække solen." }
     ]
   }
@@ -444,27 +446,35 @@ function billedHTML(noegle){
   const b = BILLEDER[noegle];
   const pladsholder =
     `<div class="ph"><div class="ikon">🖼️</div><div class="txt">${BILLEDTEKST[noegle]||''}</div></div>`;
-  if(!b || !b.fil) return `<div class="billedslot fejl">${pladsholder}</div>`;
   const tekst = (i,t) => `<div class="rude"><span><b>${i+1}</b>${t}</span></div>`;
 
-  // Blandet stribe
-  if(b.ruder){
-    const n = b.afStribe;
-    const udsnit = i => `background-image:url('${b.fil}');background-size:100% ${n*100}%;` +
-                        `background-position:center ${(i/(n-1)*100).toFixed(2)}%`;
+  // Stribe sat sammen af flere kilder
+  if(b && b.ruder){
     const ruder = b.ruder.map((r,i) => {
-      if(r.tegning) return `<div class="pnl tegning">${stoerrelsesTegning()}${tekst(i,r.tekst)}</div>`;
-      if(r.fil)
-        // eget billede, med striben som reserve hvis filen mangler
-        return `<div class="pnl" style="${udsnit(r.stribe)}">
-                  <img class="egen" src="${r.fil}" alt="" onerror="this.remove()">
-                  ${tekst(i,r.tekst)}</div>`;
-      return `<div class="pnl" style="${udsnit(r.stribe)}">${tekst(i,r.tekst)}</div>`;
+      if(r.tegning)
+        return `<div class="pnl tegning">${stoerrelsesTegning()}${tekst(i,r.tekst)}</div>`;
+
+      if(r.udsnit){                       // udklip af en større fil
+        const u = r.udsnit;
+        const stil = `background-image:url('${r.fil}');` +
+          `background-size:${(10000/u.bredde).toFixed(2)}% ${(10000/u.hoejde).toFixed(2)}%;` +
+          `background-position:${(u.x/(100-u.bredde)*100).toFixed(2)}% ` +
+                              `${(u.y/(100-u.hoejde)*100).toFixed(2)}%`;
+        return `<div class="pnl" style="${stil}">${tekst(i,r.tekst)}</div>`;
+      }
+
+      const reserve = r.reserve
+        ? `if(!this.dataset.p){this.dataset.p=1;this.src='${r.reserve}';}else{this.remove();}`
+        : `this.remove();`;
+      return `<div class="pnl">
+                <img class="egen" src="${r.fil}" alt="" onerror="${reserve}">
+                ${tekst(i,r.tekst)}</div>`;
     }).join('');
     return `<div class="stribe">${ruder}</div>`;
   }
 
-  // Almindelig stribe: ét billede med teksterne lagt oven på
+  // Én fil med teksterne lagt oven på
+  if(!b || !b.fil) return `<div class="billedslot fejl">${pladsholder}</div>`;
   const n = b.tekster.length;
   const ruder = b.tekster.map((t,i) =>
     `<div class="rude" style="top:${(i*100/n).toFixed(4)}%;height:${(100/n).toFixed(4)}%">
