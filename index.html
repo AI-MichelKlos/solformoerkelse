@@ -6,12 +6,18 @@
 <title>Solformørkelses-Missionen · En himmelhistorisk quiz</title>
 <meta property="og:type" content="website">
 <meta property="og:title" content="Solformørkelses-Missionen: En himmelhistorisk quiz">
-<meta property="og:description" content="Klokken er 17:00 i observatoriet. Om to timer forsvinder 88 procent af solen over Danmark. 13 punkter skal klares, før du må gå udenfor.">
+<meta property="og:description" content="Klokken er 17:00 i observatoriet. Om to timer forsvinder 85 procent af solen over Danmark. 13 punkter skal klares, før du må gå udenfor.">
 <meta property="og:url" content="https://ai-michelklos.github.io/solformoerkelse/">
 <meta property="og:locale" content="da_DK">
-<meta name="twitter:card" content="summary">
+<meta property="og:image" content="https://ai-michelklos.github.io/solformoerkelse/delebillede.jpg">
+<meta property="og:image:type" content="image/jpeg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Solformørkelses-Missionen. Den delvist formørkede sol over et natteblåt himmelrum.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://ai-michelklos.github.io/solformoerkelse/delebillede.jpg">
 <meta name="theme-color" content="#080c1c">
-<meta name="description" content="Den 12. august 2026 dækkes op mod 88 procent af solen over Danmark. 13 punkter om myter, sol, måne og sikkerhed. Bestå prøven og få missionsbeviset.">
+<meta name="description" content="Den 12. august 2026 dækkes op mod 85 procent af solen over Danmark. 13 punkter om myter, sol, måne og sikkerhed. Bestå prøven og få missionsbeviset.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;700&family=Permanent+Marker&display=swap" rel="stylesheet">
@@ -49,7 +55,7 @@
 
   header.bar{display:flex;align-items:baseline;justify-content:space-between;gap:12px;padding:2px 4px 8px;flex-wrap:wrap;border-bottom:1px solid var(--line)}
   .brand{display:flex;align-items:baseline;gap:10px;line-height:1}
-  .brand .logo{font-family:'Fraunces',serif;font-weight:700;font-size:20px;letter-spacing:.5px;text-transform:uppercase}
+  .brand .logo{font-family:'Fraunces',serif;font-weight:700;font-size:clamp(14px,4.4vw,20px);letter-spacing:.5px;text-transform:uppercase;white-space:nowrap}
   .casecount{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--gold);letter-spacing:1px;white-space:nowrap}
 
   .record{display:flex;align-items:center;gap:10px;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:9px 4px}
@@ -105,16 +111,16 @@
   .truth .lab{font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:1.2px;text-transform:uppercase;color:var(--red-dk);display:block;margin-bottom:7px}
   .country{display:inline-block;font-family:'Fraunces',serif;font-weight:700;font-size:12px;letter-spacing:2.5px;text-transform:uppercase;color:var(--paper);background:var(--ink-3);padding:4px 11px;border-radius:4px;margin:2px 0 9px}
   .cardsub{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted-paper);letter-spacing:.5px;margin:-4px 0 14px}
+  .fotokredit{font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:1.2px;text-transform:uppercase;color:#a0977f;margin:-9px 0 13px}
   .qbox{margin-top:14px;padding:12px 15px;background:rgba(216,178,92,.16);border-left:3px solid var(--gold);border-radius:4px}
   .qbox .qlab{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:1.2px;text-transform:uppercase;color:var(--gold-dk);margin-bottom:5px}
   .qbox .qt{font-family:'Fraunces',serif;font-size:15px;line-height:1.55;color:#3f3a31}
 
-  .fscene{display:block;width:100%;height:auto;margin:10px 0 4px;border:1px solid var(--line-paper);border-radius:3px;box-shadow:0 10px 26px -12px rgba(0,0,0,.55)}
   .cover-title{hyphens:none;-webkit-hyphens:none;font-family:'Fraunces',serif;font-weight:700;font-size:clamp(30px,7.8vw,46px);line-height:1;text-transform:uppercase;letter-spacing:.5px;color:#221c10;margin:6px 0 2px}
 
   .fors{min-height:72svh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:34px 10px 30px}
   .fors .fpraes{font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:18px}
-  .fors .ftitle{hyphens:auto;-webkit-hyphens:auto;overflow-wrap:break-word;font-family:'Fraunces',serif;font-weight:700;font-size:clamp(38px,11.5vw,72px);line-height:.96;text-transform:uppercase;letter-spacing:.5px;color:#f4efe4;text-shadow:0 0 46px rgba(216,178,92,.28)}
+  .fors .ftitle{hyphens:auto;-webkit-hyphens:auto;overflow-wrap:break-word;font-family:'Fraunces',serif;font-weight:700;font-size:clamp(20px,6.8vw,50px);line-height:1.02;text-transform:uppercase;letter-spacing:.5px;color:#f4efe4;text-shadow:0 0 46px rgba(216,178,92,.28)}
   .fors .fsub{font-family:'Fraunces',serif;font-style:italic;font-size:clamp(15px,4.4vw,21px);letter-spacing:3.5px;text-transform:uppercase;color:var(--muted);margin-top:16px}
   .fors .fbtn{margin-top:28px}
   .hero{width:min(70vw,240px);margin:22px auto 6px}
@@ -130,8 +136,6 @@
   .fakta3 .t{font-family:'Fraunces',serif;font-weight:700;font-size:24px;color:var(--gold)}
   .fakta3 .u{font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:1.6px;color:var(--muted);margin-top:2px}
 
-  .playnote{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin:0 0 16px}
-  .playnote span{font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:700;letter-spacing:1.4px;text-transform:uppercase;color:var(--gold-dk);border:1px solid rgba(143,111,42,.45);border-radius:3px;padding:6px 11px;background:rgba(216,178,92,.1)}
   .dossier{border-top:1px solid var(--line-paper);border-bottom:1px solid var(--line-paper);padding:12px 0;margin:0 0 16px;display:flex;flex-direction:column;gap:8px}
   .drow{display:flex;gap:12px;align-items:center;font-size:13.5px}
   .dk{font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:1.2px;text-transform:uppercase;color:var(--muted-paper);width:92px;flex:none}
@@ -154,10 +158,6 @@
   button{touch-action:manipulation;-webkit-tap-highlight-color:transparent}
 
   .screen{background:var(--ink-2);border:1px solid var(--line);border-radius:12px;padding:30px 24px;box-shadow:var(--shadow)}
-  .kicker{font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:14px}
-  .bigscore{font-family:'Fraunces',serif;font-weight:700;font-size:54px;line-height:1;margin:18px 0 2px;color:var(--gold)}
-  .scoreline{font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--muted);margin-top:4px}
-  .sharegrid{font-size:20px;letter-spacing:3px;margin:14px 0 2px}
 
   /* ---------- Plancher: tegnede figurer paa papir ---------- */
   .planchefig{background:#0c1226;border:1px solid var(--line-paper);border-radius:3px;padding:8px;margin:12px 0 14px}
@@ -218,7 +218,6 @@
   .avis .ares-score{font-family:'Fraunces',serif;font-weight:700;font-size:46px;line-height:1;flex:none}
   .avis .ares-score span{font-size:19px;color:#7d745d}
   .avis .ares-grid{font-size:18px;letter-spacing:2px;line-height:1.45;word-break:break-word;min-width:0}
-  .avis-img{display:block;width:100%;height:auto;border-radius:2px;border:1px solid #c9c0ad;box-shadow:0 1px 0 rgba(0,0,0,.05),0 14px 0 -7px #efe9da,0 15px 0 -6px rgba(0,0,0,.18),var(--shadow);margin-bottom:8px}
 
   /* ---------- Missionsbevis ---------- */
   .bevis{text-align:center}
@@ -313,7 +312,8 @@
 
   <div class="footer">
     Udviklet af <span>KlosKlos og Reagan Production</span><br>
-    Tidspunkter gælder for København. I Vestjylland dækkes op til 88 procent.
+    Tidspunkter gælder for København. I Vestjylland dækkes knap 85 procent.<br>
+    Foto af Christina Koch: NASA
   </div>
 </div>
 
@@ -330,7 +330,7 @@
 const FAKTA = {
   dato:     "12. august 2026",
   start:    "19:10",
-  maksimum: "20:04",
+  maksimum: "20:03",
   slut:     "20:54",
   daekning: 83,
   maalTid:  new Date(2026, 7, 12, 20, 4, 0),
@@ -365,9 +365,33 @@ const LYSREJSE = {
     "Efter 8 minutter rammer den din kind."
   ]
 };
+/* Portraetter i kortets hjoerne. En vaerdi kan vaere en ren filsti, eller et
+   objekt med et udsnit, hvis motivet ikke sidder midt i billedet. Tallene i
+   udsnit er procent af cirklens stoerrelse, regnet ud fra ansigtets placering,
+   saa hovedet lander midt i cirklen. */
 const PORTRAETTER = {
-  "10": "billeder/koch.jpg"      /* Christina Koch, NASA */
+  "10": { fil:"billeder/astronaut.jpg", alt:"Astronauten Christina Koch i rumdragt",
+          udsnit:{ bredde:182.0, hoejde:227.6, venstre:-63.9, top:-1.3 },
+          kredit:"Foto: NASA" }                                  /* Christina Koch */
 };
+
+function fotokreditHTML(id){
+  const p = PORTRAETTER[id];
+  return (p && p.kredit) ? '<div class="fotokredit">'+p.kredit+'</div>' : "";
+}
+
+function portraetHTML(id){
+  const p = PORTRAETTER[id];
+  if(!p) return "";
+  const fil = typeof p === "string" ? p : p.fil;
+  const u = typeof p === "string" ? null : p.udsnit;
+  const stil = u
+    ? 'position:absolute;width:'+u.bredde+'%;height:'+u.hoejde+'%;left:'+u.venstre+'%;top:'+u.top+'%'
+    : '';
+  const alt = (typeof p === "string" || !p.alt) ? "" : p.alt;
+  return '<div class="portrait"><img src="'+fil+'" alt="'+alt+'" style="'+stil+'"'
+    + ' onerror="this.parentElement.style.display=\'none\';this.closest(\'.card\').classList.remove(\'has-portrait\')"></div>';
+}
 
 /* ====================== 3) PUNKTERNE ====================== */
 const PUNKTER = [
@@ -581,7 +605,7 @@ const PUNKTER = [
     ekstra:"Køer går mod stalden, og edderkopper begynder at pille deres net ned. Nogle sætter det op igen bagefter." },
 
   { id:"12", kat:"Mission mørke", titel:"Graderne der forsvinder",
-    based:"Danmark · omkring kl. 20:04",
+    based:"Danmark · omkring kl. 20:03",
     situation:"Når 83 procent af solen er dækket, forsvinder der pludselig en masse varme. Det kan mærkes på huden.",
     spm:"Hvad sker der med temperaturen under formørkelsen?",
     svar:[
@@ -629,10 +653,10 @@ const TIDER = ["17:00","17:10","17:20","17:30","17:40","17:50","18:00","18:10","
    tallene er i skala og der skal ikke hentes noget. */
 const PLANCHER = {
   sjaeldent: {
-    over:"Sådan sjældent sker det",
+    over:"Det sker sjældent",
     tekst:"Sidst solen blev så kraftigt dækket over Danmark var i 2015. Næste gang bliver i 2048.",
     tegn(){
-      const p = [[110,"2015","80-85 %",false],[300,"2026","83-88 %",true],[500,"2048","",false]];
+      const p = [[110,"2015","80-85 %",false],[300,"2026","83-85 %",true],[500,"2048","",false]];
       return '<svg viewBox="0 0 600 230">'
         + '<line x1="60" y1="120" x2="560" y2="120" stroke="rgba(255,255,255,.22)" stroke-width="3"/>'
         + p.map(function(a){ var x=a[0],aar=a[1],pct=a[2],nu=a[3];
@@ -669,7 +693,7 @@ const PLANCHER = {
     }
   },
   afstand: {
-    over:"Der er langt derop",
+    over:"Det er langt til månen",
     tekst:"Der er plads til 30 jordkloder på række mellem Jorden og månen. Apollo-raketterne var tre dage undervejs.",
     tegn(){
       var raekke = "";
@@ -716,6 +740,18 @@ const app = document.getElementById('app');
 const recordEl = document.getElementById('record');
 const caseCount = document.getElementById('casecount');
 const barEl = document.getElementById('bar');
+
+/* Sikkerhedsventil: kan en feltoevelse ikke gennemfoeres paa den enkelte
+   enhed, maa spilleren ikke sidde fast. Efter 30 sekunder kommer en udvej. */
+function noedudgang(boksId, next){
+  const t = setTimeout(function(){
+    const boks = document.getElementById(boksId);
+    if(!boks || boks.innerHTML.trim()) return;      /* opgaven er allerede loest */
+    boks.innerHTML = '<div class="backrow"><button class="backlink" id="spring-over">Spring øvelsen over \u203a</button></div>';
+    enGang(document.getElementById('spring-over'), next);
+  }, 30000);
+  return function(){ clearTimeout(t); };
+}
 
 function svarSaet(p){ return (niveau === "voksen" && p.svar5) ? p.svar5 : p.svar; }
 
@@ -1018,6 +1054,7 @@ function maanemission(next){
     + '<div id="mFb"></div><div id="mNaeste"></div>'
     + '</div></div>';
   window.scrollTo(0,0);
+  const afbrydUdgang = noedudgang('mNaeste', next);
 
   const svg = document.getElementById('msvg'),
         maane = document.getElementById('maane'),
@@ -1088,6 +1125,7 @@ function maanemission(next){
   function ramt(pct){
     lydWow();
     state.felt.maane = true;
+    afbrydUdgang();
     hjaelp.style.opacity = 0;
     document.getElementById('mFb').innerHTML = '<div class="felt-fb"><b>Du gjorde det. '+pct+' procent dækket.</b><br>'
       + 'Læg mærke til, at det ikke blev helt mørkt. Selv når kun en lille strimmel sol er tilbage, er den stadig blændende stærk. Derfor bliver det den 12. august ikke nat. Det ligner mere en meget mærkelig, gråblå skumring.</div>';
@@ -1097,7 +1135,7 @@ function maanemission(next){
 }
 
 /* ====================== 11) FELTØVELSE 2: MINUT FOR MINUT ====================== */
-const URTID = { start:19*60+10, top:20*60+4, slut:20*60+54, dmin:8.11 };
+const URTID = { start:19*60+10, top:20*60+3, slut:20*60+54, dmin:8.11 };
 function urFormat(t){ return String(Math.floor(t/60)).padStart(2,'0') + ':' + String(t%60).padStart(2,'0'); }
 function daekningVed(t){
   const rS = 52, rM = 48.5, dmax = rS + rM;
@@ -1119,12 +1157,13 @@ function urmission(next){
     + '<div class="urkort">'
     + '<div class="uroverst"><div class="urtid" id="urTid">19:10</div><div class="urdaek"><span id="urPct">0</span> % dækket</div></div>'
     + '<svg id="urScene" viewBox="0 0 300 150"></svg>'
-    + '<input type="range" id="urSkyder" min="'+(19*60)+'" max="'+(21*60)+'" step="1" value="'+(19*60+10)+'">'
+    + '<input type="range" id="urSkyder" aria-label="Vælg tidspunkt mellem klokken 19 og 21" min="'+(19*60)+'" max="'+(21*60)+'" step="1" value="'+(19*60+10)+'">'
     + '<div class="urskala"><span>19:00</span><span>20:00</span><span>21:00</span></div>'
     + '</div>'
     + '<div id="urSvar"></div>'
     + '</div></div>';
   window.scrollTo(0,0);
+  const afbrydUdgang = noedudgang('urSvar', next);
 
   const sk = document.getElementById('urSkyder'), scene = document.getElementById('urScene');
   let laast = false;
@@ -1162,9 +1201,10 @@ function urmission(next){
 
   function urRamt(t){
     lydWow();
+    afbrydUdgang();
     state.felt.ur = true;
     document.getElementById('urSvar').innerHTML = '<div class="felt-fb"><b>Der er den. Klokken '+urFormat(t)+'.</b><br>'
-      + 'Klokken 20:04 er '+FAKTA.daekning+' procent af solen dækket, og så vender det. Læg mærke til to ting: det går langsomt, næsten en time hver vej, og solen står meget lavt. Derfor skal du finde et sted med frit udsyn mod vest og nordvest, ellers står formørkelsen bag et hus eller et træ.</div>'
+      + 'Klokken '+FAKTA.maksimum+' er '+FAKTA.daekning+' procent af solen dækket, og så vender det. Læg mærke til to ting: det går langsomt, næsten en time hver vej, og solen står meget lavt. Derfor skal du finde et sted med frit udsyn mod vest og nordvest, ellers står formørkelsen bag et hus eller et træ.</div>'
       + '<div class="actions"><button class="btn go big" id="ur-go">Videre \u25b8</button></div>';
     enGang(document.getElementById('ur-go'), next);
     const sv = document.getElementById('urSvar');
@@ -1176,7 +1216,7 @@ function urmission(next){
 const TING = [
   { em:"\ud83d\udc41\ufe0f", na:"Bare øjnene", ok:false, fb:"Nej. Selv med 83 procent dækket kan solen brænde et blindt hul på nethinden, og det gør ikke ondt imens." },
   { em:"\ud83d\udd76\ufe0f", na:"Almindelige solbriller", ok:false, fb:"Nej. Solbriller dæmper kun en lille del af lyset. De er alt for svage." },
-  { em:"\ud83e\udd7d", na:"Solformørkelsesbriller (ISO 12312-2)", ok:true, fb:"Ja. De er over 100.000 gange mørkere end solbriller. Det er de eneste briller, man må bruge." },
+  { em:"\ud83e\udd7d", na:"Solformørkelsesbriller (ISO 12312-2)", ok:true, fb:"Ja. De er mindst 1.000 gange mørkere end selv de mørkeste solbriller. Det er de eneste briller, man må bruge." },
   { em:"\ud83d\udd2d", na:"Kikkert eller teleskop", ok:false, fb:"Allerfarligst. En kikkert samler sollyset og gør det endnu stærkere. Aldrig uden et rigtigt solfilter foran." },
   { em:"\ud83d\udd73\ufe0f", na:"Hulkamera af en papkasse", ok:true, fb:"Ja. Man kigger den anden vej, og solens billede vises på et stykke papir. Helt sikkert og nemt at lave selv." },
   { em:"\ud83d\udcf1", na:"Mobilkameraet", ok:false, fb:"Nej, hverken for dig eller telefonen. Man kommer let til at kigge på solen, mens man sigter, og kameraet kan tage skade." }
@@ -1238,7 +1278,7 @@ function forside(){
 
   app.innerHTML = '<div class="fors fade">'
     + '<div class="fpraes">KlosKlos og Reagan Production præsenterer</div>'
-    + '<div class="ftitle">Solformørkelses-Missionen</div>'
+    + '<div class="ftitle">Solformørkelses-<br>Missionen</div>'
     + '<div class="fsub">En himmelhistorisk quiz</div>'
     + '<div class="hero"><svg viewBox="0 0 300 300" aria-hidden="true">'
     + '<defs>'
@@ -1296,7 +1336,7 @@ function titelsekvens(){
   const KORT = [
     {dur:4700, html:'<div class="ss-title" style="font-size:clamp(26px,7.4vw,44px);hyphens:none;-webkit-hyphens:none">KlosKlos og Reagan Production</div><div class="ss-sub">præsenterer</div>'},
     {dur:4700, html:'<div class="ss-sub">i samarbejde med</div><div class="ss-title" style="font-size:clamp(26px,7.4vw,44px);hyphens:none;-webkit-hyphens:none">Observatoriet på Vagtelvej</div>'},
-    {dur:4900, html:'<div class="ss-title" style="font-size:clamp(34px,10vw,58px)">Solformørkelses-Missionen</div><div class="ss-rule"></div>'}
+    {dur:4900, html:'<div class="ss-title" style="font-size:clamp(19px,6.3vw,40px)">Solformørkelses-<br>Missionen</div><div class="ss-rule"></div>'}
   ];
 
   let done = false, prev = null;
@@ -1344,13 +1384,13 @@ function intro(){
     + '<div class="drow"><span class="dk">Begivenhed</span><span class="dv">Delvis solformørkelse over Danmark</span></div>'
     + '<div class="drow"><span class="dk">Dato</span><span class="dv">'+FAKTA.dato+'</span></div>'
     + '<div class="drow"><span class="dk">Tidsrum</span><span class="dv">Kl. '+FAKTA.start+' til '+FAKTA.slut+', topper '+FAKTA.maksimum+'</span></div>'
-    + '<div class="drow"><span class="dk">Dækning</span><span class="dv">'+FAKTA.daekning+' procent i København, op til 88 i Vestjylland</span></div>'
+    + '<div class="drow"><span class="dk">Dækning</span><span class="dv">'+FAKTA.daekning+' procent i København, knap 85 i Vestjylland</span></div>'
     + '<div class="drow"><span class="dk">Din rolle</span><span class="dv">Solformørkelsesvagt, hvis du består prøven</span></div>'
     + '<div class="drow"><span class="dk">Krav</span><span class="dv">Mindst '+BESTAAET+' af '+RUNDE+' rigtige</span></div>'
     + '<div class="drow"><span class="dk">Består du</span><span class="dv">Missionsbevis og adgang til taghaven</span></div>'
     + '<div class="drow"><span class="dk">Falder du</span><span class="dv">Du må se den fra fortovet med de andre</span></div>'
     + '</div>'
-    + '<p class="situation">Klokken er 17:00, og om godt to timer sker der noget over Danmark, som ikke er sket siden 2015. Månen lægger sig delvist i vejen for solen, og op mod <strong>88 procent</strong> af den forsvinder.</p>'
+    + '<p class="situation">Klokken er 17:00, og om godt to timer sker der noget over Danmark, som ikke er sket siden 2015. Månen lægger sig delvist i vejen for solen, og op mod <strong>85 procent</strong> af den forsvinder.</p>'
     + '<p class="situation" style="margin-top:12px">Observatoriet mangler en vagt på taget. Men de vil ikke sende nogen derop, der ikke ved, hvad de kigger på, og allermindst nogen der ikke ved, hvordan man kigger. Derfor: først en prøve.</p>'
     + '<p class="situation" style="margin-top:12px"><strong>'+RUNDE+' punkter</strong> om myter, sol, måne og sikkerhed, plus <strong>tre feltøvelser</strong>, hvor du selv skal skabe formørkelsen. Alle svarmuligheder lyder rigtige. Kun ét er sandt. Består du med mindst <strong>'+BESTAAET+' rigtige</strong>, får du beviset.</p>'
     + '<div class="prompt">Vælg niveau</div>'
@@ -1417,9 +1457,7 @@ function showPunkt(){
   const buttons = ord.map(function(optIdx, slot){
     return '<button class="choice" data-slot="'+slot+'"><span class="key">'+BOGSTAV[slot]+'</span><span>'+saet[optIdx].t+'</span></button>';
   }).join('');
-  const portraet = PORTRAETTER[p.id]
-    ? '<div class="portrait"><img src="'+PORTRAETTER[p.id]+'" alt="" onerror="this.parentElement.style.display=\'none\';this.closest(\'.card\').classList.remove(\'has-portrait\')"></div>'
-    : '';
+  const portraet = portraetHTML(p.id);
 
   app.innerHTML = '<div class="panel fade"><div class="card'+(portraet?' has-portrait':'')+'">'
     + portraet
@@ -1427,6 +1465,7 @@ function showPunkt(){
     + '<div class="country">'+p.kat+'</div>'
     + '<h2 class="case-title">'+p.titel+'</h2>'
     + '<div class="cardsub">'+p.based+'</div>'
+    + fotokreditHTML(p.id)
     + '<p class="situation">'+p.situation+'</p>'
     + '<div class="prompt">Spørgsmål</div>'
     + '<p class="question">'+p.spm+'</p>'
@@ -1466,9 +1505,7 @@ function vaelg(slot){
   renderRecord();
   good ? lydJa() : lydNej();
 
-  const portraet = PORTRAETTER[p.id]
-    ? '<div class="portrait"><img src="'+PORTRAETTER[p.id]+'" alt="" onerror="this.parentElement.style.display=\'none\';this.closest(\'.card\').classList.remove(\'has-portrait\')"></div>'
-    : '';
+  const portraet = portraetHTML(p.id);
 
   app.innerHTML = '<div class="panel fade"><div class="card'+(portraet?' has-portrait':'')+'">'
     + '<div class="stamp land" style="'+(good?'color:var(--green)':'')+'">'+(good ? 'Bekræftet' : 'Rettet')+'</div>'
@@ -1476,6 +1513,7 @@ function vaelg(slot){
     + '<div class="meta">Punkt '+nr+' \u00b7 dit svar</div>'
     + '<div class="country">'+p.kat+'</div>'
     + '<h2 class="case-title">'+p.titel+'</h2>'
+    + fotokreditHTML(p.id)
     + '<div class="verdict '+(good?'good':'bad')+'"><span class="dot"></span>'+(good ? 'Rigtigt' : 'Ikke helt')+'</div>'
     + (good ? '' : '<div class="vsub">Du svarede: '+picked.t+'</div>')
     + '<div class="answer"><span class="alab">Det rigtige svar</span>'+correct.t+'</div>'
@@ -1573,7 +1611,7 @@ function ending(){
     rang = "Solformørkelsesvagt";
     rubrik = "Danmark så formørkelsen";
     manchet = "Vagten på taget kendte både myterne, tallene og brillerne. Skyerne holdt sig væk, og resten er historie.";
-    brod = "Op mod 88 procent af solen forsvandt i aften over Danmark, og på taget stod en vagt, der vidste præcis, hvad der skete. Prøven blev klaret med god margin, og feltøvelserne gik uden ophold. Solen stod lavt i vest, som forudsagt, og de måneformede lyspletter under træerne blev fotograferet af halvdelen af naboerne. Næste gang bliver i 2048.";
+    brod = "Op mod 85 procent af solen forsvandt i aften over Danmark, og på taget stod en vagt, der vidste præcis, hvad der skete. Prøven blev klaret med god margin, og feltøvelserne gik uden ophold. Solen stod lavt i vest, som forudsagt, og de måneformede lyspletter under træerne blev fotograferet af halvdelen af naboerne. Næste gang bliver i 2048.";
   } else if(bestod){
     rang = "Assistent i observatoriet";
     rubrik = "Beviset i hus i sidste øjeblik";
@@ -1588,7 +1626,7 @@ function ending(){
     rang = "Ny på holdet";
     rubrik = "Første aften på observatoriet";
     manchet = "Alle starter et sted. Det vigtigste var på plads: brillerne kom på, og ingen kiggede op uden.";
-    brod = "Prøven gik ikke som håbet, og nøglen til taghaven blev ikke udleveret i aften. Til gengæld blev sikkerhedstjekket klaret, og det er det, der betyder noget, når 88 procent af solen forsvinder over en hel by. Formørkelsen blev set fra fortovet, gennem briller, i godt selskab. Astronomerne foreslår at tage prøven igen. Historien om ulven Sköll bliver bedre for hver gang.";
+    brod = "Prøven gik ikke som håbet, og nøglen til taghaven blev ikke udleveret i aften. Til gengæld blev sikkerhedstjekket klaret, og det er det, der betyder noget, når 85 procent af solen forsvinder over en hel by. Formørkelsen blev set fra fortovet, gennem briller, i godt selskab. Astronomerne foreslår at tage prøven igen. Historien om ulven Sköll bliver bedre for hver gang.";
   }
 
   caseCount.textContent = 'KL. 19:10 \u00b7 FØRSTE KONTAKT';
