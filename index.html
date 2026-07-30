@@ -347,9 +347,7 @@ const VIDEO = {
   rummet: "videos/sol3.mp4",     /* månens skygge set fra rummet */
   dyr:    "videos/dyrsover.mp4", /* fuglene bliver stille */
   briller:"videos/sol5.mp4",     /* barn tager formørkelsesbriller på */
-  pige:   null                   /* valgfri: pigen der drømmer sig ud i rummet.
-                                    Har du filen, skriv "videos/pige.mp4" her
-                                    og saet den ind i MELLEMSPIL under "10". */
+  pige:   "videos/pige.mp4"      /* pigen der drømmer sig ud i rummet */
 };
 const MUSIK = {
   titel:  "introsol.mp3",   /* titelsekvensen, ca. 11 sek. */
@@ -644,7 +642,6 @@ const PUNKTER = [
 ];
 
 const RUNDE = PUNKTER.length;      /* 13 */
-const BESTAAET = 7;                /* minimum rigtige for missionsbeviset */
 const BOGSTAV = ["a","b","c","d","e"];
 const TIDER = ["17:00","17:10","17:20","17:30","17:40","17:50","18:00","18:10","18:20","18:30","18:40","18:50","19:00"];
 
@@ -1335,7 +1332,7 @@ function titelsekvens(){
      krydsfade mellem kortene, saa 4700 + 500 + 4700 + 500 + 4900 = 15,30 sek. */
   const KORT = [
     {dur:4700, html:'<div class="ss-title" style="font-size:clamp(26px,7.4vw,44px);hyphens:none;-webkit-hyphens:none">KlosKlos og Reagan Production</div><div class="ss-sub">præsenterer</div>'},
-    {dur:4700, html:'<div class="ss-sub">i samarbejde med</div><div class="ss-title" style="font-size:clamp(26px,7.4vw,44px);hyphens:none;-webkit-hyphens:none">Observatoriet på Vagtelvej</div>'},
+    {dur:4700, html:'<div class="ss-sub">i samarbejde med</div><div class="ss-title" style="font-size:clamp(23px,7.4vw,44px);hyphens:none;-webkit-hyphens:none">Observatoriet på Egernvej</div>'},
     {dur:4900, html:'<div class="ss-title" style="font-size:clamp(19px,6.3vw,40px)">Solformørkelses-<br>Missionen</div><div class="ss-rule"></div>'}
   ];
 
@@ -1385,14 +1382,12 @@ function intro(){
     + '<div class="drow"><span class="dk">Dato</span><span class="dv">'+FAKTA.dato+'</span></div>'
     + '<div class="drow"><span class="dk">Tidsrum</span><span class="dv">Kl. '+FAKTA.start+' til '+FAKTA.slut+', topper '+FAKTA.maksimum+'</span></div>'
     + '<div class="drow"><span class="dk">Dækning</span><span class="dv">'+FAKTA.daekning+' procent i København, knap 85 i Vestjylland</span></div>'
-    + '<div class="drow"><span class="dk">Din rolle</span><span class="dv">Solformørkelsesvagt, hvis du består prøven</span></div>'
-    + '<div class="drow"><span class="dk">Krav</span><span class="dv">Mindst '+BESTAAET+' af '+RUNDE+' rigtige</span></div>'
-    + '<div class="drow"><span class="dk">Består du</span><span class="dv">Missionsbevis og adgang til taghaven</span></div>'
-    + '<div class="drow"><span class="dk">Falder du</span><span class="dv">Du må se den fra fortovet med de andre</span></div>'
+    + '<div class="drow"><span class="dk">Din rolle</span><span class="dv">Solformørkelsesvagt på taget</span></div>'
+    + '<div class="drow"><span class="dk">Du får</span><span class="dv">Missionsbevis og nøglen til observatoriet på Egernvej</span></div>'
     + '</div>'
     + '<p class="situation">Klokken er 17:00, og om godt to timer sker der noget over Danmark, som ikke er sket siden 2015. Månen lægger sig delvist i vejen for solen, og op mod <strong>85 procent</strong> af den forsvinder.</p>'
     + '<p class="situation" style="margin-top:12px">Observatoriet mangler en vagt på taget. Men de vil ikke sende nogen derop, der ikke ved, hvad de kigger på, og allermindst nogen der ikke ved, hvordan man kigger. Derfor: først en prøve.</p>'
-    + '<p class="situation" style="margin-top:12px"><strong>'+RUNDE+' punkter</strong> om myter, sol, måne og sikkerhed, plus <strong>tre feltøvelser</strong>, hvor du selv skal skabe formørkelsen. Alle svarmuligheder lyder rigtige. Kun ét er sandt. Består du med mindst <strong>'+BESTAAET+' rigtige</strong>, får du beviset.</p>'
+    + '<p class="situation" style="margin-top:12px"><strong>'+RUNDE+' spørgsmål eller opgaver</strong>.</p>'
     + '<div class="prompt">Vælg niveau</div>'
     + '<button class="btn go fuld" id="niv-barn">Jeg er barn <small>Tre svar at vælge imellem</small></button>'
     + '<button class="btn fuld" id="niv-voksen">Jeg er voksen <small>Fem svar, og nogle af dem driller</small></button>'
@@ -1431,7 +1426,7 @@ function observatorieScene(){
     + '<circle cx="112" cy="140" r="8"/><path d="M99 172 q13 -22 26 0 z"/>'
     + '<circle cx="136" cy="146" r="6"/><path d="M126 172 q10 -18 20 0 z"/>'
     + '</g>'
-    + '<text x="210" y="192" fill="#8f9ab8" font-size="9" text-anchor="middle" font-family="monospace" letter-spacing="2">TAGHAVEN, KL. 17:00</text>'
+    + '<text x="210" y="192" fill="#8f9ab8" font-size="9" text-anchor="middle" font-family="monospace" letter-spacing="2">EGERNVEJ, KL. 17:00</text>'
     + '</svg>';
 }
 
@@ -1530,9 +1525,11 @@ function vaelg(slot){
 
   if(state.i === RUNDE - 1){
     /* Sidste punkt: hulkameraplanchen og derefter sikkerhedstjekket */
-    act.innerHTML = tilbage + '<button class="btn go big" id="next">Sidste feltøvelse \u25b8</button>';
+    act.innerHTML = tilbage + '<button class="btn go big" id="next">Se hvordan man kigger \u25b8</button>';
     enGang(document.getElementById('next'), function(){
-      planche('hulkamera', function(){ sikkerhedstjek(ending); });
+      planche('hulkamera', function(){
+        filmSekvens([VIDEO.briller], function(){ sikkerhedstjek(ending); });
+      });
     });
   } else {
     const mellemspil = MELLEMSPIL[String(state.i+2).padStart(2,'0')];
@@ -1562,11 +1559,13 @@ const MELLEMSPIL = {
   "03": { knap:"Se dragen", kald:function(n){ filmSekvens([VIDEO.drage], n); } },
   "04": { knap:"Se slaget", kald:function(n){ filmSekvens([VIDEO.krig], n); } },
   "05": { knap:"Følg lysstrålen", kald:function(n){ lysrejseSekvens(n); } },
-  "07": { knap:"Se plancherne", kald:function(n){ planche('stoerrelser', function(){ planche('afstand', n); }); } },
-  "09": { knap:"Se det fra rummet", kald:function(n){ filmSekvens([VIDEO.rummet], function(){ maanemission(n); }); } },
-  "11": { knap:"Se hvad dyrene gør", kald:function(n){ filmSekvens([VIDEO.dyr], n); } },
-  "12": { knap:"Find tidspunktet", kald:function(n){ urmission(n); } },
-  "13": { knap:"Se hvordan man kigger", kald:function(n){ planche('sjaeldent', function(){ filmSekvens([VIDEO.briller], n); }); } }
+  "07": { knap:"Se hvor sjældent det er", kald:function(n){ planche('sjaeldent', n); } },
+  "08": { knap:"Se hvor langt der er", kald:function(n){ planche('afstand', n); } },
+  "09": { knap:"Se hvor stor solen er", kald:function(n){ planche('stoerrelser', function(){
+            filmSekvens([VIDEO.rummet], function(){ maanemission(n); }); }); } },
+  "11": { knap:"Se hende drømme",   kald:function(n){ filmSekvens([VIDEO.pige], n); } },
+  "12": { knap:"Se hvad dyrene gør", kald:function(n){ filmSekvens([VIDEO.dyr], n); } },
+  "13": { knap:"Find tidspunktet",   kald:function(n){ urmission(n); } }
 };
 
 /* Lysstraalens rejse som billedsekvens med Ken Burns */
@@ -1599,34 +1598,34 @@ function ending(){
 
   const r = state.rigtige;
   const grid = state.history.map(function(h){ return h ? '\u2705' : '\u274c'; }).join('');
-  const bestod = r >= BESTAAET;
+  /* Ingen dumper. Rangen varierer med resultatet, men beviset udstedes altid. */
 
   let rang, rubrik, manchet, brod;
   if(r === RUNDE){
     rang = "Chefastronom";
     rubrik = "Ikke ét fejlsvar på taget";
-    manchet = "Observatoriet har aldrig set nogen klare alle tretten punkter på én aften. Nøglen til taghaven blev udleveret uden diskussion.";
-    brod = "Der findes ikke fortilfælde. En vagt, hvis navn ingen på observatoriet kunne huske i forgårs, gennemførte i aften samtlige tretten punkter uden en enkelt fejl, inklusive de tre feltøvelser. Den ældste af astronomerne kalder resultatet urimeligt. Kaffen blev sat over igen, og nøglen til taghaven lå på bordet klokken 19:08, to minutter før månen rørte solen.";
-  } else if(bestod && r >= 10){
+    manchet = "Observatoriet har aldrig set nogen klare alle tretten punkter på én aften. Nøglen til observatoriet på Egernvej blev udleveret uden diskussion.";
+    brod = "Der findes ikke fortilfælde. En vagt, hvis navn ingen på observatoriet kunne huske i forgårs, gennemførte i aften samtlige tretten punkter uden en enkelt fejl, inklusive de tre feltøvelser. Den ældste af astronomerne kalder resultatet urimeligt. Kaffen blev sat over igen, og nøglen til observatoriet på Egernvej lå på bordet klokken 19:08, to minutter før månen rørte solen.";
+  } else if(r >= 10){
     rang = "Solformørkelsesvagt";
     rubrik = "Danmark så formørkelsen";
     manchet = "Vagten på taget kendte både myterne, tallene og brillerne. Skyerne holdt sig væk, og resten er historie.";
     brod = "Op mod 85 procent af solen forsvandt i aften over Danmark, og på taget stod en vagt, der vidste præcis, hvad der skete. Prøven blev klaret med god margin, og feltøvelserne gik uden ophold. Solen stod lavt i vest, som forudsagt, og de måneformede lyspletter under træerne blev fotograferet af halvdelen af naboerne. Næste gang bliver i 2048.";
-  } else if(bestod){
+  } else if(r >= 7){
     rang = "Assistent i observatoriet";
-    rubrik = "Beviset i hus i sidste øjeblik";
-    manchet = "Det blev ikke elegant, men brillerne kom på i tide, og det er det, der tæller på en aften som denne.";
-    brod = "Prøven blev bestået få minutter før første kontakt, og ingen på observatoriet ville i aften sætte navn på, hvilke punkter der gik galt. Til gengæld sad sikkerhedstjekket lige i skabet, og det er det eneste punkt, der ikke må gå galt. Vagten fik nøglen, en trøje og en advarsel om at holde øje med uret. Det holdt hele aftenen.";
+    rubrik = "Klar bag brillerne";
+    manchet = "Brillerne kom på i god tid, og det er det, der tæller på en aften som denne.";
+    brod = "Gennemgangen var overstået et godt stykke før første kontakt, og sikkerhedstjekket sad lige i skabet. Det er det eneste punkt, der ikke må gå galt, når 85 procent af solen forsvinder. Vagten fik nøglen, en trøje og en opfordring til at holde øje med uret. Det holdt hele aftenen, og lyspletterne under træerne blev fundet i tide.";
   } else if(r >= 4){
-    rang = "Praktikant";
-    rubrik = "Halvvejs oppe ad trappen";
-    manchet = "Flere punkter faldt på plads i løbet af aftenen, men ikke nok til nøglen. Formørkelsen blev set fra fortovet.";
-    brod = "Længe så det ud til at lykkes. Myterne gik godt, og feltøvelserne blev klaret uden problemer. Men tallene drillede, og ved prøvens afslutning manglede der stadig nogle punkter. Vagten så formørkelsen fra fortovet sammen med resten af gaden, med briller på og med en helt fin udsigt mod vest. Prøven kan tages igen. Det er der ingen regler imod.";
+    rang = "Vagt i oplæring";
+    rubrik = "Nåede taget i god tid";
+    manchet = "Myterne sad fast, og feltøvelserne gik uden problemer. Tallene må vente til næste gang.";
+    brod = "Aftenen begyndte med at gennemgå historierne om ulven og dragen, og de sad, som de skulle. Feltøvelserne blev klaret uden ophold, og sikkerhedstjekket gik rent igennem. Tallene drillede lidt undervejs, men det var ikke det, aftenen handlede om. Nøglen blev udleveret, trøjen kom med op, og formørkelsen blev set fra taget med fri udsigt mod vest. De måneformede lyspletter under træerne blev fundet inden solnedgang.";
   } else {
     rang = "Ny på holdet";
     rubrik = "Første aften på observatoriet";
     manchet = "Alle starter et sted. Det vigtigste var på plads: brillerne kom på, og ingen kiggede op uden.";
-    brod = "Prøven gik ikke som håbet, og nøglen til taghaven blev ikke udleveret i aften. Til gengæld blev sikkerhedstjekket klaret, og det er det, der betyder noget, når 85 procent af solen forsvinder over en hel by. Formørkelsen blev set fra fortovet, gennem briller, i godt selskab. Astronomerne foreslår at tage prøven igen. Historien om ulven Sköll bliver bedre for hver gang.";
+    brod = "Det var første aften på observatoriet, og der var meget at holde styr på. Til gengæld blev sikkerhedstjekket klaret, og det er det, der betyder noget, når 85 procent af solen forsvinder over en hel by. Nøglen blev udleveret, og formørkelsen blev set fra taget, gennem briller, i godt selskab. Astronomerne siger, at historien om ulven Sköll bliver bedre for hver gang, man hører den.";
   }
 
   caseCount.textContent = 'KL. 19:10 \u00b7 FØRSTE KONTAKT';
@@ -1654,7 +1653,7 @@ function ending(){
     + '<div class="ahoved">Himmelposten</div>'
     + '<div class="aslogan">Uafhængig af vejrudsigten siden 1969</div>'
     + '<div class="adato">Torsdag den 13. august 2026 \u00b7 Løssalg 12 kr. \u00b7 Nr. 226</div>'
-    + '<div class="aover">'+(bestod ? 'Missionsbevis udstedt' : 'Prøven gentages')+'</div>'
+    + '<div class="aover">Missionsbevis udstedt</div>'
     + '<div class="arubrik">'+rubrik+'</div>'
     + '<div class="amanchet">'+manchet+'</div>'
     + '<div class="abyline">Af redaktionen \u00b7 Observatoriet, København</div>'
@@ -1666,8 +1665,8 @@ function ending(){
     + '</div></div>'
 
     + '<div class="panel fade"><div class="card bevis">'
-    + '<div class="segl">'+(bestod ? '\ud83c\udfc5' : '\ud83c\udf18')+'</div>'
-    + '<div class="meta">'+(bestod ? 'Officielt bevis' : 'Foreløbig udnævnelse')+'</div>'
+    + '<div class="segl">\ud83c\udfc5</div>'
+    + '<div class="meta">Officielt bevis</div>'
     + '<p class="situation">Hermed udnævnes du til</p>'
     + '<div class="rang">'+rang+'</div>'
     + '<hr>'
