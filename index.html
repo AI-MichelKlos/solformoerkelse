@@ -112,8 +112,13 @@
   .country{display:inline-block;font-family:'Fraunces',serif;font-weight:700;font-size:12px;letter-spacing:2.5px;text-transform:uppercase;color:var(--paper);background:var(--ink-3);padding:4px 11px;border-radius:4px;margin:2px 0 9px}
   .cardsub{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted-paper);letter-spacing:.5px;margin:-4px 0 14px}
   .fotokredit{font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:1.2px;text-transform:uppercase;color:#a0977f;margin:-9px 0 13px}
-  .qbox{margin-top:14px;padding:12px 15px;background:rgba(216,178,92,.16);border-left:3px solid var(--gold);border-radius:4px}
-  .qbox .qlab{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:1.2px;text-transform:uppercase;color:var(--gold-dk);margin-bottom:5px}
+  .merebtn{margin-top:12px;background:none;border:none;padding:4px 0;cursor:pointer;
+    font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:1.4px;text-transform:uppercase;color:var(--gold-dk);opacity:.8}
+  .merebtn:hover{opacity:1}
+  .merebtn:focus-visible{outline:2px solid var(--gold);outline-offset:3px;border-radius:3px}
+  .merebtn .pil{font-size:13px}
+  .qbox{margin-top:8px;padding:12px 15px;background:rgba(216,178,92,.16);border-left:3px solid var(--gold);border-radius:4px}
+  .qbox[hidden]{display:none}
   .qbox .qt{font-family:'Fraunces',serif;font-size:15px;line-height:1.55;color:#3f3a31}
 
   .cover-title{hyphens:none;-webkit-hyphens:none;font-family:'Fraunces',serif;font-weight:700;font-size:clamp(30px,7.8vw,46px);line-height:1;text-transform:uppercase;letter-spacing:.5px;color:#221c10;margin:6px 0 2px}
@@ -265,7 +270,10 @@
   /* ---------- Filmlaget ---------- */
   .film-overlay{position:fixed;inset:0;background:#05070f;z-index:9998;display:flex;align-items:center;justify-content:center;opacity:1;transition:opacity .45s ease}
   .film-overlay.out{opacity:0}
-  .film-skip{position:fixed;right:16px;bottom:16px;background:transparent;border:1px solid rgba(244,239,228,.3);color:rgba(244,239,228,.75);font-family:'Fraunces',serif;text-transform:uppercase;letter-spacing:2px;font-size:12px;padding:8px 14px;border-radius:5px;cursor:pointer;z-index:9999}
+  .film-skip{position:fixed;right:16px;bottom:16px;background:rgba(8,12,28,.55);border:1.5px solid rgba(216,178,92,.6);color:#f0e6cd;font-family:'Fraunces',serif;text-transform:uppercase;letter-spacing:2px;font-size:13px;padding:11px 18px;border-radius:6px;cursor:pointer;z-index:9999;backdrop-filter:blur(3px);animation:skipind .4s ease both}
+  .film-skip:hover{background:rgba(216,178,92,.2)}
+  .film-skip:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+  @keyframes skipind{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
   .ss-frame{position:absolute;inset:0;max-width:560px;margin:0 auto;overflow:hidden}
   .ss-slide{position:absolute;inset:0;opacity:0;transition:opacity .7s ease;display:flex;align-items:center;justify-content:center;padding:34px 30px;flex-direction:column;text-align:center}
   .ss-slide.vis{opacity:1}
@@ -413,8 +421,8 @@ const PUNKTER = [
       {t:"Historien blev opdigtet af digtere i 1800-tallet.", ok:false},
       {t:"Solen blev stjålet af dværge og måtte købes tilbage.", ok:false}
     ],
-    forklaring:"Der var to ulve: Sköll jagtede solen, og hans bror Hate jagtede månen. Når solen blev bidt, råbte og larmede folk for at skræmme ulven væk. Og hver gang virkede det jo. Solen kom altid tilbage.",
-    ekstra:"Ordet formørkelse hedder eclipse på engelsk. Det kommer af et græsk ord, der betyder at forlade eller svigte." },
+    forklaring:"Ulven hed Sköll. Folk larmede for at skræmme den væk, og hver gang virkede det.",
+    mere:"Der var to ulve. Sköll jagtede solen, og hans bror Hate jagtede månen. Ordet formørkelse hedder eclipse på engelsk. Det kommer af et græsk ord, der betyder at forlade." },
 
   { id:"02", kat:"Myternes tid", titel:"Dragen over Kina",
     based:"Kina · oldtiden",
@@ -432,8 +440,8 @@ const PUNKTER = [
       {t:"Dragen hører til i japansk mytologi, ikke i den kinesiske.", ok:false},
       {t:"Myten gjaldt kun måneformørkelser.", ok:false}
     ],
-    forklaring:"Man troede, at en drage var i færd med at spise solen, og larmen skulle få den til at slippe. Det sjove er, at kinesiske astronomer allerede kunne regne ud, hvornår formørkelser ville komme. Myten levede videre ved siden af videnskaben.",
-    ekstra:"Kinesiske hofastronomer skulle forudsige formørkelser. Ramte de forkert, kunne det koste dem stillingen." },
+    forklaring:"Man troede, en drage spiste solen, og larmen skulle få den til at slippe.",
+    mere:"Kinesiske astronomer kunne for længst regne ud, hvornår formørkelser kom, så myten levede videre ved siden af videnskaben. Hofastronomerne skulle forudsige dem, og ramte de forkert, kunne det koste dem stillingen." },
 
   { id:"03", kat:"Myternes tid", titel:"Slaget der gik i stå",
     based:"Lilleasien · omkring 585 f.Kr.",
@@ -451,8 +459,8 @@ const PUNKTER = [
       {t:"Det skete ved slaget ved Hastings i 1066.", ok:false},
       {t:"Historien stammer fra en roman fra 1700-tallet.", ok:false}
     ],
-    forklaring:"Det skete for omkring 2600 år siden. Historikeren Herodot fortæller, at krigen sluttede den dag. Formørkelsen bruges i dag til at datere slaget, fordi man kan regne baglæns og finde ud af præcis hvilken dag himlen blev mørk netop der.",
-    ekstra:"Det er en af de ældste begivenheder i verdenshistorien, som kan dateres helt præcist." },
+    forklaring:"Begge hære blev så forskrækkede, at de lagde våbnene og sluttede fred samme dag.",
+    mere:"Det skete for omkring 2600 år siden, og historikeren Herodot fortæller om det. I dag bruges formørkelsen til at datere slaget, fordi man kan regne baglæns og finde den præcise dag. Det er en af de ældste begivenheder i verdenshistorien, der kan tidsfæstes helt nøjagtigt." },
 
   { id:"04", kat:"Myternes tid", titel:"Er det farligt at gå udenfor?",
     based:"Myten der stadig lever",
@@ -470,8 +478,8 @@ const PUNKTER = [
       {t:"Nej, men gravide blev historisk frarådet at gå ud, og det holder stik.", ok:false},
       {t:"Ja. Luften bliver kortvarigt iltfattig.", ok:false}
     ],
-    forklaring:"Der sker absolut ingenting med kroppen. Strålingen stiger ikke, den falder, fordi der kommer mindre sol frem. Det eneste rigtigt farlige er at kigge lige ind i solen, og det handler den sidste feltøvelse om.",
-    ekstra:"Myten findes over hele verden. Flere steder blev gravide historisk rådet til at blive inde. Der er ingen målbar effekt." },
+    forklaring:"Der sker ingenting med kroppen. Kun øjnene kan tage skade, hvis du kigger lige på solen.",
+    mere:"Strålingen stiger ikke, den falder, fordi der kommer mindre sol frem. Myten findes over hele verden, og flere steder blev gravide historisk rådet til at blive inde. Der er ingen målbar effekt." },
 
   { id:"05", kat:"Sol og måne", titel:"Lysets otte minutter",
     based:"Fra solen til din kind",
@@ -489,8 +497,8 @@ const PUNKTER = [
       {t:"Cirka 8 timer.", ok:false},
       {t:"Det kommer med det samme.", ok:false}
     ],
-    forklaring:"Lyset er det hurtigste i hele universet, og alligevel tager rejsen 8 minutter. Det betyder, at når du kigger på solen, ser du hvordan den så ud for 8 minutter siden. Fra månen tager lyset kun 1,3 sekunder.",
-    ekstra:"Solen står 150 millioner kilometer væk. Kørte man i bil uden pauser, ville turen tage over 170 år." },
+    forklaring:"Lyset er det hurtigste i universet, og alligevel tager turen 8 minutter.",
+    mere:"Det betyder, at du ser solen, som den så ud for 8 minutter siden. Fra månen tager lyset kun 1,3 sekunder. Solen står 150 millioner kilometer væk, og kørte man i bil uden pauser, ville turen tage over 170 år." },
 
   { id:"06", kat:"Sol og måne", titel:"Hvor månelyset kommer fra",
     based:"Månen · en kold klippekugle",
@@ -508,8 +516,8 @@ const PUNKTER = [
       {t:"Solvinden får overfladen til at lyse.", ok:false},
       {t:"Den brænder som en stjerne, bare koldere.", ok:false}
     ],
-    forklaring:"Månen laver ikke selv lys. Solen skinner på den, og en del af lyset kastes tilbage til os. Jordskin findes godt nok: sollys fra Jorden gør den mørke del af nymånen svagt synlig. Men det er ikke der, månelyset kommer fra.",
-    ekstra:"Månen er faktisk mørkegrå som gammel asfalt. Den ser hvid ud, fordi den står på en helt sort himmel." },
+    forklaring:"Månen laver ikke selv lys. Solen skinner på den, og noget af lyset kastes tilbage.",
+    mere:"Jordskin findes godt nok: sollys fra Jorden gør den mørke del af nymånen svagt synlig. Men det er ikke der, månelyset kommer fra. Månen er faktisk mørkegrå som gammel asfalt og ser kun hvid ud, fordi den står på en helt sort himmel." },
 
   { id:"07", kat:"Sol og måne", titel:"Det utrolige tilfælde",
     based:"400 gange større, 400 gange længere væk",
@@ -527,8 +535,8 @@ const PUNKTER = [
       {t:"Månen er 400 gange større, men står tættere på.", ok:false},
       {t:"Det ser kun sådan ud på vores breddegrader.", ok:false}
     ],
-    forklaring:"Det er et helt vildt tilfælde, og det er præcis derfor, den lille måne kan nå at dække den enorme sol. Ingen andre planeter i solsystemet har en måne, der passer så præcist.",
-    ekstra:"Månen fjerner sig cirka 3,8 cm fra Jorden om året. Om nogle hundrede millioner år er totale solformørkelser umulige." },
+    forklaring:"Solen er cirka 400 gange større end månen, men også cirka 400 gange længere væk.",
+    mere:"Det er et helt vildt tilfælde, og netop derfor kan den lille måne nå at dække den enorme sol. Ingen andre planeter i solsystemet har en måne, der passer så præcist. Månen fjerner sig cirka 3,8 cm om året, så om nogle hundrede millioner år er totale solformørkelser umulige." },
 
   { id:"08", kat:"Sol og måne", titel:"En million jordkloder",
     based:"Solens størrelse",
@@ -546,8 +554,8 @@ const PUNKTER = [
       {t:"Cirka 13 millioner.", ok:false},
       {t:"Cirka 1,3 milliarder.", ok:false}
     ],
-    forklaring:"Cirka 1,3 millioner jordkloder. Solen er så stor, at alt andet i solsystemet er som smuler ved siden af. Til sammenligning er der plads til cirka 1.300 jordkloder i Jupiter.",
-    ekstra:"Solen udgør omkring 99,8 procent af hele solsystemets masse. Alle planeter tilsammen er resten." },
+    forklaring:"Cirka 1,3 millioner. Solen er så stor, at alt andet i solsystemet er smuler.",
+    mere:"Til sammenligning er der plads til cirka 1.300 jordkloder inde i Jupiter. Solen udgør omkring 99,8 procent af hele solsystemets masse. Alle planeterne tilsammen er resten." },
 
   { id:"09", kat:"Sol og måne", titel:"Fodsporene der bliver liggende",
     based:"Månen · siden 1969",
@@ -565,8 +573,8 @@ const PUNKTER = [
       {t:"De holder til næste månelanding.", ok:false},
       {t:"De forsvinder ved den næste måneformørkelse.", ok:false}
     ],
-    forklaring:"Uden vind og regn er der ingenting, der kan viske dem ud. Fodsporene fra 1969 står der stadig. Kun mikroskopisk meteorstøv sliber langsomt på dem, og det tager titusinder af årtusinder.",
-    ekstra:"Astronauterne efterlod også et spejl på månen. Forskere sender stadig laserlys derop for at måle afstanden præcist." },
+    forklaring:"Der er hverken vind eller regn på månen, så ingenting kan viske dem ud.",
+    mere:"Fodsporene fra 1969 står der stadig. Kun mikroskopisk meteorstøv sliber langsomt på dem, og det tager titusinder af årtusinder. Astronauterne efterlod også et spejl deroppe, og forskere sender stadig laserlys op for at måle afstanden præcist." },
 
   { id:"10", kat:"Sol og måne", titel:"Kvinden der fløj om månen",
     based:"Artemis II · april 2026",
@@ -584,8 +592,8 @@ const PUNKTER = [
       {t:"Hun gik en rumvandring uden for månen.", ok:false},
       {t:"Hun styrede en månebil fra kredsløb.", ok:false}
     ],
-    forklaring:"Turen hed Artemis II og varede fra 1. til 10. april 2026. De kom 406.771 km hjemmefra, længere end nogen mennesker før dem. Christina Koch har i forvejen rekorden for den længste rumrejse af en kvinde med 328 dage i træk. De landede ikke på månen, de fløj rundt om den og hjem igen.",
-    ekstra:"Christina Koch var også med på den allerførste rumvandring, hvor der kun var kvinder ude." },
+    forklaring:"Turen hed Artemis II. De fløj hele vejen rundt om månen og hjem igen, men landede ikke.",
+    mere:"Rejsen varede fra 1. til 10. april 2026, og de nåede 406.771 km hjemmefra, længere væk end nogen mennesker før dem. Christina Koch har i forvejen rekorden for den længste rumrejse af en kvinde med 328 dage i træk, og hun var med på den allerførste rumvandring, hvor der kun var kvinder ude." },
 
   { id:"11", kat:"Mission mørke", titel:"Fuglene der tier",
     based:"Danmark · 12. august 2026",
@@ -603,8 +611,8 @@ const PUNKTER = [
       {t:"De reagerer ikke. 83 procent er ikke nok.", ok:false},
       {t:"De flokkes og kredser i en stor cirkel.", ok:false}
     ],
-    forklaring:"Fuglene tror, at det er ved at blive nat, og bliver helt stille. Mange, der har oplevet en kraftig solformørkelse, fortæller, at det mest uhyggelige ikke var mørket. Det var stilheden.",
-    ekstra:"Køer går mod stalden, og edderkopper begynder at pille deres net ned. Nogle sætter det op igen bagefter." },
+    forklaring:"Fuglene tror, at det er ved at blive nat, og bliver helt stille.",
+    mere:"Mange, der har oplevet en kraftig solformørkelse, fortæller, at det mest uhyggelige ikke var mørket, men stilheden. Køer går mod stalden, og edderkopper begynder at pille deres net ned. Nogle sætter det op igen bagefter." },
 
   { id:"12", kat:"Mission mørke", titel:"Graderne der forsvinder",
     based:"Danmark · omkring kl. 20:03",
@@ -622,8 +630,8 @@ const PUNKTER = [
       {t:"Den ændrer sig ikke målbart.", ok:false},
       {t:"Den falder først en time bagefter.", ok:false}
     ],
-    forklaring:"Der forsvinder pludselig en masse varme fra solen, og det kan falde 2 til 5 grader. Tag en trøje med. Det laveste punkt kommer typisk nogle minutter efter maksimum, fordi jorden ikke når at følge med.",
-    ekstra:"Vinden kan også lægge sig eller skifte retning. Fænomenet kaldes formørkelsesvinden." },
+    forklaring:"Der forsvinder pludselig en masse varme, og temperaturen kan falde 2 til 5 grader.",
+    mere:"Tag en trøje med. Det laveste punkt kommer typisk nogle minutter efter maksimum, fordi jorden ikke når at følge med. Vinden kan også lægge sig eller skifte retning, og det fænomen kaldes formørkelsesvinden." },
 
   { id:"13", kat:"Mission mørke", titel:"Seglene under træet",
     based:"Det bedste trick af dem alle",
@@ -641,8 +649,8 @@ const PUNKTER = [
       {t:"Bølgende mørke striber, der løber hen over jorden.", ok:false},
       {t:"Ingenting. Der er for lidt lys.", ok:false}
     ],
-    forklaring:"Hullerne mellem bladene virker som bittesmå kameraer, og hver eneste lysplet på jorden får samme form som den halvspiste sol. Du kan lave det selv med et dørslag eller et stykke pap med et hul. De bølgende striber findes, men ses kun lige omkring en total formørkelse.",
-    ekstra:"Fænomenet kaldes hulkameraeffekten. Det er præcis samme princip som i det allerførste kamera." }
+    forklaring:"Hullerne mellem bladene virker som bittesmå kameraer, så hver lysplet får solens form.",
+    mere:"Du kan lave det selv med et dørslag eller et stykke pap med et hul. Fænomenet kaldes hulkameraeffekten, og det er præcis samme princip som i det allerførste kamera. De bølgende mørke striber findes, men ses kun lige omkring en total formørkelse." }
 ];
 
 const RUNDE = PUNKTER.length;      /* 13 */
@@ -847,7 +855,10 @@ function filmSekvens(klipListe, next0){
   const skip = document.createElement('button');
   skip.className = 'film-skip'; skip.textContent = 'Videre \u25b8';
   skip.style.display = 'none';
-  const nedfald = setTimeout(function(){ skip.style.display = ''; }, 40000);
+  /* Knappen kom foer efter 40 sek., men ingen sekvens varer saa laenge,
+     saa den naaede aldrig frem. 1,8 sek. giver klippet lov at begynde,
+     uden at nogen sidder fast i det. */
+  const nedfald = setTimeout(function(){ skip.style.display = ''; }, 1800);
   document.body.appendChild(skip);
   const frame = ov.querySelector('#fs-frame');
 
@@ -910,7 +921,10 @@ function billedSekvens(slides, musikfil, next0){
   const skip = document.createElement('button');
   skip.className = 'film-skip'; skip.textContent = 'Videre \u25b8';
   skip.style.display = 'none';
-  const nedfald = setTimeout(function(){ skip.style.display = ''; }, 40000);
+  /* Knappen kom foer efter 40 sek., men ingen sekvens varer saa laenge,
+     saa den naaede aldrig frem. 1,8 sek. giver klippet lov at begynde,
+     uden at nogen sidder fast i det. */
+  const nedfald = setTimeout(function(){ skip.style.display = ''; }, 1800);
   document.body.appendChild(skip);
 
   const frame = ov.querySelector('#bs-frame');
@@ -1328,7 +1342,10 @@ function titelsekvens(){
   const skip = document.createElement('button');
   skip.className = 'film-skip'; skip.textContent = 'Videre \u25b8';
   skip.style.display = 'none';
-  const nedfald = setTimeout(function(){ skip.style.display = ''; }, 40000);
+  /* Knappen kom foer efter 40 sek., men ingen sekvens varer saa laenge,
+     saa den naaede aldrig frem. 1,8 sek. giver klippet lov at begynde,
+     uden at nogen sidder fast i det. */
+  const nedfald = setTimeout(function(){ skip.style.display = ''; }, 1800);
   document.body.appendChild(skip);
   const frame = ov.querySelector('#tit-frame');
 
@@ -1515,12 +1532,21 @@ function vaelg(slot){
     + fotokreditHTML(p.id)
     + '<div class="verdict '+(good?'good':'bad')+'"><span class="dot"></span>'+(good ? 'Rigtigt' : 'Ikke helt')+'</div>'
     + (good ? '' : '<div class="vsub">Du svarede: '+picked.t+'</div>')
-    + '<div class="answer"><span class="alab">Det rigtige svar</span>'+correct.t+'</div>'
-    + '<div class="truth"><span class="lab">Sådan er det i virkeligheden</span>'+p.forklaring+'</div>'
-    + '<div class="qbox"><div class="qlab">Vidste du at</div><div class="qt">'+p.ekstra+'</div></div>'
+    + (good ? '' : '<div class="answer"><span class="alab">Det rigtige svar</span>'+correct.t+'</div>')
+    + '<div class="truth"><span class="lab">'+(good ? 'Derfor' : 'Sådan er det')+'</span>'+p.forklaring+'</div>'
+    + '<button class="merebtn" id="merebtn" aria-expanded="false">Mere <span class="pil">\u25be</span></button>'
+    + '<div class="qbox" id="merebox" hidden><div class="qt">'+p.mere+'</div></div>'
     + '<div class="actions" id="act"></div>'
     + '</div></div>';
   window.scrollTo(0,0);
+
+  const mb = document.getElementById('merebtn'), mbox = document.getElementById('merebox');
+  mb.onclick = function(){
+    const aaben = !mbox.hasAttribute('hidden');
+    if(aaben){ mbox.setAttribute('hidden',''); } else { mbox.removeAttribute('hidden'); }
+    mb.setAttribute('aria-expanded', aaben ? 'false' : 'true');
+    mb.innerHTML = (aaben ? 'Mere ' : 'Mindre ') + '<span class="pil">' + (aaben ? '\u25be' : '\u25b4') + '</span>';
+  };
 
   const act = document.getElementById('act');
   act.style.justifyContent = 'space-between';
