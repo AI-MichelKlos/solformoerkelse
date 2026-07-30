@@ -2,1207 +2,1032 @@
 <html lang="da">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-<title>Solformørkelses-Missionen — spil om solformørkelsen 12. august 2026</title>
-<meta name="description" content="Et lille spil til børn om den delvise solformørkelse over Danmark den 12. august 2026. Lav formørkelsen selv, og lær hvordan man ser på den uden at komme til skade.">
-<meta name="author" content="Michel Klos">
-<meta name="theme-color" content="#0a0e1f">
-<meta property="og:title" content="Solformørkelses-Missionen">
-<meta property="og:description" content="Et spil om solformørkelsen den 12. august 2026. Lavet af Michel Klos.">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Solformørkelses-Missionen · En himmelhistorisk quiz</title>
 <meta property="og:type" content="website">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#127768;</text></svg>">
+<meta property="og:title" content="Solformørkelses-Missionen: En himmelhistorisk quiz">
+<meta property="og:description" content="Klokken er 17:00 i observatoriet. Om to timer forsvinder 88 procent af solen over Danmark. 13 punkter skal klares, før du må gå udenfor.">
+<meta property="og:url" content="https://ai-michelklos.github.io/solformoerkelse/">
+<meta property="og:locale" content="da_DK">
+<meta name="twitter:card" content="summary">
+<meta name="theme-color" content="#080c1c">
+<meta name="description" content="Den 12. august 2026 dækkes op mod 88 procent af solen over Danmark. 13 punkter om myter, sol, måne og sikkerhed. Bestå prøven og få missionsbeviset.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;700&family=Permanent+Marker&display=swap" rel="stylesheet">
 <style>
-/* ==================================================================
-   SOLFORMØRKELSES-MISSIONEN
-   Et spil om den delvise solformørkelse over Danmark 12. august 2026
-   Lavet af Michel Klos
-   ================================================================== */
+  /* ============ SOLFORMØRKELSES-MISSIONEN v2.0 ============
+     Samme skabelon som Forlig før daggry: mørk baggrund,
+     papirkort, messing og stempler. Kun paletten er skiftet
+     fra flaskegrøn mødebordsfilt til nattehimmel. */
+  :root{
+    --ink:#080c1c;   --ink-2:#0c1226;  --ink-3:#182240;      /* natten */
+    --paper:#f6f1e2; --paper-2:#ece4cf;                       /* dokumenterne */
+    --text:#26221a;  --muted:#9aa6c4;  --muted-paper:#7d745d;
+    --green:#3d8a60; --green-dk:#2e6b4f;                      /* rigtigt svar */
+    --red:#b03a2e;   --red-dk:#8c2d24;                        /* stempelrød */
+    --gold:#d8b25c;  --gold-dk:#8f6f2a;                       /* messing og sol */
+    --sun:#ffe484;   --sunglow:#ffd166;
+    --line:rgba(216,178,92,.28); --line-paper:#d8d0ba;
+    --shadow:0 28px 55px -20px rgba(0,0,0,.65);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{min-height:100svh;overflow-y:auto;-webkit-text-size-adjust:100%}
+  body{overflow-x:hidden}
+  body{
+    font-family:'Inter',system-ui,sans-serif;
+    background:
+      radial-gradient(620px 560px at 50% 30px, rgba(255,233,184,.16) 0%, rgba(255,233,184,.05) 45%, transparent 70%),
+      radial-gradient(130% 115% at 50% 42%, transparent 44%, rgba(0,0,0,.6) 100%),
+      var(--ink);
+    color:var(--paper);
+    display:flex;flex-direction:column;align-items:center;
+    padding:18px 16px 24px;-webkit-font-smoothing:antialiased;
+  }
+  #stjerner{position:fixed;inset:0;width:100%;height:100%;z-index:-1;pointer-events:none}
+  .stage{width:100%;max-width:640px;display:flex;flex-direction:column;gap:14px}
 
-*{box-sizing:border-box;-webkit-tap-highlight-color:transparent;margin:0;padding:0}
-html,body{height:100%}
-body{
-  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
-  background:#080b1a;color:#f2f4fa;overflow-x:hidden;
-  overscroll-behavior:none;-webkit-user-select:none;user-select:none;
-}
-/* Blødt lysskær bag indholdet */
-body::before{
-  content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
-  background:
-    radial-gradient(120% 65% at 50% -10%, rgba(255,196,110,.16), transparent 62%),
-    radial-gradient(95% 55% at 50% 108%, rgba(88,120,220,.16), transparent 60%);
-}
-#stjerner{position:fixed;inset:0;z-index:0;pointer-events:none}
-.wrap{position:relative;z-index:1;max-width:520px;margin:0 auto;padding:16px 16px 44px;min-height:100%}
+  header.bar{display:flex;align-items:baseline;justify-content:space-between;gap:12px;padding:2px 4px 8px;flex-wrap:wrap;border-bottom:1px solid var(--line)}
+  .brand{display:flex;align-items:baseline;gap:10px;line-height:1}
+  .brand .logo{font-family:'Fraunces',serif;font-weight:700;font-size:20px;letter-spacing:.5px;text-transform:uppercase}
+  .casecount{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--gold);letter-spacing:1px;white-space:nowrap}
 
-h1{font-size:31px;line-height:1.12;letter-spacing:-.7px;margin-bottom:10px;
-  background:linear-gradient(180deg,#fff,#c8d0e8);-webkit-background-clip:text;
-  background-clip:text;color:transparent}
-h2{font-size:24px;line-height:1.2;margin-bottom:8px;letter-spacing:-.3px}
-p{font-size:18.5px;line-height:1.55;color:#c9d0e2}
-.lille{font-size:15px;color:#98a1bf;line-height:1.5}
+  .record{display:flex;align-items:center;gap:10px;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:9px 4px}
+  .segs{display:flex;gap:4px;flex:1}
+  .seg{flex:1;height:16px;border-radius:2px;background:#0a1122;display:grid;place-items:center;font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:700;color:#fff;line-height:1;transition:background .4s,box-shadow .2s}
+  .seg.r{background:var(--green)} .seg.w{background:var(--red)}
+  .seg.cur{box-shadow:0 0 0 2px var(--gold)}
+  .rec-lbl{font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:#b8c2d8;white-space:nowrap;letter-spacing:.5px}
+  .rec-lbl b{color:var(--gold)}
 
-.kort.voksenkort{
-  background:linear-gradient(165deg,rgba(255,138,112,.17),rgba(255,110,90,.06));
-  border-color:rgba(255,150,125,.26);
-  box-shadow:0 10px 30px rgba(90,20,10,.25), inset 0 1px 0 rgba(255,255,255,.08)}
-.kort{
-  background:linear-gradient(165deg,rgba(255,255,255,.085),rgba(255,255,255,.035));
-  border:1px solid rgba(255,255,255,.1);border-radius:22px;padding:19px;margin-bottom:14px;
-  box-shadow:0 10px 30px rgba(0,0,0,.28), inset 0 1px 0 rgba(255,255,255,.07);
-  backdrop-filter:blur(8px);
-}
-.badge{display:inline-block;font-size:11.5px;font-weight:700;letter-spacing:1.5px;
-  text-transform:uppercase;color:#ffd68a;
-  background:linear-gradient(180deg,rgba(255,209,102,.2),rgba(255,209,102,.08));
-  border:1px solid rgba(255,209,102,.28);border-radius:99px;padding:6px 14px;margin-bottom:13px}
-.knap{position:relative;display:block;width:100%;border:0;border-radius:17px;padding:17px 20px;
-  font-size:18px;font-weight:700;font-family:inherit;color:#191203;overflow:hidden;
-  background:linear-gradient(135deg,#ffdc8b,#ffab4d);cursor:pointer;margin-top:11px;
-  transition:transform .12s,box-shadow .2s;
-  box-shadow:0 8px 24px rgba(255,159,69,.3), inset 0 1px 0 rgba(255,255,255,.45)}
-.knap::after{content:"";position:absolute;inset:0;
-  background:linear-gradient(105deg,transparent 40%,rgba(255,255,255,.4) 50%,transparent 60%);
-  transform:translateX(-120%);transition:transform .7s}
-.knap:active{transform:scale(.975);box-shadow:0 4px 14px rgba(255,159,69,.26)}
-.knap:active::after{transform:translateX(120%)}
-.knap.sekundaer{background:rgba(255,255,255,.045);color:#c6cde0;
-  border:1.5px solid rgba(255,255,255,.16);box-shadow:none;font-size:16px;font-weight:600}
-.skjul{display:none !important}
+  .panel{position:relative}
+  .card,.screen,.avis{overflow-wrap:break-word;min-width:0}
+  .card{background:linear-gradient(180deg,#f7f1de 0%,#efe6cc 58%,#e2d5b2 100%);color:var(--text);border-radius:4px;padding:56px 24px 24px;position:relative;overflow:hidden;border:1px solid var(--line-paper);
+    transform:rotate(-.3deg);
+    box-shadow:0 1px 0 rgba(0,0,0,.05), 0 12px 0 -6px var(--paper-2), 0 13px 0 -5px rgba(0,0,0,.22), var(--shadow)}
+  .card > *{position:relative;z-index:1}
+  .card > .stamp{position:absolute;z-index:3}
+  .card::before{content:"OBSERVATORIET · KØBENHAVN";position:absolute;top:0;left:24px;right:24px;padding:13px 0 9px;text-align:center;font-family:'IBM Plex Mono',monospace;font-size:9.5px;font-weight:700;letter-spacing:3.2px;color:var(--gold-dk);border-bottom:3px double rgba(143,111,42,.5);z-index:2}
+  .stamp{position:absolute;top:16px;right:-4px;transform:rotate(-6deg);font-family:'Permanent Marker','Fraunces',serif;font-size:16px;letter-spacing:1.2px;text-transform:uppercase;color:var(--red);padding:3px 12px;opacity:.85;background:transparent}
+  .stamp::before{content:"";position:absolute;left:-3px;right:-5px;top:-2px;bottom:-1px;border:2.5px solid var(--red);border-radius:9px 4px 10px 5px;transform:rotate(1.4deg) skewX(-2deg);opacity:.85;pointer-events:none}
+  .stamp.land{animation:stampIn .55s cubic-bezier(.18,1.25,.3,1) both}
+  @keyframes stampIn{0%{opacity:0;transform:rotate(7deg) scale(2.7)}55%{opacity:.85;transform:rotate(7deg) scale(.9)}75%{transform:rotate(7deg) scale(1.05)}100%{opacity:.78;transform:rotate(7deg) scale(1)}}
 
-.top{display:flex;align-items:center;gap:11px;margin-bottom:18px;padding-top:6px}
-.bar{position:relative;flex:1;height:9px;background:rgba(255,255,255,.09);
-  border-radius:99px;overflow:hidden;box-shadow:inset 0 1px 2px rgba(0,0,0,.35)}
-.bar>i{display:block;height:100%;width:0;border-radius:99px;
-  background:linear-gradient(90deg,#ffd166,#ff9f45);transition:width .6s cubic-bezier(.4,1.3,.5,1);
-  box-shadow:0 0 12px rgba(255,180,80,.6)}
-.stjernetal{font-size:16px;font-weight:800;color:#ffd68a;white-space:nowrap;
-  text-shadow:0 0 14px rgba(255,200,90,.35)}
+  .portrait{position:absolute;top:18px;left:18px;width:64px;height:64px;border-radius:50%;overflow:hidden;border:3px solid #fbf7ea;box-shadow:0 4px 12px rgba(0,0,0,.3),0 0 0 1px rgba(143,111,42,.5);background:#2c2823;z-index:2}
+  .portrait img{width:100%;height:100%;object-fit:cover;display:block;filter:contrast(1.05) sepia(.12) saturate(.9)}
+  .card.has-portrait .meta,.card.has-portrait .country{padding-left:78px}
 
+  .intro-h1{margin-top:2px}
+  .intro-kl{font-family:'IBM Plex Mono',monospace;font-size:clamp(15px,4.4vw,20px);letter-spacing:3px;text-transform:uppercase;color:var(--muted-paper);margin:2px 0 14px}
+  .meta{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted-paper);letter-spacing:1px;text-transform:uppercase;margin:6px 0 2px}
+  .case-title{hyphens:none;-webkit-hyphens:none;overflow-wrap:break-word;font-family:'IBM Plex Mono',monospace;font-weight:700;font-size:clamp(21px,5.6vw,31px);line-height:1.18;text-transform:uppercase;letter-spacing:.5px;margin:2px 0 12px;color:#221c10}
+  .situation{font-size:15.5px;line-height:1.55;color:#2c2823}
+  .question{font-size:16px;line-height:1.45;color:#2c2823;font-weight:500;margin:0 0 14px}
+  .answer{margin:4px 0 0;padding:12px 14px;background:rgba(46,107,79,.12);border-left:3px solid var(--green-dk);border-radius:4px;font-size:14.5px;line-height:1.5;color:#2a2620}
+  .answer .alab{font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:1.2px;text-transform:uppercase;color:var(--green-dk);display:block;margin-bottom:6px}
+  .prompt{font-family:'Fraunces',serif;font-weight:600;font-size:13px;letter-spacing:1.5px;text-transform:uppercase;color:#6b6457;margin:20px 0 10px;display:flex;align-items:center;gap:8px}
+  .prompt::after{content:"";flex:1;height:1px;background:var(--line-paper)}
 
-/* ---------- Forsiden ---------- */
-.forside{text-align:center;padding:6px 0 4px}
-.hero{position:relative;width:min(74vw,270px);aspect-ratio:1;margin:0 auto 4px}
-.hero svg{width:100%;height:100%;overflow:visible}
-.hero .glod{transform-box:fill-box;transform-origin:center;
-  animation:glodpuls 11s ease-in-out infinite}
-.hero .straaler{transform-box:fill-box;transform-origin:center;
-  animation:roter 60s linear infinite, glodpuls 11s ease-in-out infinite}
-.hero .hmaane{animation:maanetur 11s ease-in-out infinite}
-@keyframes maanetur{
-  0%   {transform:translate(-125px,26px)}
-  50%  {transform:translate(0,0)}
-  100% {transform:translate(125px,-26px)}
-}
-@keyframes glodpuls{
-  0%,100%{opacity:.95;transform:scale(1.04)}
-  50%    {opacity:.3; transform:scale(.72)}
-}
-@keyframes roter{to{transform:rotate(360deg)}}
+  .choices{display:flex;flex-direction:column;border-top:1px solid var(--line-paper);border-bottom:1px solid var(--line-paper)}
+  .choice{text-align:left;width:100%;cursor:pointer;background:transparent;border:none;border-bottom:1px solid var(--line-paper);border-radius:0;padding:14px 12px;display:flex;gap:13px;align-items:flex-start;font-family:inherit;font-size:14.5px;line-height:1.45;color:#2a2620;transition:background .15s,box-shadow .15s}
+  .choice:hover{background:rgba(143,111,42,.08);box-shadow:inset 3px 0 0 var(--gold-dk)}
+  .choice:last-child{border-bottom:none}
+  .choice:focus-visible{outline:3px solid var(--gold);outline-offset:-3px}
+  .choice .key{font-family:'Fraunces',serif;font-weight:600;font-style:italic;font-size:19px;width:24px;flex:none;text-align:left;color:var(--gold-dk);text-transform:lowercase}
+  .choice .key::after{content:'.'}
 
-.titel{font-size:min(11.4vw,42px);line-height:1.02;font-weight:800;letter-spacing:-1.4px;
-  margin:2px 0 12px;background:linear-gradient(175deg,#fff 10%,#ffd68a 60%,#ff9f45 100%);
-  -webkit-background-clip:text;background-clip:text;color:transparent;
-  filter:drop-shadow(0 4px 26px rgba(255,180,80,.3))}
-.underrubrik{font-size:17px;line-height:1.5;color:#c6cde0;max-width:22em;margin:0 auto}
-.tal{color:#ffd68a;font-weight:700}
+  .verdict{display:flex;align-items:center;gap:11px;font-family:'Fraunces',serif;font-weight:700;font-size:clamp(23px,6.6vw,29px);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px}
+  .verdict .dot{width:15px;height:15px;border-radius:50%;flex:none}
+  .verdict.good{color:var(--green-dk)} .verdict.good .dot{background:var(--green)}
+  .verdict.bad{color:var(--red-dk)} .verdict.bad .dot{background:var(--red)}
+  .vsub{font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.5px;color:#6b6457;margin-bottom:14px}
+  .truth{margin-top:16px;padding:13px 15px;background:rgba(176,58,46,.09);border-left:3px solid var(--red);border-radius:4px;font-size:13.5px;line-height:1.5;color:#4a443a}
+  .truth .lab{font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:1.2px;text-transform:uppercase;color:var(--red-dk);display:block;margin-bottom:7px}
+  .country{display:inline-block;font-family:'Fraunces',serif;font-weight:700;font-size:12px;letter-spacing:2.5px;text-transform:uppercase;color:var(--paper);background:var(--ink-3);padding:4px 11px;border-radius:4px;margin:2px 0 9px}
+  .cardsub{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted-paper);letter-spacing:.5px;margin:-4px 0 14px}
+  .qbox{margin-top:14px;padding:12px 15px;background:rgba(216,178,92,.16);border-left:3px solid var(--gold);border-radius:4px}
+  .qbox .qlab{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:1.2px;text-transform:uppercase;color:var(--gold-dk);margin-bottom:5px}
+  .qbox .qt{font-family:'Fraunces',serif;font-size:15px;line-height:1.55;color:#3f3a31}
 
-.taeller{display:inline-flex;align-items:center;gap:9px;margin:18px 0 4px;
-  padding:10px 18px 10px 14px;border-radius:99px;
-  background:linear-gradient(180deg,rgba(255,209,102,.16),rgba(255,209,102,.06));
-  border:1px solid rgba(255,209,102,.3);
-  box-shadow:0 6px 22px rgba(255,170,60,.12)}
-.taeller .dage{font-size:26px;font-weight:800;color:#ffd68a;line-height:1;
-  text-shadow:0 0 18px rgba(255,200,90,.4)}
-.taeller .hvad{font-size:12.5px;line-height:1.3;color:#c6cde0;text-align:left;letter-spacing:.2px}
+  .fscene{display:block;width:100%;height:auto;margin:10px 0 4px;border:1px solid var(--line-paper);border-radius:3px;box-shadow:0 10px 26px -12px rgba(0,0,0,.55)}
+  .cover-title{hyphens:none;-webkit-hyphens:none;font-family:'Fraunces',serif;font-weight:700;font-size:clamp(30px,7.8vw,46px);line-height:1;text-transform:uppercase;letter-spacing:.5px;color:#221c10;margin:6px 0 2px}
 
-.forside .knap{margin-top:11px;font-size:19px;padding:17px 20px}
-.niveauvalg{margin-top:20px}
-.niveauvalg .knap small{display:block;font-size:12.5px;font-weight:500;opacity:.72;margin-top:3px}
-.nivchip{display:inline-block;font-size:10.5px;font-weight:800;letter-spacing:.8px;
-  text-transform:uppercase;color:#0d1024;background:#9fb4dd;border-radius:99px;
-  padding:3px 8px;vertical-align:2px}
-.fakta3{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:20px}
-.fakta3 div{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.07);
-  border-radius:15px;padding:13px 6px}
-.fakta3 .t{font-size:18px;font-weight:800;color:#ffd68a;line-height:1.1}
-.fakta3 .u{font-size:10.5px;color:#8e97b5;margin-top:4px;letter-spacing:.3px;line-height:1.3}
+  .fors{min-height:72svh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:34px 10px 30px}
+  .fors .fpraes{font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:18px}
+  .fors .ftitle{hyphens:auto;-webkit-hyphens:auto;overflow-wrap:break-word;font-family:'Fraunces',serif;font-weight:700;font-size:clamp(38px,11.5vw,72px);line-height:.96;text-transform:uppercase;letter-spacing:.5px;color:#f4efe4;text-shadow:0 0 46px rgba(216,178,92,.28)}
+  .fors .fsub{font-family:'Fraunces',serif;font-style:italic;font-size:clamp(15px,4.4vw,21px);letter-spacing:3.5px;text-transform:uppercase;color:var(--muted);margin-top:16px}
+  .fors .fbtn{margin-top:28px}
+  .hero{width:min(70vw,240px);margin:22px auto 6px}
+  .hero svg{width:100%;height:auto;display:block}
+  .hmaane{animation:glid 9s ease-in-out infinite alternate}
+  @keyframes glid{from{transform:translate(-92px,-46px)}to{transform:translate(11px,7px)}}
+  .glod{animation:aande 5s ease-in-out infinite alternate}
+  @keyframes aande{from{opacity:.72}to{opacity:1}}
+  .taeller{display:inline-flex;align-items:center;gap:12px;margin-top:20px;padding:11px 18px;border:1px solid var(--line);border-radius:6px;background:rgba(216,178,92,.08)}
+  .taeller .dage{font-family:'Fraunces',serif;font-weight:700;font-size:32px;line-height:1;color:var(--gold)}
+  .taeller .hvad{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:1.4px;text-transform:uppercase;color:var(--muted);text-align:left;line-height:1.5}
+  .fakta3{display:flex;justify-content:center;gap:26px;margin-top:24px}
+  .fakta3 .t{font-family:'Fraunces',serif;font-weight:700;font-size:24px;color:var(--gold)}
+  .fakta3 .u{font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:1.6px;color:var(--muted);margin-top:2px}
 
-/* ---------- Filmsekvens: tekstslide -> video -> videre ---------- */
-.slide{display:flex;flex-direction:column;align-items:center;justify-content:center;
-  text-align:center;min-height:min(66vh,520px);padding:20px 6px;
-  animation:blidind .5s ease-out}
-.slidetxt{font-size:clamp(21px,5.6vw,27px);line-height:1.4;font-weight:600;color:#f2f4fa;
-  max-width:17em;letter-spacing:-.3px}
-.slidebar{width:96px;height:4px;border-radius:99px;background:rgba(255,255,255,.14);
-  margin-top:30px;overflow:hidden}
-.slidebar>i{display:block;height:100%;width:0;border-radius:99px;
-  background:linear-gradient(90deg,#ffd166,#ff9f45);animation:fyldop var(--tid) linear forwards}
-@keyframes fyldop{to{width:100%}}
-@keyframes blidind{from{opacity:0}to{opacity:1}}
-@keyframes bliddud{to{opacity:0}}
-.udtoning{animation:bliddud .45s ease-in forwards}
+  .playnote{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin:0 0 16px}
+  .playnote span{font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:700;letter-spacing:1.4px;text-transform:uppercase;color:var(--gold-dk);border:1px solid rgba(143,111,42,.45);border-radius:3px;padding:6px 11px;background:rgba(216,178,92,.1)}
+  .dossier{border-top:1px solid var(--line-paper);border-bottom:1px solid var(--line-paper);padding:12px 0;margin:0 0 16px;display:flex;flex-direction:column;gap:8px}
+  .drow{display:flex;gap:12px;align-items:center;font-size:13.5px}
+  .dk{font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:1.2px;text-transform:uppercase;color:var(--muted-paper);width:92px;flex:none}
+  .dv{color:#2c2823}
 
-.filmramme{display:flex;align-items:center;justify-content:center;
-  min-height:min(66vh,520px);animation:blidind .45s ease-out}
-.filmramme video{width:100%;max-height:min(66vh,520px);border-radius:20px;background:#000;
-  display:block;box-shadow:0 16px 46px rgba(0,0,0,.5)}
-.spring{display:block;width:100%;margin-top:18px;background:none;border:0;cursor:pointer;
-  font-family:inherit;font-size:13.5px;color:#6f7899;letter-spacing:.3px}
-.spring:active{color:#c6cde0}
+  .btn{font-family:'Fraunces',serif;font-weight:600;font-size:15px;letter-spacing:1px;text-transform:uppercase;cursor:pointer;border:1px solid var(--line);border-radius:6px;padding:13px 24px;background:var(--ink-3);color:var(--paper);transition:transform .12s,box-shadow .15s,background .15s}
+  .btn:hover{transform:translateY(-1px);box-shadow:0 8px 20px -10px rgba(0,0,0,.6);background:#22305a}
+  .btn:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+  .btn.go{background:linear-gradient(160deg,#eccd82,var(--gold) 55%,#b08f42);color:#241c0c;border-color:transparent;box-shadow:inset 0 1px 0 rgba(255,255,255,.45),0 2px 6px rgba(0,0,0,.3)}
+  .btn.go:hover{background:linear-gradient(160deg,#f3d894,#dcbb6d 55%,#bb9a4b)}
+  .btn.big{font-size:18px;padding:16px 32px}
+  .btn.fuld{width:100%;display:block;margin-top:10px}
+  .btn small{display:block;font-family:'IBM Plex Mono',monospace;font-weight:400;font-size:10.5px;letter-spacing:.8px;text-transform:none;opacity:.75;margin-top:4px}
+  .gate-btn{background:transparent;border:2px solid var(--gold);color:var(--gold);font-family:'Fraunces',serif;text-transform:uppercase;letter-spacing:3px;font-size:16px;padding:14px 32px;border-radius:6px;cursor:pointer;transition:background .2s}
+  .gate-btn:hover{background:rgba(216,178,92,.14)}
+  .backlink{background:none;border:none;font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:1px;text-transform:uppercase;color:#a89e86;cursor:pointer;padding:6px 2px;opacity:.65;transition:opacity .15s,color .15s}
+  .backlink:hover{opacity:1;color:#6b6457}
+  .backrow{margin-top:12px;display:flex}
+  .actions{margin-top:18px;display:flex;justify-content:flex-end;align-items:center;gap:12px}
+  button{touch-action:manipulation;-webkit-tap-highlight-color:transparent}
 
-/* Videoplads */
-.videoslot{position:relative;width:100%;aspect-ratio:16/9;border-radius:16px;overflow:hidden;
-  background:rgba(255,255,255,.04);border:1.5px dashed rgba(255,255,255,.22);
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-  text-align:center;padding:16px;margin-bottom:14px}
-.videoslot video,.videoslot iframe{position:absolute;inset:0;width:100%;height:100%;
-  border:0;object-fit:cover;background:#000}
-.videoslot .ikon{font-size:30px;margin-bottom:8px;opacity:.5}
-.videoslot .txt{font-size:13px;color:#8e97b5;line-height:1.45}
+  .screen{background:var(--ink-2);border:1px solid var(--line);border-radius:12px;padding:30px 24px;box-shadow:var(--shadow)}
+  .kicker{font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:14px}
+  .bigscore{font-family:'Fraunces',serif;font-weight:700;font-size:54px;line-height:1;margin:18px 0 2px;color:var(--gold)}
+  .scoreline{font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--muted);margin-top:4px}
+  .sharegrid{font-size:20px;letter-spacing:3px;margin:14px 0 2px}
 
-/* Tegneserie — lodret stribe, så hver rude fylder hele skærmbredden */
-.billedslot{position:relative;width:100%;border-radius:18px;overflow:hidden;
-  background:rgba(255,255,255,.04);border:1.5px solid rgba(255,255,255,.12);
-  margin-bottom:14px;box-shadow:0 10px 30px rgba(0,0,0,.25)}
-.billedslot img{display:block;width:100%;height:auto}
-.billedslot .ph{display:none;padding:26px 20px;text-align:center}
-.billedslot.fejl{border-style:dashed;border-color:rgba(255,255,255,.2);box-shadow:none}
-.billedslot.fejl .ph{display:block}
-.billedslot .ikon{font-size:30px;margin-bottom:8px;opacity:.5}
-.billedslot .txt{font-size:13px;color:#8e97b5;line-height:1.45}
-.ruder{position:absolute;inset:0;pointer-events:none}
-.stribe{border-radius:18px;overflow:hidden;border:1.5px solid rgba(255,255,255,.12);
-  box-shadow:0 10px 30px rgba(0,0,0,.25);margin-bottom:14px;background:#0a1024}
-.pnl{position:relative;width:100%;aspect-ratio:1000/592;background-repeat:no-repeat;
-  border-bottom:1px solid rgba(0,0,0,.6)}
-.pnl:last-child{border-bottom:0}
-.pnl svg{display:block;width:100%;height:100%}
-.pnl img.egen{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
-.pnl .rude{top:auto;bottom:0;height:52%}
-.billedslot.fejl .ruder{display:none}
-.rude{position:absolute;left:0;right:0;display:flex;align-items:flex-end;padding:0 11px 9px;
-  background:linear-gradient(to top,rgba(0,0,0,.86) 0%,rgba(0,0,0,.55) 26%,transparent 58%)}
-.rude span{display:flex;align-items:center;gap:9px;width:100%;
-  font-size:clamp(12.5px,3.5vw,15.5px);line-height:1.3;font-weight:600;color:#fff;
-  text-shadow:0 1px 5px rgba(0,0,0,.85)}
-.rude b{flex:none;display:grid;place-items:center;width:21px;height:21px;border-radius:50%;
-  background:#ffd166;color:#1a1204;font-size:12px;font-weight:800;text-shadow:none}
+  /* ---------- Plancher: tegnede figurer paa papir ---------- */
+  .planchefig{background:#0c1226;border:1px solid var(--line-paper);border-radius:3px;padding:8px;margin:12px 0 14px}
+  .planchefig svg{width:100%;height:auto;display:block;font-family:'Inter',sans-serif}
 
-.valg{display:grid;gap:11px;margin-top:15px}
-.valg button{position:relative;width:100%;text-align:left;font-family:inherit;font-size:17.5px;
-  font-weight:600;color:#f2f4fa;line-height:1.35;padding:17px 19px;cursor:pointer;
-  background:linear-gradient(165deg,rgba(255,255,255,.09),rgba(255,255,255,.04));
-  border:1.5px solid rgba(255,255,255,.13);border-radius:17px;
-  transition:all .2s;box-shadow:inset 0 1px 0 rgba(255,255,255,.06)}
-.valg button:active{transform:scale(.985);border-color:rgba(255,214,138,.5)}
-/* Dæmpet markering: det rigtige lyser blødt op, det forkerte falmer bare */
-.valg button.rigtigt{
-  background:linear-gradient(165deg,rgba(120,215,160,.2),rgba(120,215,160,.08));
-  border-color:rgba(130,222,170,.55);color:#dbf5e6}
-.valg button.rigtigt::after{content:"\2713";position:absolute;right:16px;top:50%;
-  transform:translateY(-50%);font-size:19px;font-weight:700;color:#8fe0b0;opacity:.9}
-.valg button.forkert{background:rgba(255,255,255,.03);border-color:rgba(255,255,255,.1);
-  color:#8b93ad}
-.valg button:disabled{cursor:default}
-.valg button.blegn{opacity:.4}
+  /* ---------- Feltoevelse 1: skab formoerkelsen ---------- */
+  .maalere{display:flex;gap:8px;margin:6px 0 12px}
+  .maaler{flex:1;text-align:center;border:1px solid var(--line-paper);border-radius:4px;padding:8px 4px;background:rgba(24,34,64,.06)}
+  .maaler .v{font-family:'Fraunces',serif;font-weight:700;font-size:20px;color:#221c10;line-height:1}
+  .maaler .n{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:1.4px;color:var(--muted-paper);margin-top:4px}
+  #scene{position:relative;border-radius:4px;overflow:hidden;background:#0a1024;border:1px solid var(--line-paper);touch-action:none;cursor:grab}
+  #scene svg{width:100%;height:auto;display:block}
+  #hjaelp{position:absolute;left:0;right:0;bottom:10px;text-align:center;font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:1px;color:#ffe9b8;transition:opacity .4s;text-shadow:0 2px 8px #000}
+  .felt-fb{margin-top:14px;padding:13px 15px;background:rgba(216,178,92,.16);border-left:3px solid var(--gold);border-radius:4px;font-size:14px;line-height:1.55;color:#3f3a31}
+  .felt-fb b{color:#221c10}
 
-.feedback{margin-top:15px;padding:16px 18px;border-radius:18px;font-size:17px;line-height:1.55;
-  border:1px solid rgba(255,209,102,.22);border-left:4px solid #ffd166;
-  background:linear-gradient(120deg,rgba(255,209,102,.13),rgba(255,209,102,.05));
-  color:#f6ead0;box-shadow:0 8px 24px rgba(0,0,0,.2)}
-.feedback b{color:#ffd68a}
+  /* ---------- Feltoevelse 2: minut for minut ---------- */
+  .urkort{border:1px solid var(--line-paper);border-radius:4px;overflow:hidden;background:#0a1024;margin:12px 0 4px}
+  .uroverst{display:flex;justify-content:space-between;align-items:baseline;padding:10px 12px;background:rgba(216,178,92,.1)}
+  .urtid{font-family:'Fraunces',serif;font-weight:700;font-size:26px;color:var(--gold);line-height:1}
+  .urdaek{font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:1px;color:#c8d0e4}
+  #urScene{width:100%;height:auto;display:block}
+  #urSkyder{width:calc(100% - 24px);margin:12px}
+  input[type=range]{-webkit-appearance:none;appearance:none;height:26px;background:transparent}
+  input[type=range]::-webkit-slider-runnable-track{height:5px;border-radius:3px;background:linear-gradient(90deg,#2a3556,var(--gold))}
+  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:26px;height:26px;margin-top:-11px;border-radius:50%;background:var(--sun);border:2px solid #fff8d8;box-shadow:0 2px 10px rgba(0,0,0,.5)}
+  input[type=range]::-moz-range-track{height:5px;border-radius:3px;background:#2a3556}
+  input[type=range]::-moz-range-thumb{width:24px;height:24px;border-radius:50%;background:var(--sun);border:2px solid #fff8d8}
+  .urskala{display:flex;justify-content:space-between;padding:0 14px 10px;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:1px;color:#8f9ab8}
 
-#scene{position:relative;width:100%;aspect-ratio:1/1;max-height:min(58vh,420px);cursor:grab;
-  border-radius:22px;overflow:hidden;margin-bottom:12px;touch-action:none;
-  background:linear-gradient(#1d3b7a,#4a7fc4 55%,#f0a868)}
-#scene svg{position:absolute;inset:0;width:100%;height:100%}
-#hjaelp{position:absolute;left:50%;bottom:12px;transform:translateX(-50%);font-size:13px;
-  font-weight:600;color:#fff;background:rgba(0,0,0,.45);padding:8px 15px;border-radius:99px;
-  white-space:nowrap;pointer-events:none;transition:opacity .3s}
-.maalere{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-bottom:12px}
-.maaler{background:rgba(255,255,255,.06);border-radius:14px;padding:11px 8px;text-align:center}
-.maaler .v{font-size:21px;font-weight:800;color:#ffd166;line-height:1.1}
-.maaler .n{font-size:11px;color:#8e97b5;margin-top:3px;letter-spacing:.4px}
+  /* ---------- Feltoevelse 3: sikkerhedstjek ---------- */
+  .advarsel{margin:12px 0 14px;padding:13px 15px;background:rgba(176,58,46,.1);border-left:3px solid var(--red);border-radius:4px}
+  .advarsel b{display:block;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:1.4px;text-transform:uppercase;color:var(--red-dk);margin-bottom:6px}
+  .advarsel p{font-size:14px;line-height:1.5;color:#4a443a}
+  .ting{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:12px 0}
+  .ting button{display:flex;flex-direction:column;align-items:center;gap:6px;padding:14px 8px;border:1px solid var(--line-paper);border-radius:5px;background:#fbf7ea;cursor:pointer;font-family:inherit;transition:transform .12s,background .2s,border-color .2s}
+  .ting button:hover{transform:translateY(-2px)}
+  .ting button .em{font-size:28px;line-height:1}
+  .ting button .na{font-size:12.5px;line-height:1.35;text-align:center;color:#2a2620}
+  .ting button.ja{background:rgba(61,138,96,.18);border-color:var(--green-dk)}
+  .ting button.nej{background:rgba(176,58,46,.14);border-color:var(--red)}
+  .ting button.faerdig{cursor:default}
 
-.ting{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-top:14px}
-.ting button{font-family:inherit;background:rgba(255,255,255,.07);
-  border:1.5px solid rgba(255,255,255,.15);border-radius:18px;padding:16px 10px;
-  cursor:pointer;color:#f0f2f8;transition:all .15s}
-.ting button:active{transform:scale(.96)}
-.ting .em{font-size:32px;display:block;margin-bottom:7px}
-.ting .na{font-size:14px;font-weight:600;line-height:1.25}
-.ting button.ja{background:rgba(107,222,138,.2);border-color:#6bde8a}
-.ting button.nej{background:rgba(255,107,107,.16);border-color:#ff6b6b}
-.ting button.faerdig{opacity:.5}
+  /* ---------- Avisforsiden til sidst ---------- */
+  .avis{background:#f7f4ec;color:#16130d;border-radius:2px;padding:22px 20px 18px;border:1px solid #c9c0ad;box-shadow:0 1px 0 rgba(0,0,0,.05),0 14px 0 -7px #efe9da,0 15px 0 -6px rgba(0,0,0,.18),var(--shadow);margin-bottom:16px}
+  .avis .ahoved{overflow-wrap:break-word;font-family:'Fraunces',serif;font-weight:700;font-size:clamp(34px,11vw,58px);letter-spacing:2px;text-align:center;text-transform:uppercase;line-height:.9;margin-bottom:2px}
+  .avis .aslogan{font-family:'Fraunces',serif;font-style:italic;font-size:clamp(12.5px,3.6vw,15px);text-align:center;color:#3a352b;padding-bottom:9px;border-bottom:3px solid #16130d}
+  .avis .adato{font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:1.5px;text-transform:uppercase;text-align:center;color:#16130d;border-bottom:1px solid #c9c0ad;padding:6px 2px}
+  .avis .aover{font-family:'IBM Plex Mono',monospace;font-weight:700;font-size:11px;letter-spacing:3px;text-transform:uppercase;color:#8a2b1d;text-align:center;margin:15px 0 6px}
+  .avis .arubrik{hyphens:auto;-webkit-hyphens:auto;font-family:'Fraunces',serif;font-weight:700;font-size:clamp(28px,8vw,42px);line-height:1.02;text-align:center;margin:0 2px 10px}
+  .avis .amanchet{font-family:'Fraunces',serif;font-style:italic;font-size:clamp(14px,4vw,16.5px);line-height:1.45;text-align:center;color:#3a352b;padding-bottom:12px;border-bottom:1px solid #c9c0ad;margin:0 6px 12px}
+  .avis .abyline{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:#7d745d;text-align:center;margin-bottom:13px}
+  .avis .abrod{font-family:'Fraunces',serif;font-size:13px;line-height:1.5;color:#16130d;columns:2;column-gap:20px;column-rule:1px solid #c9c0ad;text-align:justify;hyphens:auto;-webkit-hyphens:auto}
+  .avis .abrod::first-letter{float:left;font-family:'Fraunces',serif;font-weight:700;font-size:33px;line-height:.82;padding:3px 6px 0 0}
+  .avis .aresultat{margin-top:16px;border:1.5px solid #16130d;padding:11px 13px}
+  .avis .ares-h{font-family:'IBM Plex Mono',monospace;font-weight:700;font-size:11px;letter-spacing:2px;text-transform:uppercase;text-align:center;border-bottom:1px solid #c9c0ad;padding-bottom:7px;margin-bottom:10px}
+  .avis .ares-row{display:flex;align-items:center;gap:16px}
+  .avis .ares-score{font-family:'Fraunces',serif;font-weight:700;font-size:46px;line-height:1;flex:none}
+  .avis .ares-score span{font-size:19px;color:#7d745d}
+  .avis .ares-grid{font-size:18px;letter-spacing:2px;line-height:1.45;word-break:break-word;min-width:0}
+  .avis-img{display:block;width:100%;height:auto;border-radius:2px;border:1px solid #c9c0ad;box-shadow:0 1px 0 rgba(0,0,0,.05),0 14px 0 -7px #efe9da,0 15px 0 -6px rgba(0,0,0,.18),var(--shadow);margin-bottom:8px}
 
-input[type=range]{-webkit-appearance:none;width:100%;height:34px;background:transparent;margin-top:6px}
-input[type=range]::-webkit-slider-runnable-track{height:8px;border-radius:99px;background:rgba(255,255,255,.16)}
-input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:30px;height:30px;
-  border-radius:50%;margin-top:-11px;background:linear-gradient(135deg,#ffd166,#ff9f45);
-  border:3px solid #0a0e1f;box-shadow:0 3px 10px rgba(0,0,0,.4)}
-input[type=range]::-moz-range-track{height:8px;border-radius:99px;background:rgba(255,255,255,.16)}
-input[type=range]::-moz-range-thumb{width:26px;height:26px;border-radius:50%;
-  border:3px solid #0a0e1f;background:#ffd166}
-.portraet{margin:14px 0 0;border-radius:18px;overflow:hidden;
-  border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.05);
-  box-shadow:0 10px 30px rgba(0,0,0,.25)}
-.portraet img{display:block;width:100%;height:auto;max-height:min(46vh,340px);
-  object-fit:cover;object-position:center 22%}
-.portraet .ph{display:none;font-size:46px;text-align:center;padding:26px 0 10px}
-.portraet.fejl .ph{display:block}
-.portraet figcaption{font-size:13px;color:#98a1bf;padding:9px 13px;text-align:center;
-  background:rgba(0,0,0,.22)}
-.kortfigur{background:linear-gradient(165deg,rgba(255,255,255,.07),rgba(255,255,255,.03));
-  border:1px solid rgba(255,255,255,.09);border-radius:20px;padding:14px 10px;margin:4px 0 15px;
-  box-shadow:0 10px 30px rgba(0,0,0,.25)}
-.kortfigur svg{display:block;width:100%;height:auto}
-.urkort{background:linear-gradient(165deg,rgba(255,255,255,.085),rgba(255,255,255,.035));
-  border:1px solid rgba(255,255,255,.1);border-radius:22px;padding:16px;margin:16px 0 4px;
-  box-shadow:0 10px 30px rgba(0,0,0,.28)}
-.uroverst{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:11px}
-.urtid{font-size:34px;font-weight:800;color:#ffd68a;line-height:1;letter-spacing:-1px;
-  font-variant-numeric:tabular-nums;text-shadow:0 0 18px rgba(255,200,90,.35)}
-.urdaek{font-size:14px;color:#c6cde0;font-weight:600}
-.urdaek span{color:#ffd68a;font-weight:800;font-size:17px}
-#urScene{width:100%;height:auto;display:block;border-radius:14px;overflow:hidden}
-.urskala{display:flex;justify-content:space-between;font-size:11.5px;color:#8e97b5;
-  margin-top:-4px;letter-spacing:.3px}
+  /* ---------- Missionsbevis ---------- */
+  .bevis{text-align:center}
+  .bevis .segl{font-size:44px;line-height:1;margin-bottom:6px}
+  .bevis .rang{font-family:'Fraunces',serif;font-weight:700;font-size:clamp(24px,7vw,36px);text-transform:uppercase;letter-spacing:1px;color:#221c10;line-height:1.05;margin:6px 0}
+  .bevis hr{border:none;border-top:1px solid var(--line-paper);margin:14px 0}
+  .nedtael{display:flex;justify-content:center;gap:14px;margin:8px 0}
+  .nedtael .t{font-family:'Fraunces',serif;font-weight:700;font-size:26px;color:var(--gold-dk);line-height:1}
+  .nedtael .l{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:1.4px;color:var(--muted-paper);margin-top:3px}
+  .huske{margin:6px 0 0;padding-left:20px;font-size:14.5px;line-height:1.7;color:#2c2823}
+  .huske li{margin-bottom:5px}
 
-#diplom{background:linear-gradient(150deg,#131a35,#1e2954);
-  border:2px solid rgba(255,209,102,.42);border-radius:24px;padding:28px 22px;text-align:center}
-#diplom .segl{font-size:52px;margin-bottom:6px}
-#diplom .navne{font-size:27px;font-weight:800;color:#ffd166;margin:12px 0;line-height:1.25;
-  word-break:break-word}
-#diplom hr{border:0;border-top:1px solid rgba(255,255,255,.15);margin:18px 0}
+  .protokol{margin-top:26px;text-align:left}
+  .protokol h3{font-family:'Fraunces',serif;text-transform:uppercase;letter-spacing:2px;font-size:15px;color:var(--gold);margin-bottom:4px}
+  .protokol .psub{font-size:13px;color:#a9b3c8;margin-bottom:12px}
+  .prow{display:flex;align-items:center;gap:12px;padding:9px 10px;border:1px solid var(--line);border-radius:6px;margin-bottom:7px;background:rgba(255,255,255,.02)}
+  .prow .pmark{font-family:'Permanent Marker',cursive;font-size:19px;width:26px;text-align:center;flex-shrink:0}
+  .prow .pmark.r{color:var(--green)}
+  .prow .pmark.w{color:var(--red)}
+  .prow .pnm{font-family:'Fraunces',serif;font-size:15px;letter-spacing:.4px}
+  .prow .pln{font-size:12px;color:var(--muted)}
 
-.nedtael{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:8px 0 4px}
-.nedtael div{background:rgba(255,255,255,.06);border-radius:13px;padding:11px 3px}
-.nedtael .t{font-size:23px;font-weight:800;color:#ffd166;line-height:1}
-.nedtael .l{font-size:10px;color:#8e97b5;margin-top:4px;letter-spacing:.5px}
+  .share-modal{position:fixed;inset:0;background:rgba(6,10,22,.8);display:flex;align-items:center;justify-content:center;z-index:100;padding:20px;backdrop-filter:blur(4px)}
+  .share-box{background:var(--paper);border-radius:10px;padding:22px;max-width:340px;width:100%;box-shadow:0 20px 46px rgba(0,0,0,.5)}
+  .share-box h3{font-family:'Fraunces',serif;text-transform:uppercase;letter-spacing:1.5px;font-size:16px;margin:0 0 14px;color:#211d18}
+  .share-list{display:flex;flex-direction:column;gap:8px}
+  .share-btn{display:flex;align-items:center;gap:12px;padding:11px 14px;background:#fff;border:1px solid rgba(0,0,0,.12);border-radius:6px;font-family:'Inter',sans-serif;font-size:14px;color:#2c2823;cursor:pointer;text-align:left;text-decoration:none}
+  .share-btn:hover{background:#f5efe0}
+  .share-btn .ico{width:24px;height:24px;flex:none;display:flex;align-items:center;justify-content:center;border-radius:5px;color:#fff;font-weight:700;font-size:12px}
+  .share-btn .ico.x{background:#000}
+  .share-btn .ico.wa{background:#25d366}
+  .share-btn .ico.sms{background:#34c759}
+  .share-btn .ico.cp{background:var(--gold);color:#1a1710}
+  .share-close{margin-top:14px;width:100%;padding:10px;background:transparent;border:1px solid rgba(0,0,0,.2);border-radius:5px;font-family:'Fraunces',serif;text-transform:uppercase;letter-spacing:1px;font-size:12px;color:#4a443a;cursor:pointer}
 
-ul.huske{list-style:none;text-align:left;margin-top:10px}
-ul.huske li{font-size:16px;line-height:1.45;color:#c3cadf;padding:9px 0 9px 30px;
-  position:relative;border-bottom:1px solid rgba(255,255,255,.07)}
-ul.huske li:last-child{border-bottom:0}
-ul.huske li::before{content:"\2611";position:absolute;left:0;top:8px;color:#ffd166;font-size:17px}
+  .fade{animation:fade .45s ease}
+  @keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+  .footer{text-align:center;font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:#7c88a4;letter-spacing:.5px;line-height:1.6;margin-top:4px}
+  .footer span{color:var(--gold)}
 
-.advarsel{background:rgba(255,107,107,.13);border:1.5px solid rgba(255,107,107,.42);
-  border-radius:18px;padding:16px 18px;margin-bottom:14px}
-.advarsel b{color:#ff9b9b;display:block;margin-bottom:5px;font-size:16px}
-.advarsel p{font-size:15px;color:#ffd4d4}
+  /* ---------- Filmlaget ---------- */
+  .film-overlay{position:fixed;inset:0;background:#05070f;z-index:9998;display:flex;align-items:center;justify-content:center;opacity:1;transition:opacity .45s ease}
+  .film-overlay.out{opacity:0}
+  .film-skip{position:fixed;right:16px;bottom:16px;background:transparent;border:1px solid rgba(244,239,228,.3);color:rgba(244,239,228,.75);font-family:'Fraunces',serif;text-transform:uppercase;letter-spacing:2px;font-size:12px;padding:8px 14px;border-radius:5px;cursor:pointer;z-index:9999}
+  .ss-frame{position:absolute;inset:0;max-width:560px;margin:0 auto;overflow:hidden}
+  .ss-slide{position:absolute;inset:0;opacity:0;transition:opacity .7s ease;display:flex;align-items:center;justify-content:center;padding:34px 30px;flex-direction:column;text-align:center}
+  .ss-slide.vis{opacity:1}
+  .ss-kicker{font-family:'IBM Plex Mono',monospace;font-size:12.5px;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin-bottom:20px}
+  .ss-title{hyphens:none;-webkit-hyphens:none;overflow-wrap:break-word;font-family:'Fraunces',serif;font-weight:700;font-size:clamp(32px,9.5vw,54px);line-height:1.02;text-transform:uppercase;letter-spacing:1px;color:#f4efe4}
+  .ss-sub{font-family:'Fraunces',serif;font-style:italic;font-size:clamp(14px,4.2vw,19px);letter-spacing:3px;text-transform:uppercase;color:#9aa6c4;margin-top:14px}
+  .ss-body{font-family:'Fraunces',serif;font-size:clamp(19px,5.4vw,26px);line-height:1.5;color:#eef1f8;max-width:21ch;margin-top:4px}
+  .ss-rule{width:46px;height:2px;background:var(--gold);opacity:.7;margin:22px auto 0}
+  .ss-imgslide{padding:22px 18px;display:flex;flex-direction:column;justify-content:center}
+  .ss-imgwrap{position:relative;flex:0 1 auto;min-height:0;width:100%;display:flex;align-items:center;justify-content:center}
+  .ss-imgwrap img{max-width:100%;max-height:64vh;object-fit:contain;border:1px solid rgba(216,178,92,.5);border-radius:3px;box-shadow:0 20px 60px -18px rgba(0,0,0,.75);will-change:transform}
+  .ss-rude{width:min(78vw,340px);height:min(58vh,560px);background-repeat:no-repeat;border:1px solid rgba(216,178,92,.5);border-radius:3px;box-shadow:0 20px 60px -18px rgba(0,0,0,.75);will-change:transform}
+  .ss-cap{flex:0 0 auto;font-family:'IBM Plex Mono',monospace;font-size:clamp(13px,3.6vw,15.5px);letter-spacing:1.6px;text-transform:uppercase;color:var(--gold);opacity:.92;margin-top:14px;line-height:1.5;text-align:center}
+  .ss-kb{animation:sskb var(--kb,5s) ease-out both}
+  @keyframes sskb{from{transform:scale(1.015)}to{transform:scale(1.075)}}
+  .ss-video{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;background:#000}
+  .ss-bar{position:absolute;left:0;right:0;bottom:0;height:3px;background:rgba(255,255,255,.08)}
+  .ss-fill{height:100%;width:100%;transform:scaleX(0);transform-origin:left;will-change:transform;background:linear-gradient(90deg,var(--gold-dk),var(--gold))}
+  .ss-paused .ss-kb{animation-play-state:paused}
+  .ss-pauselbl{position:absolute;top:18px;left:0;right:0;text-align:center;font-family:'Fraunces',serif;text-transform:uppercase;letter-spacing:4px;font-size:15px;color:#f4efe4;opacity:0;transition:opacity .2s;pointer-events:none}
+  .ss-paused .ss-pauselbl{opacity:.9}
 
-.kredit{text-align:center;font-size:13px;color:#6f7899;line-height:1.7;margin-top:26px;
-  padding-top:18px;border-top:1px solid rgba(255,255,255,.08)}
-.kredit b{color:#8e97b5;font-weight:700}
-
-@keyframes ind{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
-.skaerm{animation:ind .35s ease-out}
-@keyframes puls{0%,100%{transform:scale(1)}50%{transform:scale(1.06)}}
-.pulser{animation:puls 1.6s ease-in-out infinite}
+  @media (max-width:430px){
+    .card{padding:52px 18px 20px}
+    .screen{padding:24px 18px}
+    .ting{grid-template-columns:1fr 1fr}
+  }
+  @media (prefers-reduced-motion:reduce){*{animation:none !important;transition:none !important}}
 </style>
 </head>
 <body>
 
 <canvas id="stjerner"></canvas>
-<div class="wrap">
-  <div class="top skjul" id="top">
-    <div class="bar"><i id="barfyld"></i></div>
-    <div class="stjernetal" id="stjernetal">⭐ 0</div>
+
+<div class="stage">
+
+  <header class="bar" id="bar">
+    <span class="brand"><span class="logo">Solformørkelses-Missionen</span></span>
+    <span class="casecount" id="casecount"></span>
+  </header>
+
+  <div class="record" id="record" style="display:none">
+    <div class="segs" id="segs"></div>
+    <span class="rec-lbl" id="rec-lbl"><b>0</b> rigtige</span>
   </div>
+
   <div id="app"></div>
+
+  <div class="footer">
+    Udviklet af <span>KlosKlos og Reagan Production</span><br>
+    Tidspunkter gælder for København. I Vestjylland dækkes op til 88 procent.
+  </div>
 </div>
 
 <script>
-/* ==================================================================
-   1) VIDEOER
-   ------------------------------------------------------------------
-   Læg dine fem videoer i mappen "videos/" med præcis disse filnavne,
-   så finder spillet dem selv. Mangler en fil, viser spillet i stedet
-   en kort beskrivelse — spillet virker fint uden videoerne.
+/* ---------------------------------------------------------
+   SOLFORMØRKELSES-MISSIONEN v2.0
+   13 punkter om myter, sol, måne og sikkerhed.
+   Tre svar pr. punkt i barnetilstand, fem i vokentilstand.
+   Videoer, musik og billeder ligger i mapperne videos/ og
+   billeder/. Mangler en fil, springer spillet den over.
+--------------------------------------------------------- */
 
-   Vil du hellere bruge YouTube, så skriv et embed-link i stedet, fx:
-   intro: "https://www.youtube.com/embed/XXXXXXXXXXX"
-   ================================================================== */
-const VIDEOER = {
-  intro:    "videos/sol1.mp4",
-  kina:     "videos/Kina.mp4",       // dragen der spiser solen
-  krig:     "videos/krig.mp4",       // slaget der gik i stå
-  pige:     "videos/pige.mp4",       // pigen der drømmer sig ud i rummet   // Månen glider ind foran solen
-  historie: "videos/sol2.mp4",   // Ulven Sköll bider i solen
-  maane:    "videos/sol3.mp4",   // Set fra rummet: månens skygge rammer Jorden
-  moerke:   "videos/dyrsover.mp4",  // fuglene bliver stille   // Fuglene bliver stille, lyset bliver gråt
-  sikker:   "videos/sol5.mp4"    // Barn tager solformørkelsesbriller på
-};
-
-/* ==================================================================
-   1b) TEGNESERIER
-   ------------------------------------------------------------------
-   Læg dine tegneserie-billeder i mappen "billeder/" med disse navne.
-   Hvert felt er ÉT billede — enten en hel stribe i én fil, eller et
-   billede du selv har sat sammen af 3-5 ruder.
-   Mangler filen, viser spillet en tekstbeskrivelse i stedet.
-   ================================================================== */
-const BILLEDER = {
-  lysrejse: {
-    fil: "billeder/tegneserie1.jpg",     // én stribe med 4 ruder
-    tekster: [
-      "Solen sender en lysstråle af sted mod Jorden.",
-      "Den suser gennem det tomme rum, forbi stjernerne.",
-      "Undervejs passerer den månen. Turen er lang.",
-      "Efter 8 minutter rammer den din kind."
-    ]
-  },
-
-  /* Denne stribe er sat sammen af tre kilder:
-       udsnit  -> et udklip af en større fil, målt i procent
-       tegning -> tegnes af spillet, så geometrien bliver nøjagtig
-       fil     -> sit eget billede                                  */
-  stoerrelse: {
-    ruder: [
-      { fil: "billeder/tegneserie2.jpg",
-        udsnit: { x:12.68, y:0.06, bredde:74.56, hoejde:32.78 },
-        tekst: "Solen er kæmpestor. Månen er som en lille sten ved siden af." },
-
-      { tegning: 1,
-        tekst: "Men solen står også 400 gange længere væk end månen." },
-
-      { fil: "billeder/rude3.jpg", reserve: "billeder/rude3.png",
-        tekst: "Derfor ser de lige store ud — og månen kan dække solen." }
-    ]
-  }
-};
-
-const BILLEDTEKST = {
-  lysrejse:   "Tegneserie: sollysets 8 minutter lange rejse fra solen til Jorden.",
-  stoerrelse: "Tegneserie: solen er kæmpestor og langt væk — månen er lille og tæt på."
-};
-
-/* Tekst der vises, hvis videofilen ikke findes */
-const VIDEOTEKST = {
-  intro:    "Solen på en blå himmel — månen glider langsomt ind foran og gør himlen mørkere.",
-  kina:     "En drage forsøger at spise solen.",
-  krig:     "Slaget der gik i stå, da solen forsvandt.",
-  pige:     "En pige kigger op mod månen — og forestiller sig selv derude.",
-  historie: "Vikingemyten: en stor ulv bider i solen, mens folk nedenfor slår på skjolde.",
-  maane:    "Set fra rummet: månen lægger sig mellem solen og Jorden og kaster en rund skygge.",
-  moerke:   "Dyrene bliver stille, når lyset forsvinder.",
-  sikker:   "Et barn tager solformørkelsesbriller på og kigger trygt op mod himlen."
-};
-
-/* ==================================================================
-   2) FAKTA — tallene gælder for København.
-      I Vestjylland dækkes op til 88 % af solen.
-   ================================================================== */
+/* ====================== 1) FAKTA ====================== */
 const FAKTA = {
   dato:     "12. august 2026",
   start:    "19:10",
   maksimum: "20:04",
   slut:     "20:54",
   daekning: 83,
-  maalTid:  new Date(2026, 7, 12, 20, 4, 0)
+  maalTid:  new Date(2026, 7, 12, 20, 4, 0),
+  slutTid:  new Date(2026, 7, 12, 20, 54, 0)
 };
 
-/* ====================== Stjernehimmel ====================== */
+/* ====================== 2) MEDIER ======================
+   Findes filen ikke, viser spillet et tekstkort i stedet. */
+const VIDEO = {
+  intro:  "videos/sol1.mp4",     /* månen glider ind foran solen */
+  ulv:    "videos/sol2.mp4",     /* vikingemyten: ulven Sköll */
+  drage:  "videos/Kina.mp4",     /* dragen der spiser solen */
+  krig:   "videos/krig.mp4",     /* slaget der gik i stå */
+  rummet: "videos/sol3.mp4",     /* månens skygge set fra rummet */
+  dyr:    "videos/dyrsover.mp4", /* fuglene bliver stille */
+  briller:"videos/sol5.mp4",     /* barn tager formørkelsesbriller på */
+  pige:   null                   /* valgfri: pigen der drømmer sig ud i rummet.
+                                    Har du filen, skriv "videos/pige.mp4" her
+                                    og saet den ind i MELLEMSPIL under "10". */
+};
+const MUSIK = {
+  titel:  "introsol.mp3",   /* titelsekvensen, ca. 11 sek. */
+  planche:"felt.mp3",       /* billedsekvensen, ca. 40 sek. */
+  slut:   "udsol.mp3"       /* slutskærmen, ca. 20 sek. */
+};
+const LYSREJSE = {
+  fil: "billeder/tegneserie1.jpg",
+  tekster: [
+    "Solen sender en lysstråle af sted mod Jorden.",
+    "Den suser gennem det tomme rum, forbi stjernerne.",
+    "Undervejs passerer den månen. Turen er lang.",
+    "Efter 8 minutter rammer den din kind."
+  ]
+};
+const PORTRAETTER = {
+  "10": "billeder/koch.jpg"      /* Christina Koch, NASA */
+};
+
+/* ====================== 3) PUNKTERNE ====================== */
+const PUNKTER = [
+  { id:"01", kat:"Myternes tid", titel:"Ulven der bed i solen",
+    based:"Norden · vikingetiden",
+    situation:"For tusind år siden vidste ingen, hvorfor solen kunne forsvinde midt om dagen. Så folk fandt selv på forklaringer, og i Norden var de ret dramatiske.",
+    spm:"Hvad troede vikingerne, der skete med solen?",
+    svar:[
+      {t:"En kæmpe ulv ved navn Sköll indhentede solen og bed et stykke af den.", ok:true},
+      {t:"En kæmpeslange lagde sig i en ring om solen og kvalte lyset.", ok:false},
+      {t:"Guderne slukkede solen som straf, når mennesker havde løjet.", ok:false}
+    ],
+    svar5:[
+      {t:"Sköll jagtede solen, og folk larmede for at skræmme ulven væk.", ok:true},
+      {t:"Sköll jagtede månen, ikke solen.", ok:false},
+      {t:"I nordisk mytologi var det en kæmpeslange.", ok:false},
+      {t:"Historien blev opdigtet af digtere i 1800-tallet.", ok:false},
+      {t:"Solen blev stjålet af dværge og måtte købes tilbage.", ok:false}
+    ],
+    forklaring:"Der var to ulve: Sköll jagtede solen, og hans bror Hate jagtede månen. Når solen blev bidt, råbte og larmede folk for at skræmme ulven væk. Og hver gang virkede det jo. Solen kom altid tilbage.",
+    ekstra:"Ordet formørkelse hedder eclipse på engelsk. Det kommer af et græsk ord, der betyder at forlade eller svigte." },
+
+  { id:"02", kat:"Myternes tid", titel:"Dragen over Kina",
+    based:"Kina · oldtiden",
+    situation:"I Kina havde man en anden forklaring. Og man havde en fast plan for, hvad man skulle gøre, når det skete.",
+    spm:"Hvad gjorde man i Kina, når solen blev væk?",
+    svar:[
+      {t:"Man slog på trommer og gryder for at få dragen til at spytte solen ud igen.", ok:true},
+      {t:"Man tændte tusind lygter, så solen kunne finde vej tilbage.", ok:false},
+      {t:"Man gik indendørs og var helt stille, indtil det var overstået.", ok:false}
+    ],
+    svar5:[
+      {t:"Man slog på trommer, så dragen ville spytte solen ud igen.", ok:true},
+      {t:"Man tændte tusind lygter, så solen kunne finde vej hjem.", ok:false},
+      {t:"Man var helt stille, indtil det var overstået.", ok:false},
+      {t:"Dragen hører til i japansk mytologi, ikke i den kinesiske.", ok:false},
+      {t:"Myten gjaldt kun måneformørkelser.", ok:false}
+    ],
+    forklaring:"Man troede, at en drage var i færd med at spise solen, og larmen skulle få den til at slippe. Det sjove er, at kinesiske astronomer allerede kunne regne ud, hvornår formørkelser ville komme. Myten levede videre ved siden af videnskaben.",
+    ekstra:"Kinesiske hofastronomer skulle forudsige formørkelser. Ramte de forkert, kunne det koste dem stillingen." },
+
+  { id:"03", kat:"Myternes tid", titel:"Slaget der gik i stå",
+    based:"Lilleasien · omkring 585 f.Kr.",
+    situation:"To hære stod midt i et slag, da himlen pludselig blev mørk. Ingen af dem havde regnet med det.",
+    spm:"Hvad skete der, da solformørkelsen kom midt i slaget mellem mederne og lyderne?",
+    svar:[
+      {t:"Begge hære blev så forskrækkede, at de lagde våbnene og sluttede fred.", ok:true},
+      {t:"Den ene hær tog det som et godt varsel og vandt slaget samme dag.", ok:false},
+      {t:"Soldaterne fortsatte kampen i mørket med fakler.", ok:false}
+    ],
+    svar5:[
+      {t:"Begge hære lagde våbnene og sluttede fred.", ok:true},
+      {t:"Den ene hær så det som et varsel og vandt slaget.", ok:false},
+      {t:"De kæmpede videre i mørket med fakler.", ok:false},
+      {t:"Det skete ved slaget ved Hastings i 1066.", ok:false},
+      {t:"Historien stammer fra en roman fra 1700-tallet.", ok:false}
+    ],
+    forklaring:"Det skete for omkring 2600 år siden. Historikeren Herodot fortæller, at krigen sluttede den dag. Formørkelsen bruges i dag til at datere slaget, fordi man kan regne baglæns og finde ud af præcis hvilken dag himlen blev mørk netop der.",
+    ekstra:"Det er en af de ældste begivenheder i verdenshistorien, som kan dateres helt præcist." },
+
+  { id:"04", kat:"Myternes tid", titel:"Er det farligt at gå udenfor?",
+    based:"Myten der stadig lever",
+    situation:"Nogle myter er ikke tusind år gamle. Den her kan man stadig høre i dag, og den er værd at få ryddet af vejen.",
+    spm:"Bliver man syg af at være udenfor under en solformørkelse?",
+    svar:[
+      {t:"Nej. Kroppen tager ingen skade. Det eneste farlige er at kigge direkte på solen.", ok:true},
+      {t:"Ja. Strålingen stiger, når solskiven bliver dækket.", ok:false},
+      {t:"Ja, men kun for helt små børn og for gravide.", ok:false}
+    ],
+    svar5:[
+      {t:"Nej. Kroppen tager ingen skade. Kun øjnene, hvis man kigger direkte på solen.", ok:true},
+      {t:"Ja. Strålingen stiger, når solskiven dækkes.", ok:false},
+      {t:"Ja, men kun for helt små børn.", ok:false},
+      {t:"Nej, men gravide blev historisk frarådet at gå ud, og det holder stik.", ok:false},
+      {t:"Ja. Luften bliver kortvarigt iltfattig.", ok:false}
+    ],
+    forklaring:"Der sker absolut ingenting med kroppen. Strålingen stiger ikke, den falder, fordi der kommer mindre sol frem. Det eneste rigtigt farlige er at kigge lige ind i solen, og det handler den sidste feltøvelse om.",
+    ekstra:"Myten findes over hele verden. Flere steder blev gravide historisk rådet til at blive inde. Der er ingen målbar effekt." },
+
+  { id:"05", kat:"Sol og måne", titel:"Lysets otte minutter",
+    based:"Fra solen til din kind",
+    situation:"Du har lige set lysstrålens rejse. Nu er spørgsmålet, hvor lang tid den tur egentlig tager.",
+    spm:"Hvor lang tid tager sollyset om at nå ned til os?",
+    svar:[
+      {t:"Cirka 8 minutter.", ok:true},
+      {t:"Det kommer med det samme.", ok:false},
+      {t:"Cirka 8 timer.", ok:false}
+    ],
+    svar5:[
+      {t:"Cirka 8 minutter.", ok:true},
+      {t:"1,3 sekunder.", ok:false},
+      {t:"Cirka 22 minutter.", ok:false},
+      {t:"Cirka 8 timer.", ok:false},
+      {t:"Det kommer med det samme.", ok:false}
+    ],
+    forklaring:"Lyset er det hurtigste i hele universet, og alligevel tager rejsen 8 minutter. Det betyder, at når du kigger på solen, ser du hvordan den så ud for 8 minutter siden. Fra månen tager lyset kun 1,3 sekunder.",
+    ekstra:"Solen står 150 millioner kilometer væk. Kørte man i bil uden pauser, ville turen tage over 170 år." },
+
+  { id:"06", kat:"Sol og måne", titel:"Hvor månelyset kommer fra",
+    based:"Månen · en kold klippekugle",
+    situation:"Månen lyser om natten. Men den laver ikke selv sit lys, og det er hele grunden til, at en solformørkelse overhovedet er mulig.",
+    spm:"Hvor kommer månens lys fra?",
+    svar:[
+      {t:"Månen spejler sollys. Den er selv en kold, grå klippekugle.", ok:true},
+      {t:"Månen brænder svagt, ligesom solen gør det kraftigt.", ok:false},
+      {t:"Månen har sit eget lys indeni, som skinner ud gennem overfladen.", ok:false}
+    ],
+    svar5:[
+      {t:"Den spejler sollys.", ok:true},
+      {t:"Den gløder svagt af sig selv.", ok:false},
+      {t:"Den lyser af jordskin.", ok:false},
+      {t:"Solvinden får overfladen til at lyse.", ok:false},
+      {t:"Den brænder som en stjerne, bare koldere.", ok:false}
+    ],
+    forklaring:"Månen laver ikke selv lys. Solen skinner på den, og en del af lyset kastes tilbage til os. Jordskin findes godt nok: sollys fra Jorden gør den mørke del af nymånen svagt synlig. Men det er ikke der, månelyset kommer fra.",
+    ekstra:"Månen er faktisk mørkegrå som gammel asfalt. Den ser hvid ud, fordi den står på en helt sort himmel." },
+
+  { id:"07", kat:"Sol og måne", titel:"Det utrolige tilfælde",
+    based:"400 gange større, 400 gange længere væk",
+    situation:"Solen er kæmpestor. Månen er en lille sten ved siden af. Alligevel ser de næsten lige store ud på himlen.",
+    spm:"Hvorfor ser sol og måne næsten lige store ud fra Jorden?",
+    svar:[
+      {t:"Solen er cirka 400 gange større end månen, men også cirka 400 gange længere væk.", ok:true},
+      {t:"De er faktisk lige store, men solen ser større ud på grund af sit lys.", ok:false},
+      {t:"Månen vokser lidt, når den kommer tæt på Jorden.", ok:false}
+    ],
+    svar5:[
+      {t:"Solen er cirka 400 gange større og cirka 400 gange længere væk.", ok:true},
+      {t:"De er faktisk lige store.", ok:false},
+      {t:"Solen er 100 gange større og 100 gange længere væk.", ok:false},
+      {t:"Månen er 400 gange større, men står tættere på.", ok:false},
+      {t:"Det ser kun sådan ud på vores breddegrader.", ok:false}
+    ],
+    forklaring:"Det er et helt vildt tilfælde, og det er præcis derfor, den lille måne kan nå at dække den enorme sol. Ingen andre planeter i solsystemet har en måne, der passer så præcist.",
+    ekstra:"Månen fjerner sig cirka 3,8 cm fra Jorden om året. Om nogle hundrede millioner år er totale solformørkelser umulige." },
+
+  { id:"08", kat:"Sol og måne", titel:"En million jordkloder",
+    based:"Solens størrelse",
+    situation:"Solen fylder mere end alt andet i solsystemet tilsammen. Men hvor meget er det egentlig?",
+    spm:"Hvor mange jordkloder er der plads til inde i solen?",
+    svar:[
+      {t:"Over en million.", ok:true},
+      {t:"Cirka 10.000.", ok:false},
+      {t:"Cirka 100.", ok:false}
+    ],
+    svar5:[
+      {t:"Cirka 1,3 millioner.", ok:true},
+      {t:"Cirka 1.300.", ok:false},
+      {t:"Cirka 130.000.", ok:false},
+      {t:"Cirka 13 millioner.", ok:false},
+      {t:"Cirka 1,3 milliarder.", ok:false}
+    ],
+    forklaring:"Cirka 1,3 millioner jordkloder. Solen er så stor, at alt andet i solsystemet er som smuler ved siden af. Til sammenligning er der plads til cirka 1.300 jordkloder i Jupiter.",
+    ekstra:"Solen udgør omkring 99,8 procent af hele solsystemets masse. Alle planeter tilsammen er resten." },
+
+  { id:"09", kat:"Sol og måne", titel:"Fodsporene der bliver liggende",
+    based:"Månen · siden 1969",
+    situation:"På månen er der ingen luft, ingen vind og intet vejr. Det har en overraskende konsekvens.",
+    spm:"Hvad sker der med astronauternes fodspor på månen?",
+    svar:[
+      {t:"De bliver liggende i millioner af år, helt skarpe.", ok:true},
+      {t:"De blæser væk efter et par dage.", ok:false},
+      {t:"De smelter, når solen rammer dem.", ok:false}
+    ],
+    svar5:[
+      {t:"De bliver liggende i millioner af år.", ok:true},
+      {t:"De er allerede væk.", ok:false},
+      {t:"De holder nogle hundrede år.", ok:false},
+      {t:"De holder til næste månelanding.", ok:false},
+      {t:"De forsvinder ved den næste måneformørkelse.", ok:false}
+    ],
+    forklaring:"Uden vind og regn er der ingenting, der kan viske dem ud. Fodsporene fra 1969 står der stadig. Kun mikroskopisk meteorstøv sliber langsomt på dem, og det tager titusinder af årtusinder.",
+    ekstra:"Astronauterne efterlod også et spejl på månen. Forskere sender stadig laserlys derop for at måle afstanden præcist." },
+
+  { id:"10", kat:"Sol og måne", titel:"Kvinden der fløj om månen",
+    based:"Artemis II · april 2026",
+    situation:"For få måneder siden fløj mennesker hele vejen rundt om månen for første gang i over 50 år. En af dem satte en rekord, ingen havde sat før.",
+    spm:"Hvad gjorde den amerikanske astronaut Christina Koch?",
+    svar:[
+      {t:"Hun fløj rundt om månen som den første kvinde nogensinde.", ok:true},
+      {t:"Hun landede på månen som den første kvinde.", ok:false},
+      {t:"Hun byggede en rumstation i kredsløb om månen.", ok:false}
+    ],
+    svar5:[
+      {t:"Hun fløj rundt om månen som den første kvinde nogensinde.", ok:true},
+      {t:"Hun landede på månen som den første kvinde.", ok:false},
+      {t:"Hun var den første kvinde på rumstationen ISS.", ok:false},
+      {t:"Hun gik en rumvandring uden for månen.", ok:false},
+      {t:"Hun styrede en månebil fra kredsløb.", ok:false}
+    ],
+    forklaring:"Turen hed Artemis II og varede fra 1. til 10. april 2026. De kom 406.771 km hjemmefra, længere end nogen mennesker før dem. Christina Koch har i forvejen rekorden for den længste rumrejse af en kvinde med 328 dage i træk. De landede ikke på månen, de fløj rundt om den og hjem igen.",
+    ekstra:"Christina Koch var også med på den allerførste rumvandring, hvor der kun var kvinder ude." },
+
+  { id:"11", kat:"Mission mørke", titel:"Fuglene der tier",
+    based:"Danmark · 12. august 2026",
+    situation:"Du har set dyrene reagere. Nu skal du kunne forudsige det, for det sker lige udenfor om lidt over en time.",
+    spm:"Hvad gør fuglene, når lyset pludselig forsvinder om aftenen?",
+    svar:[
+      {t:"De bliver stille og søger mod reden, fordi de tror, at natten er kommet.", ok:true},
+      {t:"De begynder at synge ekstra højt for at holde sammen på flokken.", ok:false},
+      {t:"De flyver i en stor cirkel, indtil lyset kommer tilbage.", ok:false}
+    ],
+    svar5:[
+      {t:"De bliver stille og søger mod reden.", ok:true},
+      {t:"De begynder at synge ekstra højt.", ok:false},
+      {t:"De flyver højere op for at finde lyset.", ok:false},
+      {t:"De reagerer ikke. 83 procent er ikke nok.", ok:false},
+      {t:"De flokkes og kredser i en stor cirkel.", ok:false}
+    ],
+    forklaring:"Fuglene tror, at det er ved at blive nat, og bliver helt stille. Mange, der har oplevet en kraftig solformørkelse, fortæller, at det mest uhyggelige ikke var mørket. Det var stilheden.",
+    ekstra:"Køer går mod stalden, og edderkopper begynder at pille deres net ned. Nogle sætter det op igen bagefter." },
+
+  { id:"12", kat:"Mission mørke", titel:"Graderne der forsvinder",
+    based:"Danmark · omkring kl. 20:04",
+    situation:"Når 83 procent af solen er dækket, forsvinder der pludselig en masse varme. Det kan mærkes på huden.",
+    spm:"Hvad sker der med temperaturen under formørkelsen?",
+    svar:[
+      {t:"Den falder typisk 2 til 5 grader.", ok:true},
+      {t:"Den stiger, fordi vinden lægger sig.", ok:false},
+      {t:"Der sker ingenting målbart.", ok:false}
+    ],
+    svar5:[
+      {t:"Den falder typisk 2 til 5 grader.", ok:true},
+      {t:"Den falder 10 til 15 grader.", ok:false},
+      {t:"Den stiger let, fordi vinden lægger sig.", ok:false},
+      {t:"Den ændrer sig ikke målbart.", ok:false},
+      {t:"Den falder først en time bagefter.", ok:false}
+    ],
+    forklaring:"Der forsvinder pludselig en masse varme fra solen, og det kan falde 2 til 5 grader. Tag en trøje med. Det laveste punkt kommer typisk nogle minutter efter maksimum, fordi jorden ikke når at følge med.",
+    ekstra:"Vinden kan også lægge sig eller skifte retning. Fænomenet kaldes formørkelsesvinden." },
+
+  { id:"13", kat:"Mission mørke", titel:"Seglene under træet",
+    based:"Det bedste trick af dem alle",
+    situation:"Det sidste punkt er også det fedeste. Du behøver ikke kigge op på himlen for at se formørkelsen. Du kan kigge ned.",
+    spm:"Hvad kan du se på jorden under et træ, mens formørkelsen sker?",
+    svar:[
+      {t:"Hundredvis af små måneformede segl, fordi hver lysplet har samme form som den halvspiste sol.", ok:true},
+      {t:"Almindelige runde lyspletter, bare svagere end ellers.", ok:false},
+      {t:"Skarpe firkantede pletter, fordi lyset brydes i bladene.", ok:false}
+    ],
+    svar5:[
+      {t:"Hundredvis af små måneformede segl.", ok:true},
+      {t:"Almindelige runde lyspletter, bare svagere.", ok:false},
+      {t:"Skarpe firkantede pletter.", ok:false},
+      {t:"Bølgende mørke striber, der løber hen over jorden.", ok:false},
+      {t:"Ingenting. Der er for lidt lys.", ok:false}
+    ],
+    forklaring:"Hullerne mellem bladene virker som bittesmå kameraer, og hver eneste lysplet på jorden får samme form som den halvspiste sol. Du kan lave det selv med et dørslag eller et stykke pap med et hul. De bølgende striber findes, men ses kun lige omkring en total formørkelse.",
+    ekstra:"Fænomenet kaldes hulkameraeffekten. Det er præcis samme princip som i det allerførste kamera." }
+];
+
+const RUNDE = PUNKTER.length;      /* 13 */
+const BESTAAET = 7;                /* minimum rigtige for missionsbeviset */
+const BOGSTAV = ["a","b","c","d","e"];
+const TIDER = ["17:00","17:10","17:20","17:30","17:40","17:50","18:00","18:10","18:20","18:30","18:40","18:50","19:00"];
+
+/* ====================== 4) PLANCHER ======================
+   Tegnede kort mellem punkterne. Alt er tegnet i koden, saa
+   tallene er i skala og der skal ikke hentes noget. */
+const PLANCHER = {
+  sjaeldent: {
+    over:"Sådan sjældent sker det",
+    tekst:"Sidst solen blev så kraftigt dækket over Danmark var i 2015. Næste gang bliver i 2048.",
+    tegn(){
+      const p = [[110,"2015","80-85 %",false],[300,"2026","83-88 %",true],[500,"2048","",false]];
+      return '<svg viewBox="0 0 600 230">'
+        + '<line x1="60" y1="120" x2="560" y2="120" stroke="rgba(255,255,255,.22)" stroke-width="3"/>'
+        + p.map(function(a){ var x=a[0],aar=a[1],pct=a[2],nu=a[3];
+            return '<circle cx="'+x+'" cy="120" r="'+(nu?26:17)+'" fill="'+(nu?"#d8b25c":"#3b4668")+'"/>'
+              + '<circle cx="'+(x+(nu?9:6))+'" cy="'+(120-(nu?7:5))+'" r="'+(nu?20:13)+'" fill="#0a1024"/>'
+              + '<text x="'+x+'" y="'+(nu?76:82)+'" fill="'+(nu?"#ffd68a":"#9aa3c0")+'" font-size="'+(nu?26:21)+'" font-weight="800" text-anchor="middle">'+aar+'</text>'
+              + '<text x="'+x+'" y="'+(nu?172:166)+'" fill="#8e97b5" font-size="15" text-anchor="middle">'+pct+'</text>';
+          }).join('')
+        + '<text x="300" y="212" fill="#ffd68a" font-size="15" font-weight="700" text-anchor="middle">33 år imellem</text></svg>';
+    }
+  },
+  stoerrelser: {
+    over:"Solen fylder alt",
+    tekst:"Solen er 109 gange bredere end Jorden. Den kan slet ikke være på siden her, kun kanten af den er med.",
+    tegn(){
+      return '<svg viewBox="0 0 600 262">'
+        + '<defs><radialGradient id="ksol" cx="0.15" cy="0.5">'
+        + '<stop offset="70%" stop-color="#ffd166"/><stop offset="100%" stop-color="#ff9f45"/></radialGradient></defs>'
+        + '<circle cx="-530" cy="131" r="656" fill="url(#ksol)"/>'
+        + '<text x="44" y="116" fill="#7a4a12" font-size="18" font-weight="800">SOLEN</text>'
+        + '<text x="44" y="137" fill="#8a5a1c" font-size="13">fortsætter</text>'
+        + '<text x="44" y="154" fill="#8a5a1c" font-size="13">ud af siden</text>'
+        + '<circle cx="330" cy="92" r="6" fill="#5b9bd5"/>'
+        + '<text x="330" y="72" fill="#9dc6ee" font-size="14" font-weight="700" text-anchor="middle">Jorden</text>'
+        + '<circle cx="432" cy="92" r="1.64" fill="#c9cddb"/>'
+        + '<text x="432" y="72" fill="#c9cddb" font-size="14" font-weight="700" text-anchor="middle">Månen</text>'
+        + '<text x="381" y="120" fill="#8e97b5" font-size="13" text-anchor="middle">i samme skala som solen</text>'
+        + '<line x1="248" y1="150" x2="576" y2="150" stroke="rgba(255,255,255,.13)"/>'
+        + '<text x="412" y="177" fill="#8e97b5" font-size="13" text-anchor="middle">de to samme, forstørret</text>'
+        + '<circle cx="356" cy="216" r="26" fill="#5b9bd5"/><circle cx="444" cy="216" r="7.1" fill="#c9cddb"/>'
+        + '<text x="356" y="254" fill="#9dc6ee" font-size="13" font-weight="700" text-anchor="middle">Jorden</text>'
+        + '<text x="444" y="254" fill="#c9cddb" font-size="13" font-weight="700" text-anchor="middle">Månen</text>'
+        + '<text x="510" y="221" fill="#ffd68a" font-size="15" font-weight="700">3,7 x</text></svg>';
+    }
+  },
+  afstand: {
+    over:"Der er langt derop",
+    tekst:"Der er plads til 30 jordkloder på række mellem Jorden og månen. Apollo-raketterne var tre dage undervejs.",
+    tegn(){
+      var raekke = "";
+      for(var i=0;i<30;i++) raekke += '<circle cx="'+(92+i*14.6)+'" cy="115" r="6" fill="#5b9bd5" opacity=".42"/>';
+      return '<svg viewBox="0 0 600 230">'
+        + '<circle cx="52" cy="115" r="30" fill="#4f92cf"/>'
+        + '<path d="M34 104 q18 -10 34 3 q-10 13 -28 10 z" fill="#5aa06a" opacity=".85"/>'
+        + '<path d="M46 130 q20 -6 30 7 q-16 8 -30 -2 z" fill="#5aa06a" opacity=".8"/>'
+        + '<text x="52" y="172" fill="#9dc6ee" font-size="15" font-weight="700" text-anchor="middle">Jorden</text>'
+        + raekke
+        + '<circle cx="556" cy="115" r="14" fill="#c9cddb"/>'
+        + '<circle cx="551" cy="110" r="3.4" fill="#a2a7b4"/><circle cx="561" cy="120" r="2.6" fill="#a2a7b4"/>'
+        + '<text x="556" y="152" fill="#c9cddb" font-size="15" font-weight="700" text-anchor="middle">Månen</text>'
+        + '<text x="300" y="66" fill="#ffd68a" font-size="16" font-weight="700" text-anchor="middle">30 jordkloder på række</text>'
+        + '<text x="300" y="205" fill="#8e97b5" font-size="14" text-anchor="middle">384.400 km</text></svg>';
+    }
+  },
+  hulkamera: {
+    over:"Se solen uden at kigge op",
+    tekst:"Et lille hul i et stykke pap tegner solen på jorden. Under formørkelsen bliver pletten formet som en måne.",
+    tegn(){
+      return '<svg viewBox="0 0 600 240">'
+        + '<circle cx="74" cy="62" r="30" fill="#ffe484"/><circle cx="91" cy="50" r="25" fill="#0a1024"/>'
+        + '<text x="74" y="114" fill="#ffd68a" font-size="13.5" font-weight="700" text-anchor="middle">solen bag dig</text>'
+        + '<line x1="102" y1="74" x2="288" y2="116" stroke="#ffd166" stroke-width="2" opacity=".45"/>'
+        + '<line x1="102" y1="86" x2="288" y2="124" stroke="#ffd166" stroke-width="2" opacity=".45"/>'
+        + '<rect x="288" y="34" width="16" height="172" rx="5" fill="#c9a06a"/>'
+        + '<circle cx="296" cy="120" r="5.5" fill="#0a1024"/>'
+        + '<text x="296" y="230" fill="#c9cddb" font-size="13.5" font-weight="700" text-anchor="middle">pap med ét lille hul</text>'
+        + '<line x1="304" y1="116" x2="450" y2="80" stroke="#ffd166" stroke-width="2" opacity=".42"/>'
+        + '<line x1="304" y1="124" x2="450" y2="162" stroke="#ffd166" stroke-width="2" opacity=".42"/>'
+        + '<rect x="446" y="48" width="126" height="148" rx="8" fill="#efece0"/>'
+        + '<circle cx="509" cy="122" r="33" fill="#d8a52e"/><circle cx="524" cy="111" r="29" fill="#efece0"/>'
+        + '<text x="509" y="230" fill="#c9cddb" font-size="13.5" font-weight="700" text-anchor="middle">papir på jorden</text></svg>';
+    }
+  }
+};
+
+/* ====================== 5) TILSTAND ====================== */
+let niveau = "barn";     /* barn = 3 svar, voksen = 5 svar */
+let state = { i:0, history:[], rigtige:0, slots:[], started:false, felt:{} };
+
+const app = document.getElementById('app');
+const recordEl = document.getElementById('record');
+const caseCount = document.getElementById('casecount');
+const barEl = document.getElementById('bar');
+
+function svarSaet(p){ return (niveau === "voksen" && p.svar5) ? p.svar5 : p.svar; }
+
+/* Et tryk paa en videre-knap maa aldrig kunne taelle to gange. Uden dette
+   kan et dobbelttryk paa mobil springe et helt punkt over. */
+function enGang(el, fn){
+  if(!el) return;
+  let brugt = false;
+  el.onclick = function(){
+    if(brugt) return;
+    brugt = true;
+    el.disabled = true;
+    fn();
+  };
+}
+function tally(){ state.rigtige = state.history.filter(function(x){ return x === true; }).length; }
+
+function renderRecord(){
+  const segs = document.getElementById('segs');
+  let h = "";
+  for(let n=0;n<RUNDE;n++){
+    const v = state.history[n];
+    const k = v === true ? " r" : v === false ? " w" : "";
+    const cur = n === state.i && state.started ? " cur" : "";
+    h += '<div class="seg'+k+cur+'"></div>';
+  }
+  segs.innerHTML = h;
+  document.getElementById('rec-lbl').innerHTML = '<b>'+state.rigtige+'</b> af '+RUNDE;
+}
+
+function shuffle(a){ a = a.slice(); for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); const t=a[i]; a[i]=a[j]; a[j]=t; } return a; }
+function parseBased(b){ const p = b.split("\u00b7").map(function(s){ return s.trim(); }); return { sted:p[0]||"", naar:p[p.length-1]||"" }; }
+
+/* ====================== 6) STJERNEHIMMEL ====================== */
 (function(){
-  const c = document.getElementById('stjerner'), x = c.getContext('2d');
+  const c = document.getElementById('stjerner');
+  const x = c && c.getContext ? c.getContext('2d') : null;
+  if(!x) return;                     /* uden canvas koerer spillet videre uden stjerner */
   let s = [];
   function nyt(){
     c.width = innerWidth; c.height = innerHeight;
-    s = Array.from({length:90}, () => ({
-      x:Math.random()*c.width, y:Math.random()*c.height,
-      r:Math.random()*1.4+.3, f:Math.random()*Math.PI*2, h:Math.random()*.02+.005
-    }));
+    const n = Math.round(innerWidth*innerHeight/9000);
+    s = [];
+    for(let i=0;i<n;i++) s.push({ x:Math.random()*c.width, y:Math.random()*c.height, r:Math.random()*1.3+.2, f:Math.random()*.5+.25, t:Math.random()*6.28 });
   }
   function tegn(){
     x.clearRect(0,0,c.width,c.height);
     for(const p of s){
-      p.f += p.h;
-      x.globalAlpha = .25 + Math.abs(Math.sin(p.f))*.6;
-      x.fillStyle = '#fff';
-      x.beginPath(); x.arc(p.x,p.y,p.r,0,7); x.fill();
+      p.t += .012;
+      x.globalAlpha = p.f + Math.sin(p.t)*.22;
+      x.fillStyle = "#dfe6f5";
+      x.beginPath(); x.arc(p.x,p.y,p.r,0,6.29); x.fill();
     }
+    x.globalAlpha = 1;
     requestAnimationFrame(tegn);
   }
-  nyt(); tegn(); addEventListener('resize', nyt);
+  try{ nyt(); tegn(); addEventListener('resize', nyt); }catch(e){}
 })();
 
-/* ====================== Lyd ====================== */
-let lyd = null;
+/* ====================== 7) SMÅ LYDE ====================== */
+let lydCtx = null;
+let lydDoed = false;
 function bip(hz, laengde, type){
+  if(lydDoed) return;
   try{
-    lyd = lyd || new (window.AudioContext||window.webkitAudioContext)();
-    const o = lyd.createOscillator(), g = lyd.createGain();
-    o.type = type || 'sine'; o.frequency.value = hz;
-    o.connect(g); g.connect(lyd.destination);
-    g.gain.setValueAtTime(.09, lyd.currentTime);
-    g.gain.exponentialRampToValueAtTime(.001, lyd.currentTime + laengde);
-    o.start(); o.stop(lyd.currentTime + laengde);
-  }catch(e){}
+    if(!lydCtx) lydCtx = new (window.AudioContext||window.webkitAudioContext)();
+    const o = lydCtx.createOscillator(), g = lydCtx.createGain();
+    o.type = type || "sine"; o.frequency.value = hz;
+    g.gain.setValueAtTime(.14, lydCtx.currentTime);
+    g.gain.exponentialRampToValueAtTime(.001, lydCtx.currentTime + laengde);
+    o.connect(g); g.connect(lydCtx.destination);
+    o.start(); o.stop(lydCtx.currentTime + laengde);
+  }catch(e){ lydDoed = true; }
 }
-const lydJa  = () => { bip(660,.12); setTimeout(()=>bip(990,.22),110); };
-const lydNej = () => bip(180,.28,'square');
-const lydWow = () => { [523,659,784,1047].forEach((h,i)=>setTimeout(()=>bip(h,.3),i*95)); };
+function lydJa(){ bip(660,.12); setTimeout(function(){ bip(880,.16); },110); }
+function lydNej(){ bip(200,.22,"triangle"); }
+function lydWow(){ [523,659,784,1047].forEach(function(f,i){ setTimeout(function(){ bip(f,.2); }, i*110); }); }
 
-/* ====================== Tilstand ====================== */
-const app = document.getElementById('app');
-let stjerner = 0, trin = 0;
-const ANTAL_TRIN = 12;
-let niveau = 'barn';        // 'barn' = 2-3 svar, 'voksen' = 4-5 svar
-const O = {
-  solo: true,
-  du(){ return 'du'; },
-  duStor(){ return 'Du'; },
-  dig(){ return 'dig'; },
-  dinStor(){ return 'Din'; },
-  erVoksne(){ return 'du er voksen'; },
-  titel(){ return 'Certificeret Solformørkelses-ekspert'; }
-};
+/* ====================== 8) FILMLAGET ======================
+   Samme motor som i Forlig før daggry: et fuldskaermsoverlay,
+   videoerne primes stumt i selve trykket, saa Safari giver lyd. */
+function filmSekvens(klipListe, next0){
+  let kaldt = false;
+  const next = function(){ if(kaldt) return; kaldt = true; next0(); };
+  const klip = klipListe.filter(function(k){ return !!k; });
+  if(!klip.length){ next(); return; }
 
-function opdaterTop(){
-  document.getElementById('top').classList.remove('skjul');
-  document.getElementById('barfyld').style.width = (trin/ANTAL_TRIN*100) + '%';
-  document.getElementById('stjernetal').innerHTML =
-    (niveau === 'voksen' ? '<span class="nivchip">Voksen</span> ' : '') + '⭐ ' + stjerner;
-}
-function giv(n){ stjerner += n; opdaterTop(); }
-function svarSaet(q){
-  return (niveau === 'voksen' && q.voksen) ? q.voksen : q;
-}
+  const ov = document.createElement('div');
+  ov.className = 'film-overlay';
+  ov.innerHTML = '<div class="ss-frame" id="fs-frame"></div>';
+  document.body.appendChild(ov);
+  const skip = document.createElement('button');
+  skip.className = 'film-skip'; skip.textContent = 'Videre \u25b8';
+  skip.style.display = 'none';
+  const nedfald = setTimeout(function(){ skip.style.display = ''; }, 40000);
+  document.body.appendChild(skip);
+  const frame = ov.querySelector('#fs-frame');
 
-function tk(s){ return s.replace(/\{I\}/g,O.du()).replace(/\{Is\}/g,O.duStor()).replace(/\{jer\}/g,O.dig()); }
-function sikkerTekst(s){
-  return String(s).replace(/[<>&"]/g, c => ({'<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;'}[c]));
-}
-
-function videoHTML(noegle){
-  const kilde = VIDEOER[noegle];
-  const pladsholder = `<div class="ikon">🎬</div><div class="txt">${VIDEOTEKST[noegle]||''}</div>`;
-  if(!kilde) return `<div class="videoslot">${pladsholder}</div>`;
-  const erFil = /\.(mp4|webm|mov|m4v)(\?|$)/i.test(kilde);
-  const medie = erFil
-    ? `<video src="${kilde}" controls playsinline preload="auto" onerror="this.remove()"></video>`
-    : `<iframe src="${kilde}" allow="autoplay;accelerometer;encrypted-media;gyroscope;picture-in-picture" allowfullscreen></iframe>`;
-  return `<div class="videoslot">${pladsholder}${medie}</div>`;
-}
-
-function billedHTML(noegle){
-  const b = BILLEDER[noegle];
-  const pladsholder =
-    `<div class="ph"><div class="ikon">🖼️</div><div class="txt">${BILLEDTEKST[noegle]||''}</div></div>`;
-  const tekst = (i,t) => `<div class="rude"><span><b>${i+1}</b>${t}</span></div>`;
-
-  // Stribe sat sammen af flere kilder
-  if(b && b.ruder){
-    const ruder = b.ruder.map((r,i) => {
-      if(r.tegning)
-        return `<div class="pnl tegning">${stoerrelsesTegning()}${tekst(i,r.tekst)}</div>`;
-
-      if(r.udsnit){                       // udklip af en større fil
-        const u = r.udsnit;
-        const stil = `background-image:url('${r.fil}');` +
-          `background-size:${(10000/u.bredde).toFixed(2)}% ${(10000/u.hoejde).toFixed(2)}%;` +
-          `background-position:${(u.x/(100-u.bredde)*100).toFixed(2)}% ` +
-                              `${(u.y/(100-u.hoejde)*100).toFixed(2)}%`;
-        return `<div class="pnl" style="${stil}">${tekst(i,r.tekst)}</div>`;
-      }
-
-      const reserve = r.reserve
-        ? `if(!this.dataset.p){this.dataset.p=1;this.src='${r.reserve}';}else{this.remove();}`
-        : `this.remove();`;
-      return `<div class="pnl">
-                <img class="egen" src="${r.fil}" alt="" onerror="${reserve}">
-                ${tekst(i,r.tekst)}</div>`;
-    }).join('');
-    return `<div class="stribe">${ruder}</div>`;
-  }
-
-  // Én fil med teksterne lagt oven på
-  if(!b || !b.fil) return `<div class="billedslot fejl">${pladsholder}</div>`;
-  const n = b.tekster.length;
-  const ruder = b.tekster.map((t,i) =>
-    `<div class="rude" style="top:${(i*100/n).toFixed(4)}%;height:${(100/n).toFixed(4)}%">
-       <span><b>${i+1}</b>${t}</span>
-     </div>`).join('');
-  return `<div class="billedslot">
-    <img src="${b.fil}" alt=""
-         onerror="this.closest('.billedslot').classList.add('fejl'); this.remove();">
-    <div class="ruder">${ruder}</div>
-    ${pladsholder}
-  </div>`;
-}
-/* Rude der tegnes af spillet: linjerne fra Jorden rører præcis
-   både månens og solens kant — det er hele pointen, og en
-   billedmodel rammer det aldrig helt.                        */
-function stoerrelsesTegning(){
-  const stjerner = [[90,90],[300,70],[430,150],[520,60],[700,110],[790,220],
-                    [250,480],[420,520],[610,470],[830,430],[160,420],[880,120]];
-  return `<svg viewBox="0 0 1000 592" role="img"
-               aria-label="Linjer fra Jorden rører både månens og solens kant">
-    <defs>
-      <radialGradient id="dsol">
-        <stop offset="55%" stop-color="#fff0b8"/><stop offset="100%" stop-color="#ffb44d"/>
-      </radialGradient>
-      <radialGradient id="dskaer">
-        <stop offset="28%" stop-color="#ffca70" stop-opacity=".42"/>
-        <stop offset="62%" stop-color="#ffb44d" stop-opacity=".13"/>
-        <stop offset="100%" stop-color="#ffb44d" stop-opacity="0"/>
-      </radialGradient>
-      <radialGradient id="djord">
-        <stop offset="45%" stop-color="#7cc0f0"/><stop offset="100%" stop-color="#2f6bb0"/>
-      </radialGradient>
-      <radialGradient id="dmaane">
-        <stop offset="40%" stop-color="#d8dae2"/><stop offset="100%" stop-color="#8d919e"/>
-      </radialGradient>
-    </defs>
-    <rect width="1000" height="592" fill="#0a1024"/>
-    ${stjerner.map(([x,y])=>`<circle cx="${x}" cy="${y}" r="1.6" fill="#fff" opacity=".5"/>`).join('')}
-
-    <circle cx="140" cy="296" r="210" fill="url(#dskaer)"/>
-    <circle cx="140" cy="296" r="105" fill="url(#dsol)"/>
-    <g fill="#c8791f" opacity=".8">
-      <ellipse cx="112" cy="278" rx="8" ry="11"/>
-      <ellipse cx="168" cy="278" rx="8" ry="11"/>
-      <path d="M108 318 q32 26 64 0 q-32 12 -64 0 z"/>
-    </g>
-    <circle cx="98" cy="306" r="11" fill="#ff9b73" opacity=".33"/>
-    <circle cx="182" cy="306" r="11" fill="#ff9b73" opacity=".33"/>
-
-    <line x1="930" y1="296" x2="20" y2="173.97" stroke="#ffd166" stroke-width="3"
-          stroke-dasharray="11 9" stroke-linecap="round" opacity=".95"/>
-    <line x1="930" y1="296" x2="20" y2="418.03" stroke="#ffd166" stroke-width="3"
-          stroke-dasharray="11 9" stroke-linecap="round" opacity=".95"/>
-
-    <circle cx="600" cy="296" r="43.86" fill="url(#dmaane)"/>
-    <circle cx="588" cy="284" r="7" fill="#9ba0ac" opacity=".7"/>
-    <circle cx="611" cy="308" r="5" fill="#9ba0ac" opacity=".6"/>
-    <circle cx="604" cy="277" r="4" fill="#9ba0ac" opacity=".5"/>
-
-    <circle cx="930" cy="296" r="26" fill="url(#djord)"/>
-    <path d="M918 288 q8 -5 16 1 q-4 7 -12 6 z" fill="#5aa06a" opacity=".85"/>
-    <path d="M925 306 q10 -3 14 4 q-8 4 -14 -1 z" fill="#5aa06a" opacity=".8"/>
-
-    <text x="140" y="436" fill="#ffd68a" font-size="30" font-weight="700"
-          text-anchor="middle" font-family="inherit">Solen</text>
-    <text x="600" y="386" fill="#c9cddb" font-size="26" font-weight="700"
-          text-anchor="middle" font-family="inherit">Månen</text>
-    <text x="930" y="358" fill="#9dc6ee" font-size="26" font-weight="700"
-          text-anchor="middle" font-family="inherit">Jorden</text>
-  </svg>`;
-}
-
-
-function tegneserieSkaerm(noegle, overskrift, undertekst, naeste){
-  vis(`
-    <div class="badge">🖼️ Tegneserie</div>
-    <h2>${overskrift}</h2>
-    <p class="lille" style="margin-bottom:14px">${undertekst}</p>
-    ${billedHTML(noegle)}
-    <button class="knap" onclick="${naeste}">Videre →</button>
-  `);
-}
-
-/* ================================================================
-   FILMSEKVENS
-   Tryk på "Videre" -> kort tekstslide (ca. 3,5 sek) -> videoen kører
-   alene uden knapper -> når den er slut, glider den selv videre.
-   ================================================================ */
-let sekvensId = 0;        // så gamle timere ikke forstyrrer
-let forberedtVideo = null;
-
-function stopVideo(){
-  const v = forberedtVideo;
-  if(v){ try{ v.pause(); v.muted = true; v.removeAttribute('src'); v.load(); }catch(e){} }
-  document.querySelectorAll('video').forEach(x => { try{ x.pause(); }catch(e){} });
-  forberedtVideo = null;
-}
-
-function videoSekvens(noegle, tekst, naeste){
-  const mit = ++sekvensId;
-  stopVideo();                          // en tidligere video må aldrig køre videre
-  forberedtVideo = null;
-
-  // Videoen laves med det samme, mens brugerens tryk stadig "tæller",
-  // så den må starte af sig selv bagefter — også på iPhone.
-  const kilde = VIDEOER[noegle];
-  if(kilde && /\.(mp4|webm|mov|m4v)(\?|$)/i.test(kilde)){
+  const el = klip.map(function(src){
     const v = document.createElement('video');
-    v.src = kilde; v.preload = 'auto';
+    v.className = 'ss-video';
+    v.src = src;
     v.playsInline = true; v.setAttribute('playsinline','');
-    v.muted = true;                     // lydløs mens den varmes op — ellers slipper der lyd ud
-    const p = v.play();
-    if(p && p.then) p.then(() => { v.pause(); v.currentTime = 0; }).catch(() => {});
-    forberedtVideo = v;
+    v.preload = 'auto';
+    v._overtaget = false;
+    try{
+      v.muted = true; v.setAttribute('muted','');
+      const p = v.play();
+      if(p) p.then(function(){ if(v._overtaget) return; v.pause(); v.currentTime = 0; }).catch(function(){});
+    }catch(e){}
+    return v;
+  });
+
+  let done = false;
+  function finish(){
+    if(done) return; done = true;
+    frame.querySelectorAll('video').forEach(function(v){ try{ v.pause(); }catch(e){} });
+    clearTimeout(nedfald);
+    try{ next(); }catch(e){}
+    ov.classList.add('out');
+    setTimeout(function(){ ov.remove(); skip.remove(); }, 460);
   }
+  skip.onclick = finish;
 
-  tekstSlide(mit, tekst, () => filmen(mit, naeste));
-}
-
-function tekstSlide(mit, tekst, naar){
-  const tid = 3600;
-  vis(`
-    <div class="slide" id="slide">
-      <p class="slidetxt">${tekst}</p>
-      <div class="slidebar" style="--tid:${tid}ms"><i></i></div>
-    </div>
-  `);
-  const gaa = () => {
-    if(mit !== sekvensId) return;
-    const el = document.getElementById('slide');
-    if(el) el.classList.add('udtoning');
-    setTimeout(() => { if(mit === sekvensId) naar(); }, 380);
-  };
-  setTimeout(gaa, tid);
-  // Utålmodig? Tryk hvor som helst for at springe teksten over
-  setTimeout(() => {
-    const el = document.getElementById('slide');
-    if(el) el.addEventListener('click', gaa, {once:true});
-  }, 400);
-}
-
-function filmen(mit, naeste){
-  const v = forberedtVideo;
-  const videre = () => {
-    if(mit !== sekvensId) return;
-    sekvensId++;                       // stop alt andet i denne sekvens
-    try{ v.pause(); }catch(e){}
-    const r = document.getElementById('film');
-    if(r) r.classList.add('udtoning');
-    setTimeout(naeste, 380);
-  };
-
-  if(!v){ return videre(); }           // ingen videofil — gå bare videre
-
-  vis(`<div class="filmramme" id="film"></div>
-       <button class="spring" onclick="springOver()">Spring over →</button>`);
-  document.getElementById('film').appendChild(v);
-  v.controls = false;
-  v.addEventListener('ended', videre);
-  v.addEventListener('error', videre);
-  window.springOver = videre;
-
-  v.muted = false;                     // nu må den godt larme
-  const kør = v.play();
-  if(kør && kør.catch){
-    kør.catch(() => {
-      v.muted = true;                  // browseren siger nej til lyd — kør lydløst
-      v.play().catch(videre);
-    });
+  function playClip(i){
+    if(done) return;
+    if(i >= el.length){ finish(); return; }
+    const v = el[i];
+    if(v.error){ playClip(i+1); return; }
+    v._overtaget = true;
+    v.removeAttribute('muted'); v.muted = false;
+    try{ v.currentTime = 0; }catch(e){}
+    let gaaet = false;
+    const videre = function(){ if(gaaet) return; gaaet = true; v.remove(); playClip(i+1); };
+    v.onended = videre;
+    v.onerror = videre;
+    v.onclick = function(){ if(v.paused){ v.play().catch(function(){}); } else { v.pause(); } };
+    frame.appendChild(v);
+    v.play().catch(function(){});
+    setTimeout(function(){ if(!done && !gaaet && v.paused && v.currentTime === 0) videre(); }, 11000);
   }
-  // Sikkerhedsnet: kommer den aldrig i gang, går vi videre af os selv
-  let startet = false;
-  v.addEventListener('playing', () => startet = true);
-  setTimeout(() => { if(mit === sekvensId && !startet) videre(); }, 6000);
+  playClip(0);
 }
 
-window.springOver = () => {};
+/* Billedsekvens med musik, Ken Burns og pause paa klik */
+function billedSekvens(slides, musikfil, next0){
+  let kaldt = false;
+  const next = function(){ if(kaldt) return; kaldt = true; next0(); };
+  const ov = document.createElement('div');
+  ov.className = 'film-overlay';
+  ov.innerHTML = '<div class="ss-frame" id="bs-frame"></div>'
+    + '<div class="ss-pauselbl">Pause</div>'
+    + '<div class="ss-bar"><div class="ss-fill" id="bs-fill"></div></div>';
+  document.body.appendChild(ov);
+  const skip = document.createElement('button');
+  skip.className = 'film-skip'; skip.textContent = 'Videre \u25b8';
+  skip.style.display = 'none';
+  const nedfald = setTimeout(function(){ skip.style.display = ''; }, 40000);
+  document.body.appendChild(skip);
 
-function video1(){ videoSekvens('intro',
-  'Se hvad der sker, når månen skubber sig ind foran solen.',
-  () => faktakort('sjaeldent','kapitel1()')); }
-function video2(){ videoSekvens('historie',
-  'Vikingerne troede, at ulven Sköll jagtede solen. Sådan kan man forestille sig, at de så det for sig.', () => myter(1)); }
-function videoKina(){ videoSekvens('kina',
-  'I Kina troede man, at en drage åd solen. Sådan kan man forestille sig, at de så det for sig.',
-  () => myter(2)); }
-function videoKrig(){ videoSekvens('krig',
-  'Midt i et slag blev det pludselig mørkt. Begge hære lagde våbnene.',
-  () => faktakort('stoerrelser','kapitelFakta()')); }
-function videoPige(){ videoSekvens('pige',
-  'Christina Koch var også engang et barn, der kiggede op på månen.',
-  () => faktakort('afstand','video3()')); }
-function video3(){ videoSekvens('maane',
-  'Sådan ser det ud helt oppe fra rummet.', kapitel2Intro); }
-function video4(){ videoSekvens('moerke',
-  'Læg mærke til, hvor stille der bliver, når lyset forsvinder.',
-  () => faktakort('hulkamera','kapitel3()')); }
-function video5(){ videoSekvens('sikker',
-  'Til sidst det vigtigste: sådan bruger man solformørkelsesbriller.', sikkerhed); }
+  const frame = ov.querySelector('#bs-frame');
+  const fill = ov.querySelector('#bs-fill');
+  slides.forEach(function(s){ if(s.src){ const im = new Image(); im.src = s.src; if(im.decode) im.decode().catch(function(){}); } });
 
-function tur(){ return ''; }
+  const TOTAL = slides.reduce(function(a,s){ return a + s.dur; }, 0);
+  const starts = []; let acc = 0;
+  slides.forEach(function(s){ starts.push(acc); acc += s.dur; });
 
-function vis(html){
-  app.innerHTML = `<div class="skaerm">${html}</div>`;
-  scrollTo({top:0, behavior:'smooth'});
-}
-const KREDIT = `<div class="kredit">
-  <b>Solformørkelses-Missionen</b><br>
-  Lavet af Michel Klos · 2026</div>`;
+  const audio = musikfil ? new Audio(musikfil) : null;
+  if(audio) audio.preload = 'auto';
 
-/* ================================================================
-   START
-   ================================================================ */
-function start(){
-  document.getElementById('top').classList.add('skjul');
-  stjerner = 0; trin = 0;
+  let prev = null, cur = -1, pausedAcc = 0, pausedAt = 0, paused = false, done = false, raf = null;
+  const t0 = performance.now();
 
-  const dage = Math.ceil((FAKTA.maalTid - new Date()) / 86400000);
-  const taeller = dage > 1
-    ? `<div class="taeller"><span class="dage">${dage}</span>
-         <span class="hvad">dage til<br>${FAKTA.dato}</span></div>`
-    : dage === 1
-    ? `<div class="taeller"><span class="dage">I morgen</span>
-         <span class="hvad">er det<br>${FAKTA.dato}</span></div>`
-    : dage === 0
-    ? `<div class="taeller"><span class="dage">I dag!</span>
-         <span class="hvad">kl. ${FAKTA.start}–${FAKTA.slut}<br>topper ${FAKTA.maksimum}</span></div>`
-    : `<div class="taeller"><span class="dage">🌘</span>
-         <span class="hvad">Formørkelsen<br>er overstået</span></div>`;
-
-  vis(`
-    <div class="forside">
-      <div class="hero">
-        <svg viewBox="0 0 300 300" aria-hidden="true">
-          <defs>
-            <radialGradient id="hg">
-              <stop offset="34%" stop-color="#fff6cf" stop-opacity=".95"/>
-              <stop offset="58%" stop-color="#ffc46e" stop-opacity=".45"/>
-              <stop offset="100%" stop-color="#ff9f45" stop-opacity="0"/>
-            </radialGradient>
-            <radialGradient id="hs">
-              <stop offset="60%" stop-color="#fff3c0"/>
-              <stop offset="100%" stop-color="#ffcf6b"/>
-            </radialGradient>
-            <clipPath id="hklip"><circle cx="150" cy="150" r="146"/></clipPath>
-          </defs>
-          <g clip-path="url(#hklip)">
-            <circle class="glod" cx="150" cy="150" r="140" fill="url(#hg)"/>
-            <g class="straaler" opacity=".5">
-              ${Array.from({length:12},(_,i)=>{
-                const a = i*30*Math.PI/180;
-                return `<line x1="${150+Math.cos(a)*72}" y1="${150+Math.sin(a)*72}"
-                              x2="${150+Math.cos(a)*128}" y2="${150+Math.sin(a)*128}"
-                              stroke="#ffd68a" stroke-width="2.5" stroke-linecap="round" opacity=".5"/>`;
-              }).join('')}
-            </g>
-            <circle cx="150" cy="150" r="66" fill="url(#hs)"/>
-            <circle class="hmaane" cx="150" cy="150" r="62" fill="#080b1a"/>
-          </g>
-        </svg>
-      </div>
-
-      <h1 class="titel">Solformørkelses-<br>Missionen</h1>
-      <p class="underrubrik">Den <span class="tal">12. august 2026</span> forsvinder
-      op mod <span class="tal">88 %</span> af solen over Danmark.
-      Det er den kraftigste siden 2015.</p>
-
-      ${taeller}
-
-      <div class="niveauvalg">
-        <button class="knap" onclick="vaelgNiveau('barn')">
-          Jeg er barn <small>2-3 svar at vælge imellem</small></button>
-        <button class="knap sekundaer" onclick="vaelgNiveau('voksen')">
-          Jeg er voksen <small>Flere svar — og nogle af dem driller</small></button>
-      </div>
-
-      <div class="fakta3">
-        <div><div class="t">4</div><div class="u">KAPITLER</div></div>
-        <div><div class="t">20</div><div class="u">MINUTTER</div></div>
-        <div><div class="t">🏅</div><div class="u">BEVIS TIL SIDST</div></div>
-      </div>
-
-      <p class="lille" style="margin-top:18px">Et spil af
-      <b style="color:#a8b2d1">Michel Klos</b><br>
-      Bedst på mobil · virker uden internet efter første indlæsning</p>
-    </div>
-  `);
-}
-
-
-/* ================================================================
-   FAKTAKORT — ét tegnet kort før hvert kapitel.
-   Tegnet i koden, så tallene er i skala og intet skal hentes.
-   ================================================================ */
-const KORT = {
-
-  sjaeldent: {
-    over: "Sådan sjældent sker det",
-    tekst: "Sidst solen blev så kraftigt dækket over Danmark var i 2015. " +
-           "Næste gang bliver i 2048 — der er du voksen.",
-    tegn(){
-      const punkter = [[110,'2015','80-85 %',false],[300,'2026','83-88 %',true],[500,'2048','',false]];
-      return `<svg viewBox="0 0 600 230">
-        <line x1="60" y1="120" x2="560" y2="120" stroke="rgba(255,255,255,.22)" stroke-width="3"/>
-        ${punkter.map(([x,aar,pct,nu]) => `
-          <circle cx="${x}" cy="120" r="${nu?26:17}" fill="${nu?'#ffd166':'#3b4668'}"/>
-          <circle cx="${x+(nu?9:6)}" cy="${120-(nu?7:5)}" r="${nu?20:13}" fill="#0d1122"/>
-          <text x="${x}" y="${nu?76:82}" fill="${nu?'#ffd68a':'#9aa3c0'}"
-                font-size="${nu?26:21}" font-weight="800" text-anchor="middle"
-                font-family="inherit">${aar}</text>
-          <text x="${x}" y="${nu?172:166}" fill="#8e97b5" font-size="15"
-                text-anchor="middle" font-family="inherit">${pct}</text>`).join('')}
-        <text x="300" y="212" fill="#ffd68a" font-size="15" font-weight="700"
-              text-anchor="middle" font-family="inherit">33 år imellem</text>
-      </svg>`;
+  function build(s){
+    const el = document.createElement('div');
+    if(s.src && s.rude !== undefined){
+      /* Beskaeret felt af en tegneseriestribe paa 2 gange 2 felter */
+      const kol = s.rude % 2, raek = Math.floor(s.rude / 2);
+      el.className = 'ss-slide ss-imgslide';
+      el.innerHTML = '<div class="ss-imgwrap"><div class="ss-rude ss-kb" style="--kb:'+(s.dur/1000)+'s;'
+        + 'background-image:url(\''+s.src+'\');background-size:200% 200%;'
+        + 'background-position:'+(kol*100)+'% '+(raek*100)+'%"></div></div>'
+        + (s.cap ? '<div class="ss-cap">'+s.cap+'</div>' : '');
+    } else if(s.src){
+      el.className = 'ss-slide ss-imgslide';
+      el.innerHTML = '<div class="ss-imgwrap"><img class="ss-kb" style="--kb:'+(s.dur/1000)+'s" src="'+s.src+'" alt="" onerror="this.style.display=\'none\'"></div>'
+        + (s.cap ? '<div class="ss-cap">'+s.cap+'</div>' : '');
+    } else {
+      el.className = 'ss-slide';
+      let m = "";
+      if(s.kicker) m += '<div class="ss-kicker">'+s.kicker+'</div>';
+      if(s.title)  m += '<div class="ss-title">'+s.title+'</div>';
+      if(s.sub)    m += '<div class="ss-sub">'+s.sub+'</div>';
+      if(s.body)   m += '<div class="ss-body">'+s.body+'</div>';
+      m += '<div class="ss-rule"></div>';
+      el.innerHTML = m;
     }
-  },
-
-  stoerrelser: {
-    over: "Solen fylder alt",
-    tekst: "Solen er 109 gange bredere end Jorden. Den kan slet ikke være på siden her — " +
-           "kun kanten af den er med.",
-    tegn(){
-      // I skala: Jorden r=6 -> Solen r=656. Månen r=1,64.
-      return `<svg viewBox="0 0 600 262">
-        <defs><radialGradient id="ksol" cx="0.15" cy="0.5">
-          <stop offset="70%" stop-color="#ffd166"/><stop offset="100%" stop-color="#ff9f45"/>
-        </radialGradient></defs>
-        <circle cx="-530" cy="131" r="656" fill="url(#ksol)"/>
-        <text x="44" y="116" fill="#7a4a12" font-size="18" font-weight="800"
-              font-family="inherit">SOLEN</text>
-        <text x="44" y="137" fill="#8a5a1c" font-size="13" font-family="inherit">fortsætter</text>
-        <text x="44" y="154" fill="#8a5a1c" font-size="13" font-family="inherit">ud af siden</text>
-
-        <circle cx="330" cy="92" r="6" fill="#5b9bd5"/>
-        <text x="330" y="72" fill="#9dc6ee" font-size="14" font-weight="700"
-              text-anchor="middle" font-family="inherit">Jorden</text>
-        <circle cx="432" cy="92" r="1.64" fill="#c9cddb"/>
-        <text x="432" y="72" fill="#c9cddb" font-size="14" font-weight="700"
-              text-anchor="middle" font-family="inherit">Månen</text>
-        <text x="381" y="120" fill="#8e97b5" font-size="13" text-anchor="middle"
-              font-family="inherit">i samme skala som solen</text>
-
-        <line x1="248" y1="150" x2="576" y2="150" stroke="rgba(255,255,255,.13)"/>
-        <text x="412" y="177" fill="#8e97b5" font-size="13" text-anchor="middle"
-              font-family="inherit">de to samme, forstørret</text>
-        <circle cx="356" cy="216" r="26" fill="#5b9bd5"/>
-        <circle cx="444" cy="216" r="7.1" fill="#c9cddb"/>
-        <text x="356" y="254" fill="#9dc6ee" font-size="13" font-weight="700"
-              text-anchor="middle" font-family="inherit">Jorden</text>
-        <text x="444" y="254" fill="#c9cddb" font-size="13" font-weight="700"
-              text-anchor="middle" font-family="inherit">Månen</text>
-        <text x="510" y="221" fill="#ffd68a" font-size="15" font-weight="700"
-              font-family="inherit">3,7 ×</text>
-      </svg>`;
-    }
-  },
-
-  afstand: {
-    over: "Der er langt derop",
-    tekst: "Der er plads til 30 jordkloder på række mellem Jorden og månen. " +
-           "Apollo-raketterne var tre dage undervejs.",
-    tegn(){
-      const raekke = Array.from({length:30}, (_,i) =>
-        `<circle cx="${92 + i*14.6}" cy="115" r="6" fill="#5b9bd5" opacity=".42"/>`).join('');
-      return `<svg viewBox="0 0 600 230">
-        <circle cx="52" cy="115" r="30" fill="#4f92cf"/>
-        <path d="M34 104 q18 -10 34 3 q-10 13 -28 10 z" fill="#5aa06a" opacity=".85"/>
-        <path d="M46 130 q20 -6 30 7 q-16 8 -30 -2 z" fill="#5aa06a" opacity=".8"/>
-        <text x="52" y="172" fill="#9dc6ee" font-size="15" font-weight="700"
-              text-anchor="middle" font-family="inherit">Jorden</text>
-        ${raekke}
-        <circle cx="556" cy="115" r="14" fill="#c9cddb"/>
-        <circle cx="551" cy="110" r="3.4" fill="#a2a7b4"/>
-        <circle cx="561" cy="120" r="2.6" fill="#a2a7b4"/>
-        <text x="556" y="152" fill="#c9cddb" font-size="15" font-weight="700"
-              text-anchor="middle" font-family="inherit">Månen</text>
-        <text x="300" y="66" fill="#ffd68a" font-size="16" font-weight="700"
-              text-anchor="middle" font-family="inherit">30 jordkloder på række</text>
-        <text x="300" y="205" fill="#8e97b5" font-size="14"
-              text-anchor="middle" font-family="inherit">384.400 km</text>
-      </svg>`;
-    }
-  },
-
-  hulkamera: {
-    over: "Se solen uden at kigge op",
-    tekst: "Et lille hul i et stykke pap tegner solen på jorden. " +
-           "Under formørkelsen bliver pletten formet som en måne.",
-    tegn(){
-      return `<svg viewBox="0 0 600 240">
-        <circle cx="74" cy="62" r="30" fill="#ffe484"/>
-        <circle cx="91" cy="50" r="25" fill="#141a30"/>
-        <text x="74" y="114" fill="#ffd68a" font-size="13.5" font-weight="700"
-              text-anchor="middle" font-family="inherit">solen bag dig</text>
-
-        <line x1="102" y1="74" x2="288" y2="116" stroke="#ffd166" stroke-width="2" opacity=".45"/>
-        <line x1="102" y1="86" x2="288" y2="124" stroke="#ffd166" stroke-width="2" opacity=".45"/>
-
-        <rect x="288" y="34" width="16" height="172" rx="5" fill="#c9a06a"/>
-        <circle cx="296" cy="120" r="5.5" fill="#141a30"/>
-        <text x="296" y="230" fill="#c9cddb" font-size="13.5" font-weight="700"
-              text-anchor="middle" font-family="inherit">pap med ét lille hul</text>
-
-        <line x1="304" y1="116" x2="450" y2="80" stroke="#ffd166" stroke-width="2" opacity=".42"/>
-        <line x1="304" y1="124" x2="450" y2="162" stroke="#ffd166" stroke-width="2" opacity=".42"/>
-
-        <rect x="446" y="48" width="126" height="148" rx="8" fill="#efece0"/>
-        <circle cx="509" cy="122" r="33" fill="#d8a52e"/>
-        <circle cx="524" cy="111" r="29" fill="#efece0"/>
-        <text x="509" y="230" fill="#c9cddb" font-size="13.5" font-weight="700"
-              text-anchor="middle" font-family="inherit">papir på jorden</text>
-      </svg>`;
-    }
+    return el;
   }
-};
-
-function faktakort(noegle, naeste){
-  const k = KORT[noegle];
-  vis(`
-    <div class="badge">Vidste du at …</div>
-    <h2>${k.over}</h2>
-    <div class="kortfigur">${k.tegn()}</div>
-    <p>${k.tekst}</p>
-    <button class="knap" onclick="${naeste}">Videre →</button>
-  `);
+  function show(i){
+    const el = build(slides[i]);
+    frame.appendChild(el);
+    requestAnimationFrame(function(){ requestAnimationFrame(function(){ el.classList.add('vis'); }); });
+    if(prev){ const p = prev; p.classList.remove('vis'); setTimeout(function(){ if(p.parentNode) p.remove(); }, 720); }
+    prev = el;
+  }
+  function finish(){
+    if(done) return; done = true;
+    if(raf) cancelAnimationFrame(raf);
+    if(audio){ try{ audio.pause(); }catch(e){} }
+    document.removeEventListener('visibilitychange', visHandler);
+    clearTimeout(nedfald);
+    try{ next(); }catch(e){}
+    ov.classList.add('out');
+    setTimeout(function(){ ov.remove(); skip.remove(); }, 460);
+  }
+  function tick(){
+    if(done || paused) return;
+    const e = performance.now() - t0 - pausedAcc;
+    fill.style.transform = 'scaleX(' + Math.min(e/TOTAL, 1) + ')';
+    let idx = 0;
+    for(let i=0;i<starts.length;i++){ if(e >= starts[i]) idx = i; }
+    if(idx !== cur){ cur = idx; show(idx); }
+    if(e >= TOTAL){ setTimeout(finish, 600); return; }
+    raf = requestAnimationFrame(tick);
+  }
+  function doPause(){
+    if(done || paused) return;
+    paused = true; pausedAt = performance.now();
+    if(raf) cancelAnimationFrame(raf);
+    if(audio){ try{ audio.pause(); }catch(e){} }
+    ov.classList.add('ss-paused');
+  }
+  function doResume(){
+    if(done || !paused) return;
+    paused = false; pausedAcc += performance.now() - pausedAt;
+    ov.classList.remove('ss-paused');
+    if(audio){ try{ audio.play().catch(function(){}); }catch(e){} }
+    raf = requestAnimationFrame(tick);
+  }
+  skip.onclick = finish;
+  ov.addEventListener('click', function(){ paused ? doResume() : doPause(); });
+  const visHandler = function(){ if(document.hidden) doPause(); };
+  document.addEventListener('visibilitychange', visHandler);
+  if(audio){ try{ audio.play().catch(function(){}); }catch(e){} }
+  raf = requestAnimationFrame(tick);
 }
 
-/* ================================================================
-   KAPITEL 1 — TIDSMASKINEN
-   ================================================================ */
-function vaelgNiveau(n){
-  niveau = n; lydJa(); video1();
+/* ====================== 9) PLANCHEKORT ====================== */
+function planche(noegle, next){
+  const k = PLANCHER[noegle];
+  app.innerHTML = '<div class="panel fade"><div class="card">'
+    + '<div class="meta">Planche fra observatoriet</div>'
+    + '<h2 class="case-title">'+k.over+'</h2>'
+    + '<div class="planchefig">'+k.tegn()+'</div>'
+    + '<p class="situation">'+k.tekst+'</p>'
+    + '<div class="actions"><button class="btn go big" id="pl-go">Videre \u25b8</button></div>'
+    + '</div></div>';
+  window.scrollTo(0,0);
+  enGang(document.getElementById('pl-go'), next);
 }
 
-function kapitel1(){
-  trin = 1; opdaterTop();
-  vis(`
-    <div class="badge">Kapitel 1 af 4 · Tidsmaskinen</div>
-    <h2>Rigtigt eller forkert?</h2>
-    <p>For 1000 år siden vidste ingen, hvorfor solen pludselig blev væk.
-    Så de fandt på deres egne forklaringer.</p>
-    <p style="margin-top:10px">Her kommer fire påstande. Gæt om de er rigtige eller forkerte —
-    det er sværere, end det lyder.</p>
-    ${tur(0)}
-    <button class="knap" onclick="myter(0)">Fyr løs 🕰️</button>
-  `);
-}
-
-const MYTER = [
-  { t:"Vikingerne troede, at en kæmpe ulv ved navn Sköll jagtede solen og bed et stykke af den.",
-    svar:"sandt", spiller:0,
-    voksen:{ valg:["Rigtigt — men Sköll jagtede månen, ikke solen","Forkert — i nordisk mytologi var det en kæmpeslange","Rigtigt — og folk larmede for at skræmme ulven væk","Forkert — historien er opdigtet i 1800-tallet"], r:2 },
-    forklaring:"Rigtigt — det troede de faktisk! Folk råbte og larmede for at skræmme ulven væk. Og hver gang virkede det jo … solen kom altid tilbage. <i>Der var to ulve: Sköll jagtede solen, mens Hate jagtede månen.</i>" },
-
-  { t:"I Kina troede man, at en drage var i gang med at spise solen.",
-    svar:"sandt", spiller:1,
-    voksen:{ valg:["Rigtigt — men kun ved måneformørkelser","Forkert — kinesiske astronomer kunne forudsige formørkelser","Forkert — dragen hører til i japansk mytologi","Rigtigt — man slog på trommer for at få dragen til at spytte den ud"], r:3 },
-    forklaring:"Sandt! Man slog på trommer og gryder for at få dragen til at spytte solen ud igen. <i>Kinesiske astronomer kunne godt forudsige formørkelser — men myten levede videre ved siden af.</i>" },
-
-  { t:"Man bliver syg, hvis man er udenfor under en solformørkelse.",
-    svar:"myte", spiller:0,
-    voksen:{ valg:["Forkert — men gravide blev historisk frarådet at gå ud, og det holder stik","Forkert — kroppen tager ingen skade; kun øjnene, hvis man kigger direkte på solen","Rigtigt — UV-strålingen stiger, når solskiven dækkes","Rigtigt — men kun for helt små børn"], r:1 },
-    forklaring:"Myte. Der sker absolut ingenting med kroppen. Det eneste farlige er at <b>kigge lige ind i solen</b> — det handler kapitel 4 om. <i>Og nej: strålingen stiger ikke, den falder.</i>" },
-
-  { t:"En solformørkelse har engang stoppet en krig midt i et slag.",
-    svar:"sandt", spiller:1,
-    voksen:{ valg:["Rigtigt — slaget mellem mederne og lyderne omkring år 585 f.Kr.","Rigtigt — slaget ved Hastings i 1066","Forkert — men én forsinkede et slag under romerkrigene","Forkert — historien stammer fra en roman"], r:0 },
-    forklaring:"Sandt! For ca. 2600 år siden blev det pludselig mørkt midt i et slag mellem mederne og lyderne. Begge hære blev så forskrækkede, at de lagde våbnene og sluttede fred." }
-];
-
-function myter(i){
-  if(i >= MYTER.length) return faktakort('stoerrelser','kapitelFakta()');
-  const m = MYTER[i];
-  vis(`
-    <div class="badge">Kapitel 1 · Rigtigt eller forkert? (${i+1}/${MYTER.length})</div>
-    ${tur(m.spiller)}
-    <div class="kort${niveau === 'voksen' ? ' voksenkort' : ''}">
-      <p style="font-size:20.5px;color:#f2f4fa">${m.t}</p></div>
-    <div class="valg" id="valg">
-      ${myteValg(m).valg.map((v,n)=>`<button onclick="svarMyte(${i},${n})">${v}</button>`).join('')}
-    </div>
-    <div id="fb"></div>
-  `);
-}
-
-function myteValg(m){
-  if(niveau === 'voksen' && m.voksen) return m.voksen;
-  return { valg:['Rigtigt','Forkert'], r: m.svar === 'sandt' ? 0 : 1 };
-}
-
-function svarMyte(i, valgt){
-  const m = MYTER[i], sæt = myteValg(m), rigtigt = valgt === sæt.r;
-  const knapper = document.querySelectorAll('#valg button');
-  knapper.forEach(b => { b.disabled = true; b.classList.add('blegn'); });
-  knapper[sæt.r].classList.add('rigtigt'); knapper[sæt.r].classList.remove('blegn');
-  if(!rigtigt){ knapper[valgt].classList.add('forkert'); knapper[valgt].classList.remove('blegn'); }
-  if(rigtigt){ giv(1); lydJa(); } else lydNej();
-  document.getElementById('fb').innerHTML = `
-    <div class="feedback">
-      <b>${rigtigt ? '⭐ Flot!' : 'Godt gæt — men nej.'}</b><br>${m.forklaring}
-    </div>
-    <button class="knap" onclick="${
-        i === 0 ? 'video2()' : i === 1 ? 'videoKina()' : i === 3 ? 'videoKrig()' : 'myter(' + (i+1) + ')'
-      }">Videre →</button>`;
-}
-
-/* ================================================================
-   KAPITEL 2 — SOL OG MÅNE (fakta)
-   ================================================================ */
-function kapitelFakta(){
-  trin = 3; opdaterTop();
-  vis(`
-    <div class="badge">Kapitel 2 af 4 · Sol og Måne</div>
-    <h2>Nu til det, der passer</h2>
-    <p>Nok om ulve og drager. Her kommer fem ting om solen og månen,
-    som er helt rigtige — og alligevel næsten for vilde til at tro på.</p>
-    ${tur(0)}
-    <button class="knap" onclick="fakta(0)">Kom med det 🔭</button>
-  `);
-}
-
-const FAKTASPM = [
-  { sp:"Solen er meget langt væk. Hvor lang tid tager sollyset om at nå ned til os?",
-    valg:["Det kommer med det samme","Cirka 8 timer","Cirka 8 minutter"], r:2, spiller:0,
-    voksen:{ valg:["1,3 sekunder","Cirka 8 minutter","Cirka 22 minutter","Cirka 8 timer","Det kommer med det samme"], r:1 },
-    fb:"Cirka <b>8 minutter</b>. Lyset er det hurtigste i hele universet, og alligevel tager rejsen 8 minutter. Det betyder, at når {I} kigger på solen, ser {I} hvordan den så ud for 8 minutter siden. <i>1,3 sekunder er derimod lysets vej fra månen.</i>" },
-
-  { sp:"Månen lyser om natten. Men hvor kommer lyset fra?",
-    valg:["Månen spejler sollys","Månen brænder ligesom solen","Månen har lys indeni"], r:0, spiller:1,
-    voksen:{ valg:["Den gløder svagt af sig selv","Den lyser af jordskin","Solvinden får overfladen til at lyse","Den spejler sollys","Den brænder som en stjerne, bare koldere"], r:3 },
-    fb:"Månen laver <b>ikke selv lys</b>. Den er en kold, grå klippekugle — men solen skinner på den, og noget af lyset kastes tilbage til os. <i>Jordskin findes godt nok: sollys fra Jorden gør den mørke del af nymånen svagt synlig. Men det er ikke der, månelyset kommer fra.</i>" },
-
-  { sp:"Sol og måne ser næsten lige store ud på himlen. Hvorfor egentlig?",
-    valg:["De er faktisk lige store","Solen er 400 gange større, men også 400 gange længere væk","Månen vokser, når den kommer tæt på"], r:1, spiller:'begge',
-    voksen:{ valg:["De er faktisk lige store","Solen er 100 gange større og 100 gange længere væk","Solen er 400 gange større, men også 400 gange længere væk","Månen er 400 gange større, men står tættere på","Det ser kun sådan ud på vores breddegrader"], r:2 },
-    fb:"Et helt vildt tilfælde! Solen er cirka <b>400 gange større</b> end månen — men den er også cirka <b>400 gange længere væk</b>. Derfor ser de lige store ud fra Jorden, uanset hvor på kloden man står. Og det er præcis derfor, månen kan nå at dække solen." },
-
-  { sp:"Hvor mange jordkloder kan der være inde i solen?",
-    valg:["Cirka 100","Cirka 10.000","Over en million"], r:2, spiller:1,
-    voksen:{ valg:["Cirka 1.300","Cirka 130.000","Cirka 13 millioner","Cirka 1,3 milliarder","Cirka 1,3 millioner"], r:4 },
-    fb:"Cirka <b>1,3 millioner</b>. Solen er så stor, at alt andet i solsystemet er som smuler ved siden af. <i>1.300 er derimod antallet af jordkloder der er plads til i Jupiter.</i>" },
-
-  { sp:"Der er ingen vind og intet vejr på månen. Hvad sker der så med astronauternes fodspor?",
-    valg:["De bliver liggende i millioner af år","De blæser væk efter et par dage","De smelter i solen"], r:0, spiller:0,
-    voksen:{ valg:["De bliver liggende i millioner af år","De er allerede væk","De holder nogle hundrede år","De holder til næste månelanding","De forsvinder ved den næste måneformørkelse"], r:0 },
-    fb:"De bliver liggende i <b>millioner af år</b>. Uden vind og regn er der ingenting, der kan viske dem ud. Fodsporene fra 1969 står der stadig — helt skarpe. <i>Kun mikroskopiske meteorstøv sliber langsomt på dem, og det tager titusinder af årtusinder.</i>" },
-
-  { sp:"I april 2026 fløj mennesker hele vejen rundt om månen for første gang i over 50 år. Hvad gjorde Christina Koch?",
-    valg:["Hun landede på månen","Hun fløj hele vejen rundt om månen","Hun byggede en rumstation"], r:1, spiller:0,
-    voksen:{ valg:["Hun landede på månen som den første kvinde",
-                   "Hun var den første kvinde på rumstationen ISS",
-                   "Hun fløj rundt om månen som den første kvinde nogensinde",
-                   "Hun gik en rumvandring uden for månen",
-                   "Hun styrede en månebil fra kredsløb"], r:2 },
-    billede:{ fil:"billeder/koch.jpg",
-              reserve:"https://www.nasa.gov/wp-content/uploads/2023/01/jsc2018e095073_alt.jpg",
-              tekst:"Christina Koch, NASA-astronaut. Foto: NASA" },
-    fb:"Christina Koch blev den <b>første kvinde nogensinde</b>, der fløj rundt om månen. Turen hed Artemis II og varede fra 1. til 10. april 2026 — de kom <b>406.771 km</b> hjemmefra, længere end nogen mennesker før dem. Hun har i forvejen rekorden for den længste rumrejse af en kvinde: <b>328 dage</b> i træk, og hun var med på den allerførste rumvandring, hvor der kun var kvinder ude. <i>Hun landede ikke på månen — de fløj rundt om den og hjem igen.</i>" }
-];
-
-function fakta(i){
-  if(i >= FAKTASPM.length) return videoPige();
-  const f = FAKTASPM[i];
-  vis(`
-    <div class="badge">Kapitel 2 · Sol og Måne (${i+1}/${FAKTASPM.length})</div>
-    ${tur(f.spiller)}
-    <div class="kort${niveau === 'voksen' ? ' voksenkort' : ''}">
-      <p style="font-size:20.5px;color:#f2f4fa">${tk(f.sp)}</p></div>
-    <div class="valg" id="valg">
-      ${svarSaet(f).valg.map((v,n)=>`<button onclick="svarFakta(${i},${n})">${v}</button>`).join('')}
-    </div>
-    <div id="fb"></div>
-  `);
-}
-
-function svarFakta(i, valgt){
-  const f = FAKTASPM[i], sæt = svarSaet(f), knapper = document.querySelectorAll('#valg button');
-  knapper.forEach(b => { b.disabled = true; b.classList.add('blegn'); });
-  knapper[sæt.r].classList.add('rigtigt'); knapper[sæt.r].classList.remove('blegn');
-  const rigtigt = valgt === sæt.r;
-  if(!rigtigt){ knapper[valgt].classList.add('forkert'); knapper[valgt].classList.remove('blegn'); }
-  if(rigtigt){ giv(1); lydJa(); } else lydNej();
-  // Efter spørgsmål 1 og 3 kommer der en tegneserie som belønning
-  const naeste = i === 0 ? 'tegneserie1()' : i === 2 ? 'tegneserie2()' : 'fakta(' + (i+1) + ')';
-  const foto = f.billede ? `
-    <figure class="portraet">
-      <img src="${f.billede.fil}" alt="${f.billede.tekst}"
-           onerror="${f.billede.reserve
-             ? `if(!this.dataset.p){this.dataset.p=1;this.src='${f.billede.reserve}';}else{this.closest('.portraet').classList.add('fejl');this.remove();}`
-             : `this.closest('.portraet').classList.add('fejl'); this.remove();`}">
-      <div class="ph">👩‍🚀</div>
-      <figcaption>${f.billede.tekst}</figcaption>
-    </figure>` : '';
-  document.getElementById('fb').innerHTML = `
-    <div class="feedback"><b>${rigtigt ? '⭐ Flot!' : 'Godt gæt — men nej.'}</b><br>${tk(f.fb)}</div>
-    ${foto}
-    <button class="knap" onclick="${naeste}">Videre →</button>`;
-}
-
-function tegneserie1(){
-  tegneserieSkaerm('lysrejse', 'Lysets lange rejse',
-    'Følg en solstråle hele vejen fra solen ned til Jorden.', 'fakta(1)');
-}
-function tegneserie2(){
-  tegneserieSkaerm('stoerrelse', 'Stor og langt væk — lille og tæt på',
-    'Derfor kan den lille måne dække den kæmpestore sol.', 'fakta(3)');
-}
-
-/* ================================================================
-   KAPITEL 3 — MÅNEMISSIONEN
-   ================================================================ */
-function kapitel2Intro(){
-  trin = 5; opdaterTop();
-  vis(`
-    <div class="badge">Kapitel 3 af 4 · Månemissionen</div>
-    <h2>Nu er ${O.du()} månen</h2>
-    <p>Sådan her sker det i virkeligheden: månen kører rundt om Jorden, og en sjælden gang
-    imellem lægger den sig præcis i vejen for sollyset.</p>
-    <p style="margin-top:10px">${O.dinStor()} skygge er nu månens skygge.
-    <b style="color:#ffd166">Træk månen hen foran solen med fingeren.</b></p>
-    ${tur('begge')}
-    <button class="knap" onclick="maanespil()">Tag fat i månen 🌑</button>
-  `);
-}
-
-/* Areal af overlap mellem to cirkler → dækningsprocent */
+/* ====================== 10) FELTØVELSE 1: SKAB FORMØRKELSEN ====================== */
 function overlapProcent(d, rSol, rMaane){
   if(d >= rSol + rMaane) return 0;
-  if(d <= Math.abs(rSol - rMaane)) return Math.min(rMaane, rSol)**2 / rSol**2 * 100;
+  if(d <= Math.abs(rSol - rMaane)) return Math.pow(Math.min(rMaane,rSol),2) / Math.pow(rSol,2) * 100;
   const a = rMaane*rMaane * Math.acos((d*d + rMaane*rMaane - rSol*rSol) / (2*d*rMaane));
   const b = rSol*rSol   * Math.acos((d*d + rSol*rSol   - rMaane*rMaane) / (2*d*rSol));
   const c = .5 * Math.sqrt((-d+rMaane+rSol)*(d+rMaane-rSol)*(d-rMaane+rSol)*(d+rMaane+rSol));
   return (a + b - c) / (Math.PI * rSol * rSol) * 100;
 }
 
-let maxNaaet = 0;
+function maanemission(next){
+  let maxNaaet = 0;
+  app.innerHTML = '<div class="panel fade"><div class="card">'
+    + '<div class="meta">Feltøvelse 1 af 3</div>'
+    + '<div class="country">Praktisk prøve</div>'
+    + '<h2 class="case-title">Skab formørkelsen</h2>'
+    + '<p class="situation">Nu er du månen. Sådan sker det i virkeligheden: månen kører rundt om Jorden, og en sjælden gang lægger den sig præcis i vejen for sollyset. Din skygge er nu månens skygge.</p>'
+    + '<div class="prompt">Opgave</div>'
+    + '<p class="question">Træk månen hen foran solen med fingeren, og se hvad der sker med lyset og temperaturen.</p>'
+    + '<div class="maalere">'
+    + '<div class="maaler"><div class="v" id="mDaek">0 %</div><div class="n">DÆKKET</div></div>'
+    + '<div class="maaler"><div class="v" id="mLys">100 %</div><div class="n">LYS</div></div>'
+    + '<div class="maaler"><div class="v" id="mTemp">22\u00b0</div><div class="n">GRADER</div></div>'
+    + '</div>'
+    + '<div id="scene">'
+    + '<div id="himmel" style="position:absolute;inset:0;background:#000;opacity:0"></div>'
+    + '<svg viewBox="0 0 300 300" id="msvg">'
+    + '<defs><radialGradient id="glod"><stop offset="45%" stop-color="#fff8d0" stop-opacity=".85"/><stop offset="100%" stop-color="#ffd166" stop-opacity="0"/></radialGradient></defs>'
+    + '<circle id="glow" cx="150" cy="120" r="96" fill="url(#glod)"/>'
+    + '<circle id="sol" cx="150" cy="120" r="52" fill="#ffe484"/>'
+    + '<g><path d="M0 246 Q 55 214 110 244 Q 165 268 220 240 Q 262 218 300 240 L300 300 L0 300 Z" fill="#22331f"/>'
+    + '<path d="M150 246 l-9 -26 l9 -9 l9 9 l-9 26 z" fill="#1a2817"/></g>'
+    + '<circle id="maane" cx="58" cy="48" r="48.5" fill="#12141f" stroke="rgba(255,255,255,.35)" stroke-width="1.5"/>'
+    + '</svg>'
+    + '<div id="hjaelp">Træk månen hen over solen</div>'
+    + '</div>'
+    + '<div id="mFb"></div><div id="mNaeste"></div>'
+    + '</div></div>';
+  window.scrollTo(0,0);
 
-function maanespil(){
-  trin = 6; opdaterTop(); maxNaaet = 0;
-  vis(`
-    <div class="badge">Kapitel 3 · Skab formørkelsen</div>
-    ${tur('begge')}
-    <div class="maalere">
-      <div class="maaler"><div class="v" id="mDaek">0 %</div><div class="n">DÆKKET</div></div>
-      <div class="maaler"><div class="v" id="mLys">100 %</div><div class="n">LYS</div></div>
-      <div class="maaler"><div class="v" id="mTemp">22°</div><div class="n">GRADER</div></div>
-    </div>
-    <div id="scene">
-      <div id="himmel" style="position:absolute;inset:0;background:#000;opacity:0"></div>
-      <svg viewBox="0 0 300 300" id="svg">
-        <defs><radialGradient id="glod">
-          <stop offset="45%" stop-color="#fff8d0" stop-opacity=".85"/>
-          <stop offset="100%" stop-color="#ffd166" stop-opacity="0"/>
-        </radialGradient></defs>
-        <circle id="glow" cx="150" cy="120" r="96" fill="url(#glod)"/>
-        <circle id="sol" cx="150" cy="120" r="52" fill="#ffe484"/>
-        <g id="landskab">
-          <path d="M0 246 Q 55 214 110 244 Q 165 268 220 240 Q 262 218 300 240 L300 300 L0 300 Z" fill="#22331f"/>
-          <path d="M150 246 l-9 -26 l9 -9 l9 9 l-9 26 z" fill="#1a2817"/>
-        </g>
-        <circle id="maane" cx="58" cy="48" r="48.5" fill="#12141f"
-                stroke="rgba(255,255,255,.35)" stroke-width="1.5"/>
-      </svg>
-      <div id="hjaelp">👆 Træk månen hen over solen</div>
-    </div>
-    <div id="besked" class="feedback" style="display:none"></div>
-    <div id="naeste"></div>
-  `);
-  saetTraek();
-}
-
-function saetTraek(){
-  const svg   = document.getElementById('svg'),
+  const svg = document.getElementById('msvg'),
         maane = document.getElementById('maane'),
         scene = document.getElementById('scene'),
-        himmel= document.getElementById('himmel'),
-        glow  = document.getElementById('glow'),
-        hjaelp= document.getElementById('hjaelp');
+        himmel = document.getElementById('himmel'),
+        glow = document.getElementById('glow'),
+        hjaelp = document.getElementById('hjaelp');
   const rSol = 52, rMaane = 48.5, solX = 150, solY = 120;
   let traekker = false, laast = false;
 
-  // SVG'ens egen omregning fra skærm til tegning — så det passer,
-  // uanset hvor bred eller høj rammen bliver på den enkelte telefon.
   function tilSVG(e){
     const m = svg.getScreenCTM && svg.getScreenCTM();
     if(m && svg.createSVGPoint){
@@ -1211,14 +1036,12 @@ function saetTraek(){
       const q = pt.matrixTransform(m.inverse());
       return { x:q.x, y:q.y };
     }
-    const r = svg.getBoundingClientRect();          // nødløsning
+    const r = svg.getBoundingClientRect();
     return { x:(e.clientX-r.left)/r.width*300, y:(e.clientY-r.top)/r.height*300 };
   }
-
   function flyt(x, y){
     x = Math.max(18, Math.min(282, x));
     y = Math.max(18, Math.min(230, y));
-    // Lille "magnet" tæt på solen, så små fingre også kan ramme rent
     let d = Math.hypot(x - solX, y - solY);
     if(d > 0 && d < 30){
       const nyD = d * Math.pow(d/30, 1.3);
@@ -1227,73 +1050,55 @@ function saetTraek(){
       d = nyD;
     }
     maane.setAttribute('cx', x); maane.setAttribute('cy', y);
-
     const pct = overlapProcent(d, rSol, rMaane);
     if(pct > maxNaaet) maxNaaet = pct;
     document.getElementById('mDaek').textContent = Math.round(pct) + ' %';
-    const lys = Math.max(4, Math.round(100 - Math.pow(pct/100, 2.6) * 96));
-    document.getElementById('mLys').textContent  = lys + ' %';
-    document.getElementById('mTemp').textContent = Math.round(22 - pct/100*5) + '°';
-    himmel.style.opacity = Math.pow(pct/100, 2.6) * .82;
+    document.getElementById('mLys').textContent = Math.max(4, Math.round(100 - Math.pow(pct/100,2.6)*96)) + ' %';
+    document.getElementById('mTemp').textContent = Math.round(22 - pct/100*5) + '\u00b0';
+    himmel.style.opacity = Math.pow(pct/100,2.6)*.82;
     glow.setAttribute('r', 96 - pct*0.42);
     if(pct > 8 && hjaelp) hjaelp.style.opacity = 0;
     if(pct >= 78 && !laast){ laast = true; ramt(Math.round(maxNaaet)); }
   }
-
-  // Man må tage fat hvor som helst i billedet — månen følger fingeren
   function ned(e){
     if(laast) return;
     traekker = true;
-    if(scene.setPointerCapture && e.pointerId !== undefined){
-      try{ scene.setPointerCapture(e.pointerId); }catch(err){}
-    }
-    const p = tilSVG(e); flyt(p.x, p.y);
-    e.preventDefault();
+    if(scene.setPointerCapture && e.pointerId !== undefined){ try{ scene.setPointerCapture(e.pointerId); }catch(err){} }
+    const p = tilSVG(e); flyt(p.x, p.y); e.preventDefault();
   }
   function over(e){
     if(!traekker || laast) return;
-    const p = tilSVG(e); flyt(p.x, p.y);
-    e.preventDefault();
+    const p = tilSVG(e); flyt(p.x, p.y); e.preventDefault();
   }
-  const op = () => { traekker = false; };
-
+  const op = function(){ traekker = false; };
   if(window.PointerEvent){
     scene.addEventListener('pointerdown', ned);
     scene.addEventListener('pointermove', over);
     scene.addEventListener('pointerup', op);
     scene.addEventListener('pointercancel', op);
-  }else{
-    const touch = f => e => f(e.touches && e.touches[0] ? e.touches[0] : e);
+  } else {
+    const touch = function(f){ return function(e){ f(e.touches && e.touches[0] ? e.touches[0] : e); }; };
     scene.addEventListener('touchstart', touch(ned), {passive:false});
-    scene.addEventListener('touchmove',  touch(over), {passive:false});
+    scene.addEventListener('touchmove', touch(over), {passive:false});
     scene.addEventListener('touchend', op);
     scene.addEventListener('mousedown', ned);
     scene.addEventListener('mousemove', over);
     addEventListener('mouseup', op);
   }
+  function ramt(pct){
+    lydWow();
+    state.felt.maane = true;
+    hjaelp.style.opacity = 0;
+    document.getElementById('mFb').innerHTML = '<div class="felt-fb"><b>Du gjorde det. '+pct+' procent dækket.</b><br>'
+      + 'Læg mærke til, at det ikke blev helt mørkt. Selv når kun en lille strimmel sol er tilbage, er den stadig blændende stærk. Derfor bliver det den 12. august ikke nat. Det ligner mere en meget mærkelig, gråblå skumring.</div>';
+    document.getElementById('mNaeste').innerHTML = '<div class="actions"><button class="btn go big" id="mm-go">Videre \u25b8</button></div>';
+    enGang(document.getElementById('mm-go'), next);
+  }
 }
 
-function ramt(pct){
-  lydWow(); giv(3);
-  document.getElementById('hjaelp').style.opacity = 0;
-  const b = document.getElementById('besked');
-  b.style.display = 'block';
-  b.innerHTML = `<b>⭐⭐⭐ ${O.duStor()} gjorde det — ${pct} % dækket!</b><br>
-    Læg mærke til, at det <i>ikke</i> blev helt mørkt. Selv når kun en lille strimmel sol er tilbage,
-    er den stadig blændende stærk. Derfor bliver det den 12. august ikke nat —
-    det ligner mere en meget mærkelig, gråblå skumring.`;
-  document.getElementById('naeste').innerHTML =
-    `<button class="knap" onclick="hvorfor()">Men hvorfor sker det så sjældent? →</button>`;
-}
-
-/* ================================================================
-   MINUT FOR MINUT — find selv det rigtige tidspunkt
-   ================================================================ */
+/* ====================== 11) FELTØVELSE 2: MINUT FOR MINUT ====================== */
 const URTID = { start:19*60+10, top:20*60+4, slut:20*60+54, dmin:8.11 };
-
-function urFormat(t){
-  return String(Math.floor(t/60)).padStart(2,'0') + ':' + String(t%60).padStart(2,'0');
-}
+function urFormat(t){ return String(Math.floor(t/60)).padStart(2,'0') + ':' + String(t%60).padStart(2,'0'); }
 function daekningVed(t){
   const rS = 52, rM = 48.5, dmax = rS + rM;
   let d;
@@ -1303,297 +1108,635 @@ function daekningVed(t){
   return overlapProcent(d, rS, rM);
 }
 
-function hvorfor(){
-  trin = 7; opdaterTop();
-  vis(`
-    <div class="badge">Kapitel 3 · Minut for minut</div>
-    <h2>Hvornår skal du kigge?</h2>
-    <p>Formørkelsen varer næsten to timer. Men den er kun på sit højeste
-    i få minutter — og dem vil du nødig gå glip af.</p>
-    <p style="margin-top:10px"><b style="color:#ffd68a">Træk i uret og find det
-    øjeblik, hvor mest af solen er dækket.</b></p>
+function urmission(next){
+  app.innerHTML = '<div class="panel fade"><div class="card">'
+    + '<div class="meta">Feltøvelse 2 af 3</div>'
+    + '<div class="country">Tidsplan</div>'
+    + '<h2 class="case-title">Minut for minut</h2>'
+    + '<p class="situation">Formørkelsen varer næsten to timer. Men den er kun på sit højeste i få minutter, og dem vil du nødig gå glip af.</p>'
+    + '<div class="prompt">Opgave</div>'
+    + '<p class="question">Træk i uret og find det øjeblik, hvor mest af solen er dækket.</p>'
+    + '<div class="urkort">'
+    + '<div class="uroverst"><div class="urtid" id="urTid">19:10</div><div class="urdaek"><span id="urPct">0</span> % dækket</div></div>'
+    + '<svg id="urScene" viewBox="0 0 300 150"></svg>'
+    + '<input type="range" id="urSkyder" min="'+(19*60)+'" max="'+(21*60)+'" step="1" value="'+(19*60+10)+'">'
+    + '<div class="urskala"><span>19:00</span><span>20:00</span><span>21:00</span></div>'
+    + '</div>'
+    + '<div id="urSvar"></div>'
+    + '</div></div>';
+  window.scrollTo(0,0);
 
-    <div class="urkort">
-      <div class="uroverst">
-        <div class="urtid" id="urTid">19:10</div>
-        <div class="urdaek"><span id="urPct">0</span> % dækket</div>
-      </div>
-      <svg id="urScene" viewBox="0 0 300 150"></svg>
-      <input type="range" id="urSkyder" min="${19*60}" max="${21*60}" step="1" value="${19*60+10}">
-      <div class="urskala"><span>19:00</span><span>20:00</span><span>21:00</span></div>
-    </div>
-
-    <div id="urSvar"></div>
-  `);
-  urSaetOp();
-}
-
-function urSaetOp(){
-  const sk = document.getElementById('urSkyder'),
-        scene = document.getElementById('urScene');
-  let bedst = 0, laast = false;
+  const sk = document.getElementById('urSkyder'), scene = document.getElementById('urScene');
+  let laast = false;
 
   function tegn(t){
     const pct = daekningVed(t);
     document.getElementById('urTid').textContent = urFormat(t);
     document.getElementById('urPct').textContent = Math.round(pct);
-
-    // Himlen bliver mørkere både af formørkelsen og af at solen går ned
     const aften = Math.min(1, Math.max(0, (t - 19*60)/150));
     const m = Math.pow(pct/100, 2.4);
     const top = [40 + aften*30 - m*30, 70 - aften*20 - m*45, 130 - aften*30 - m*70];
-    const bund= [235 - aften*60 - m*90, 150 - aften*50 - m*60, 90 - aften*20 - m*40];
-    const f = c => 'rgb(' + c.map(v => Math.max(8, Math.round(v))).join(',') + ')';
-
-    // Solen står lavere og lavere
+    const bund = [235 - aften*60 - m*90, 150 - aften*50 - m*60, 90 - aften*20 - m*40];
+    const f = function(c){ return 'rgb(' + c.map(function(v){ return Math.max(8, Math.round(v)); }).join(',') + ')'; };
     const solY = 66 + aften*34;
-    const rS = 21, rM = 19.6;
-    const dmax = rS + rM, dmin = URTID.dmin/52*rS;
+    const rS = 21, rM = 19.6, dmax = rS + rM, dmin = URTID.dmin/52*rS;
     let d;
     if(t <= URTID.start || t >= URTID.slut) d = dmax;
     else if(t < URTID.top) d = dmax + (dmin-dmax)*(t-URTID.start)/(URTID.top-URTID.start);
     else                   d = dmin + (dmax-dmin)*(t-URTID.top)/(URTID.slut-URTID.top);
     const retning = t < URTID.top ? -1 : 1;
-
-    scene.innerHTML = `
-      <defs>
-        <linearGradient id="urhim" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stop-color="${f(top)}"/><stop offset="100%" stop-color="${f(bund)}"/>
-        </linearGradient>
-        <radialGradient id="urglo">
-          <stop offset="40%" stop-color="#fff3c8" stop-opacity="${(.75*(1-m)).toFixed(2)}"/>
-          <stop offset="100%" stop-color="#ffc46e" stop-opacity="0"/>
-        </radialGradient>
-      </defs>
-      <rect width="300" height="150" fill="url(#urhim)"/>
-      <circle cx="150" cy="${solY}" r="${(46*(1-m*.55)).toFixed(1)}" fill="url(#urglo)"/>
-      <circle cx="150" cy="${solY}" r="${rS}" fill="#ffe484"/>
-      <circle cx="${150 + retning*d}" cy="${(solY - retning*d*0.34).toFixed(1)}" r="${rM}" fill="#0d1122"/>
-      <path d="M0 122 Q40 112 78 121 Q120 131 165 119 Q215 108 300 118 L300 150 L0 150 Z"
-            fill="#16241a" opacity=".95"/>
-      <text x="150" y="144" fill="#9fb0c8" font-size="8.5" text-anchor="middle"
-            font-family="inherit" opacity=".8">vest / nordvest</text>`;
-
-    if(pct > bedst) bedst = pct;
+    scene.innerHTML = '<defs>'
+      + '<linearGradient id="urhim" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="'+f(top)+'"/><stop offset="100%" stop-color="'+f(bund)+'"/></linearGradient>'
+      + '<radialGradient id="urglo"><stop offset="40%" stop-color="#fff3c8" stop-opacity="'+(.75*(1-m)).toFixed(2)+'"/><stop offset="100%" stop-color="#ffc46e" stop-opacity="0"/></radialGradient>'
+      + '</defs>'
+      + '<rect width="300" height="150" fill="url(#urhim)"/>'
+      + '<circle cx="150" cy="'+solY+'" r="'+(46*(1-m*.55)).toFixed(1)+'" fill="url(#urglo)"/>'
+      + '<circle cx="150" cy="'+solY+'" r="'+rS+'" fill="#ffe484"/>'
+      + '<circle cx="'+(150 + retning*d)+'" cy="'+(solY - retning*d*0.34).toFixed(1)+'" r="'+rM+'" fill="#0d1122"/>'
+      + '<path d="M0 122 Q40 112 78 121 Q120 131 165 119 Q215 108 300 118 L300 150 L0 150 Z" fill="#16241a" opacity=".95"/>'
+      + '<text x="150" y="144" fill="#9fb0c8" font-size="8.5" text-anchor="middle" opacity=".8">vest / nordvest</text>';
     if(!laast && Math.abs(t - URTID.top) <= 3){ laast = true; urRamt(t); }
   }
-
-  sk.addEventListener('input', () => tegn(+sk.value));
+  sk.addEventListener('input', function(){ tegn(+sk.value); });
   tegn(+sk.value);
-}
 
-function urRamt(t){
-  lydWow(); giv(3);
-  document.getElementById('urSvar').innerHTML = `
-    <div class="feedback">
-      <b>⭐⭐⭐ Der er den — ${urFormat(t)}!</b><br>
-      Klokken <b>20:04</b> er ${FAKTA.daekning} % af solen dækket, og så vender det.
-      Læg mærke til to ting: det går <i>langsomt</i> — næsten en time hver vej —
-      og solen står meget lavt. Derfor skal du finde et sted med frit udsyn mod
-      vest og nordvest, ellers står formørkelsen bag et hus eller et træ.
-    </div>
-    <button class="knap" onclick="video4()">Videre til kapitel 4 →</button>`;
-  const sv = document.getElementById('urSvar');
-  if(sv && sv.scrollIntoView) sv.scrollIntoView({behavior:'smooth', block:'nearest'});
-}
-
-
-/* ================================================================
-   KAPITEL 3 — MISSION MØRKE
-   ================================================================ */
-function kapitel3(){
-  trin = 8; opdaterTop();
-  vis(`
-    <div class="badge">Kapitel 4 af 4 · Mission Mørke</div>
-    <h2>Detektivopgave</h2>
-    <p>Den 12. august kl. ca. ${FAKTA.maksimum} sker der noget mærkeligt rundt omkring ${O.dig()} —
-    ikke kun på himlen. Hvad tror ${O.du()} sker på jorden?</p>
-    ${tur(1)}
-    <button class="knap" onclick="detektiv(0)">Start efterforskningen 🔍</button>
-  `);
-}
-
-const DETEKTIV = [
-  { sp:"Hvad gør fuglene, når det pludselig bliver mørkt om aftenen?",
-    valg:["De bliver stille og flyver hjem i seng","De begynder at synge ekstra højt","De flyver i en stor cirkel"], r:0, spiller:1,
-    voksen:{ valg:["De begynder at synge ekstra højt","De flyver højere op for at finde lyset","De bliver stille og søger mod reden","De reagerer ikke — 83 % er ikke nok","De flokkes og kredser"], r:2 },
-    fb:"Fuglene tror, det er ved at blive nat, og bliver helt stille. Mange har fortalt, at det mest uhyggelige ved en solformørkelse er <b>stilheden</b>." },
-
-  { sp:"Hvad sker der med temperaturen?",
-    valg:["Den stiger","Der sker ikke noget","Den falder et par grader"], r:2, spiller:0,
-    voksen:{ valg:["Den falder 10-15 grader","Den stiger let, fordi vinden lægger sig","Den ændrer sig ikke målbart","Den falder typisk 2-5 grader","Den falder først en time bagefter"], r:3 },
-    fb:"Der forsvinder pludselig en masse varme fra solen, og det kan falde 2-5 grader. Tag en trøje med! <i>Det laveste punkt kommer typisk nogle minutter efter maksimum — jorden når ikke at følge med.</i>" },
-
-  { sp:"Se ned under et træ, mens formørkelsen sker. Hvad kan {I} se på jorden?",
-    valg:["Almindelige runde lyspletter","Hundredvis af små måneformede segl","Ingenting særligt"], r:1, spiller:'begge',
-    voksen:{ valg:["Almindelige runde lyspletter, bare svagere","Hundredvis af små måneformede segl","Skarpe firkantede pletter","Bølgende mørke striber der løber hen over jorden","Ingenting — der er for lidt lys"], r:1 },
-    fb:"Det fedeste trick af dem alle! Hullerne mellem bladene virker som bittesmå kameraer, og hver eneste lysplet på jorden får <b>samme form som den halvspiste sol</b>. Prøv det — {I} kan også lave det selv med et dørslag. <i>De bølgende striber findes, men ses kun lige omkring en total formørkelse.</i>" }
-];
-
-function detektiv(i){
-  if(i >= DETEKTIV.length) return video5();
-  const d = DETEKTIV[i];
-  vis(`
-    <div class="badge">Kapitel 4 · Detektivopgave ${i+1}/${DETEKTIV.length}</div>
-    ${tur(d.spiller)}
-    <div class="kort"><p style="font-size:19px;color:#f0f2f8">${tk(d.sp)}</p></div>
-    <div class="valg" id="valg">
-      ${svarSaet(d).valg.map((v,n)=>`<button onclick="svarDet(${i},${n})">${v}</button>`).join('')}
-    </div>
-    <div id="fb"></div>
-  `);
-}
-
-function svarDet(i, valgt){
-  const d = DETEKTIV[i], sæt = svarSaet(d), knapper = document.querySelectorAll('#valg button');
-  knapper.forEach(b => { b.disabled = true; b.classList.add('blegn'); });
-  knapper[sæt.r].classList.add('rigtigt'); knapper[sæt.r].classList.remove('blegn');
-  const rigtigt = valgt === sæt.r;
-  if(!rigtigt){ knapper[valgt].classList.add('forkert'); knapper[valgt].classList.remove('blegn'); }
-  if(rigtigt){ giv(1); lydJa(); } else lydNej();
-  document.getElementById('fb').innerHTML = `
-    <div class="feedback"><b>${rigtigt ? '⭐ Flot!' : 'Ikke helt.'}</b><br>${tk(d.fb)}</div>
-    <button class="knap" onclick="detektiv(${i+1})">Videre →</button>`;
-}
-
-const TING = [
-  { em:"👁️", na:"Bare øjnene", ok:false, fb:"Nej! Selv med 83 % dækket kan solen brænde et blindt hul på nethinden — og det gør ikke ondt imens." },
-  { em:"🕶️", na:"Almindelige solbriller", ok:false, fb:"Nej! Solbriller dæmper kun en lille del af lyset. De er alt for svage." },
-  { em:"🥽", na:"Solformørkelses-briller (ISO 12312-2)", ok:true, fb:"JA! De er over 100.000 gange mørkere end solbriller. Det er de eneste briller, man må bruge." },
-  { em:"🔭", na:"Kikkert eller teleskop", ok:false, fb:"Allerfarligst! En kikkert samler sollyset og gør det endnu stærkere. Aldrig uden et rigtigt solfilter foran." },
-  { em:"🕳️", na:"Hulkamera af en papkasse", ok:true, fb:"JA! Man kigger den anden vej — solens billede vises på et stykke papir. 100 % sikkert og nemt at lave selv." },
-  { em:"📱", na:"Mobilkameraet", ok:false, fb:"Nej — hverken for {jer} eller telefonen. Man kommer let til at kigge på solen mens man sigter, og kameraet kan tage skade." }
-];
-let sorteret = 0;
-
-function sikkerhed(){
-  trin = 10; opdaterTop(); sorteret = 0;
-  vis(`
-    <div class="badge">Kapitel 4 · Den vigtigste opgave</div>
-    <h2>Hvad må man kigge igennem?</h2>
-    <div class="advarsel">
-      <b>⚠️ Den her del er alvor</b>
-      <p>Solen er lige så farlig at kigge på under en formørkelse som alle andre dage.
-      Forskellen er, at man får lyst til at kigge.</p>
-    </div>
-    ${tur('begge')}
-    <p class="lille" style="margin-top:4px">Tryk på alle 6 og find ud af, hvad der er sikkert:</p>
-    <div class="ting" id="ting">
-      ${TING.map((t,i)=>`<button id="t${i}" onclick="trykTing(${i})">
-        <span class="em">${t.em}</span><span class="na">${t.na}</span></button>`).join('')}
-    </div>
-    <div id="fb"></div>
-    <div id="naeste"></div>
-  `);
-}
-
-function trykTing(i){
-  const b = document.getElementById('t'+i);
-  if(b.classList.contains('faerdig')) return;
-  const t = TING[i];
-  b.classList.add(t.ok ? 'ja' : 'nej', 'faerdig');
-  t.ok ? lydJa() : lydNej();
-  sorteret++; giv(1);
-  document.getElementById('fb').innerHTML =
-    `<div class="feedback"><b>${t.ok ? '✅ Sikkert' : '🚫 Farligt'} — ${t.na}</b><br>${tk(t.fb)}</div>`;
-  if(sorteret === TING.length){
-    giv(3);
-    document.getElementById('naeste').innerHTML =
-      `<button class="knap" onclick="diplom()">Afslut missionen 🏅</button>`;
+  function urRamt(t){
+    lydWow();
+    state.felt.ur = true;
+    document.getElementById('urSvar').innerHTML = '<div class="felt-fb"><b>Der er den. Klokken '+urFormat(t)+'.</b><br>'
+      + 'Klokken 20:04 er '+FAKTA.daekning+' procent af solen dækket, og så vender det. Læg mærke til to ting: det går langsomt, næsten en time hver vej, og solen står meget lavt. Derfor skal du finde et sted med frit udsyn mod vest og nordvest, ellers står formørkelsen bag et hus eller et træ.</div>'
+      + '<div class="actions"><button class="btn go big" id="ur-go">Videre \u25b8</button></div>';
+    enGang(document.getElementById('ur-go'), next);
+    const sv = document.getElementById('urSvar');
+    if(sv && sv.scrollIntoView) sv.scrollIntoView({behavior:'smooth', block:'nearest'});
   }
 }
 
-/* ================================================================
-   DIPLOM + NEDTÆLLING
-   ================================================================ */
-function diplom(){
-  trin = 12; opdaterTop(); lydWow();
-  vis(`
-    <div id="diplom">
-      <div class="segl">🏅</div>
-      <div class="badge">Officielt bevis</div>
-      <p style="font-size:15px">Hermed udnævnes du til</p>
-      <div class="navne">${O.titel()}</div>
-      <hr>
-      <p style="font-size:15px">Samlet: <b style="color:#ffd166;font-size:20px">⭐ ${stjerner} stjerner</b></p>
-      <hr>
-      <div id="nedtaelling"></div>
-    </div>
+/* ====================== 12) FELTØVELSE 3: SIKKERHEDSTJEKKET ====================== */
+const TING = [
+  { em:"\ud83d\udc41\ufe0f", na:"Bare øjnene", ok:false, fb:"Nej. Selv med 83 procent dækket kan solen brænde et blindt hul på nethinden, og det gør ikke ondt imens." },
+  { em:"\ud83d\udd76\ufe0f", na:"Almindelige solbriller", ok:false, fb:"Nej. Solbriller dæmper kun en lille del af lyset. De er alt for svage." },
+  { em:"\ud83e\udd7d", na:"Solformørkelsesbriller (ISO 12312-2)", ok:true, fb:"Ja. De er over 100.000 gange mørkere end solbriller. Det er de eneste briller, man må bruge." },
+  { em:"\ud83d\udd2d", na:"Kikkert eller teleskop", ok:false, fb:"Allerfarligst. En kikkert samler sollyset og gør det endnu stærkere. Aldrig uden et rigtigt solfilter foran." },
+  { em:"\ud83d\udd73\ufe0f", na:"Hulkamera af en papkasse", ok:true, fb:"Ja. Man kigger den anden vej, og solens billede vises på et stykke papir. Helt sikkert og nemt at lave selv." },
+  { em:"\ud83d\udcf1", na:"Mobilkameraet", ok:false, fb:"Nej, hverken for dig eller telefonen. Man kommer let til at kigge på solen, mens man sigter, og kameraet kan tage skade." }
+];
 
-    <div class="kort" style="margin-top:14px">
-      <div class="badge">Huskeliste til den 12. august</div>
-      <ul class="huske">
-        <li>Solformørkelsesbriller — mærket <b>ISO 12312-2</b>. Køb dem i god tid.</li>
-        <li>Vær klar kl. <b>${FAKTA.start}</b>. Den topper <b>${FAKTA.maksimum}</b> og slutter <b>${FAKTA.slut}</b>.</li>
-        <li>Find et sted med <b>frit udsyn mod vest og nordvest</b> — solen står meget lavt.</li>
-        <li>Lav et hulkamera af en papkasse dagen før.</li>
-        <li>Tag en trøje med. Det bliver køligere.</li>
-        <li>Kig ned under et træ og find de måneformede lyspletter.</li>
-        <li>Bliv ude bagefter — samme aften topper stjerneskuddene fra Perseiderne.</li>
-      </ul>
-    </div>
+function sikkerhedstjek(next){
+  let sorteret = 0;
+  app.innerHTML = '<div class="panel fade"><div class="card">'
+    + '<div class="stamp">Vigtigst</div>'
+    + '<div class="meta">Feltøvelse 3 af 3</div>'
+    + '<div class="country">Sikkerhed</div>'
+    + '<h2 class="case-title">Hvad må du kigge igennem?</h2>'
+    + '<div class="advarsel"><b>Denne del er alvor</b><p>Solen er lige så farlig at kigge på under en formørkelse som alle andre dage. Forskellen er, at man får lyst til at kigge.</p></div>'
+    + '<div class="prompt">Opgave</div>'
+    + '<p class="question">Tryk på alle seks og find ud af, hvad der er sikkert.</p>'
+    + '<div class="ting" id="ting">'
+    + TING.map(function(t,i){ return '<button id="t'+i+'"><span class="em">'+t.em+'</span><span class="na">'+t.na+'</span></button>'; }).join('')
+    + '</div>'
+    + '<div id="sFb"></div><div id="sNaeste"></div>'
+    + '</div></div>';
+  window.scrollTo(0,0);
 
-    <button class="knap sekundaer" onclick="start()">Spil igen fra start</button>
-    <p class="lille" style="text-align:center;margin-top:18px;line-height:1.6">
-      Tidspunkter og 83 % gælder for København.<br>
-      I Vestjylland dækkes op til 88 % af solen.</p>
-    ${KREDIT}
-  `);
+  TING.forEach(function(t,i){
+    document.getElementById('t'+i).onclick = function(){
+      const b = document.getElementById('t'+i);
+      if(b.classList.contains('faerdig')) return;
+      b.classList.add(t.ok ? 'ja' : 'nej', 'faerdig');
+      t.ok ? lydJa() : lydNej();
+      sorteret++;
+      document.getElementById('sFb').innerHTML = '<div class="felt-fb"><b>'+(t.ok ? 'Sikkert' : 'Farligt')+': '+t.na+'</b><br>'+t.fb+'</div>';
+      if(sorteret === TING.length){
+        state.felt.sikkerhed = true;
+        lydWow();
+        document.getElementById('sNaeste').innerHTML = '<div class="actions"><button class="btn go big" id="sk-go">Se dit resultat \u25b8</button></div>';
+        enGang(document.getElementById('sk-go'), next);
+      }
+    };
+  });
+}
+
+/* ====================== 13) SKÆRMENE ====================== */
+function forside(){
+  recordEl.style.display = 'none';
+  caseCount.textContent = '';
+  barEl.style.display = 'none';
+
+  const dage = Math.ceil((FAKTA.maalTid - new Date()) / 86400000);
+  let taeller;
+  if(dage > 1) taeller = '<div class="taeller"><span class="dage">'+dage+'</span><span class="hvad">dage til<br>'+FAKTA.dato+'</span></div>';
+  else if(dage === 1) taeller = '<div class="taeller"><span class="dage">I morgen</span><span class="hvad">er det<br>'+FAKTA.dato+'</span></div>';
+  else if(dage === 0) taeller = '<div class="taeller"><span class="dage">I dag</span><span class="hvad">kl. '+FAKTA.start+' til '+FAKTA.slut+'<br>topper '+FAKTA.maksimum+'</span></div>';
+  else taeller = '<div class="taeller"><span class="dage">\ud83c\udf18</span><span class="hvad">Formørkelsen<br>er overstået</span></div>';
+
+  let straaler = "";
+  for(let i=0;i<12;i++){
+    const a = i*30*Math.PI/180;
+    straaler += '<line x1="'+(150+Math.cos(a)*72)+'" y1="'+(150+Math.sin(a)*72)+'" x2="'+(150+Math.cos(a)*128)+'" y2="'+(150+Math.sin(a)*128)+'" stroke="#ffd68a" stroke-width="2.5" stroke-linecap="round" opacity=".5"/>';
+  }
+
+  app.innerHTML = '<div class="fors fade">'
+    + '<div class="fpraes">KlosKlos og Reagan Production præsenterer</div>'
+    + '<div class="ftitle">Solformørkelses-Missionen</div>'
+    + '<div class="fsub">En himmelhistorisk quiz</div>'
+    + '<div class="hero"><svg viewBox="0 0 300 300" aria-hidden="true">'
+    + '<defs>'
+    + '<radialGradient id="hg"><stop offset="34%" stop-color="#fff6cf" stop-opacity=".95"/><stop offset="58%" stop-color="#ffc46e" stop-opacity=".45"/><stop offset="100%" stop-color="#ff9f45" stop-opacity="0"/></radialGradient>'
+    + '<radialGradient id="hs"><stop offset="60%" stop-color="#fff3c0"/><stop offset="100%" stop-color="#ffcf6b"/></radialGradient>'
+    + '<clipPath id="hklip"><circle cx="150" cy="150" r="146"/></clipPath>'
+    + '</defs>'
+    + '<g clip-path="url(#hklip)">'
+    + '<circle class="glod" cx="150" cy="150" r="140" fill="url(#hg)"/>'
+    + '<g opacity=".5">'+straaler+'</g>'
+    + '<circle cx="150" cy="150" r="66" fill="url(#hs)"/>'
+    + '<circle class="hmaane" cx="150" cy="150" r="62" fill="#06091a"/>'
+    + '</g></svg></div>'
+    + taeller
+    + '<div class="fakta3">'
+    + '<div><div class="t">13</div><div class="u">PUNKTER</div></div>'
+    + '<div><div class="t">3</div><div class="u">FELTØVELSER</div></div>'
+    + '<div><div class="t">20</div><div class="u">MINUTTER</div></div>'
+    + '</div>'
+    + '<button class="gate-btn fbtn" id="fors-go">Videre \u25b8</button>'
+    + '</div>';
+  enGang(document.getElementById('fors-go'), klargoer);
+}
+
+function klargoer(){
+  barEl.style.display = 'none';
+  recordEl.style.display = 'none';
+  caseCount.textContent = '';
+  app.innerHTML = '<div class="fors fade" style="min-height:64svh">'
+    + '<div style="font-size:34px;margin-bottom:20px">\ud83c\udfa7</div>'
+    + '<div class="fsub" style="margin-top:0;font-size:clamp(24px,6.8vw,34px)">Skal spilles med lyd på</div>'
+    + '<div style="font-family:\'IBM Plex Mono\',monospace;font-size:13px;letter-spacing:1.6px;text-transform:uppercase;color:var(--muted);margin-top:14px">Varighed ca. 20 min.</div>'
+    + '<button class="gate-btn" id="klar-go" style="margin-top:34px">Videre \u25b8</button>'
+    + '</div>';
+  enGang(document.getElementById('klar-go'), titelsekvens);
+}
+
+function titelsekvens(){
+  const musik = new Audio(MUSIK.titel);
+  musik.play().catch(function(){});
+
+  const ov = document.createElement('div');
+  ov.className = 'film-overlay';
+  ov.innerHTML = '<div class="ss-frame" id="tit-frame"></div>';
+  document.body.appendChild(ov);
+  const skip = document.createElement('button');
+  skip.className = 'film-skip'; skip.textContent = 'Videre \u25b8';
+  skip.style.display = 'none';
+  const nedfald = setTimeout(function(){ skip.style.display = ''; }, 40000);
+  document.body.appendChild(skip);
+  const frame = ov.querySelector('#tit-frame');
+
+  /* Tider afstemt efter introsol.mp3 (15,31 sek.). Der ligger 500 ms
+     krydsfade mellem kortene, saa 4700 + 500 + 4700 + 500 + 4900 = 15,30 sek. */
+  const KORT = [
+    {dur:4700, html:'<div class="ss-title" style="font-size:clamp(26px,7.4vw,44px);hyphens:none;-webkit-hyphens:none">KlosKlos og Reagan Production</div><div class="ss-sub">præsenterer</div>'},
+    {dur:4700, html:'<div class="ss-sub">i samarbejde med</div><div class="ss-title" style="font-size:clamp(26px,7.4vw,44px);hyphens:none;-webkit-hyphens:none">Observatoriet på Vagtelvej</div>'},
+    {dur:4900, html:'<div class="ss-title" style="font-size:clamp(34px,10vw,58px)">Solformørkelses-Missionen</div><div class="ss-rule"></div>'}
+  ];
+
+  let done = false, prev = null;
+  function finish(){
+    if(done) return; done = true;
+    try{ musik.pause(); }catch(e){}
+    clearTimeout(nedfald);
+    try{ intro(); }catch(e){}
+    ov.classList.add('out');
+    setTimeout(function(){ ov.remove(); skip.remove(); }, 460);
+  }
+  skip.onclick = finish;
+
+  function vis(i){
+    if(done) return;
+    if(i >= KORT.length){ finish(); return; }
+    const tegn = function(){
+      if(done) return;
+      const el = document.createElement('div');
+      el.className = 'ss-slide';
+      el.innerHTML = KORT[i].html;
+      frame.appendChild(el);
+      requestAnimationFrame(function(){ requestAnimationFrame(function(){ el.classList.add('vis'); }); });
+      prev = el;
+      setTimeout(function(){ vis(i+1); }, KORT[i].dur);
+    };
+    if(prev){
+      const p = prev; prev = null;
+      p.classList.remove('vis');
+      setTimeout(function(){ if(p.parentNode) p.remove(); tegn(); }, 500);
+    } else tegn();
+  }
+  vis(0);
+}
+
+function intro(){
+  barEl.style.display = '';
+  recordEl.style.display = 'none';
+  caseCount.textContent = '';
+  app.innerHTML = '<div class="panel fade"><div class="card">'
+    + '<h1 class="cover-title intro-h1">Observatoriet</h1>'
+    + '<div class="intro-kl">kl. 17:00</div>'
+    + '<div class="planchefig">'+observatorieScene()+'</div>'
+    + '<div class="dossier">'
+    + '<div class="drow"><span class="dk">Begivenhed</span><span class="dv">Delvis solformørkelse over Danmark</span></div>'
+    + '<div class="drow"><span class="dk">Dato</span><span class="dv">'+FAKTA.dato+'</span></div>'
+    + '<div class="drow"><span class="dk">Tidsrum</span><span class="dv">Kl. '+FAKTA.start+' til '+FAKTA.slut+', topper '+FAKTA.maksimum+'</span></div>'
+    + '<div class="drow"><span class="dk">Dækning</span><span class="dv">'+FAKTA.daekning+' procent i København, op til 88 i Vestjylland</span></div>'
+    + '<div class="drow"><span class="dk">Din rolle</span><span class="dv">Solformørkelsesvagt, hvis du består prøven</span></div>'
+    + '<div class="drow"><span class="dk">Krav</span><span class="dv">Mindst '+BESTAAET+' af '+RUNDE+' rigtige</span></div>'
+    + '<div class="drow"><span class="dk">Består du</span><span class="dv">Missionsbevis og adgang til taghaven</span></div>'
+    + '<div class="drow"><span class="dk">Falder du</span><span class="dv">Du må se den fra fortovet med de andre</span></div>'
+    + '</div>'
+    + '<p class="situation">Klokken er 17:00, og om godt to timer sker der noget over Danmark, som ikke er sket siden 2015. Månen lægger sig delvist i vejen for solen, og op mod <strong>88 procent</strong> af den forsvinder.</p>'
+    + '<p class="situation" style="margin-top:12px">Observatoriet mangler en vagt på taget. Men de vil ikke sende nogen derop, der ikke ved, hvad de kigger på, og allermindst nogen der ikke ved, hvordan man kigger. Derfor: først en prøve.</p>'
+    + '<p class="situation" style="margin-top:12px"><strong>'+RUNDE+' punkter</strong> om myter, sol, måne og sikkerhed, plus <strong>tre feltøvelser</strong>, hvor du selv skal skabe formørkelsen. Alle svarmuligheder lyder rigtige. Kun ét er sandt. Består du med mindst <strong>'+BESTAAET+' rigtige</strong>, får du beviset.</p>'
+    + '<div class="prompt">Vælg niveau</div>'
+    + '<button class="btn go fuld" id="niv-barn">Jeg er barn <small>Tre svar at vælge imellem</small></button>'
+    + '<button class="btn fuld" id="niv-voksen">Jeg er voksen <small>Fem svar, og nogle af dem driller</small></button>'
+    + '</div></div>';
+  window.scrollTo(0,0);
+  enGang(document.getElementById('niv-barn'), function(){ niveau = "barn"; startGame(); });
+  enGang(document.getElementById('niv-voksen'), function(){ niveau = "voksen"; startGame(); });
+}
+
+/* Tegnet scene: observatoriet i skumringen */
+function observatorieScene(){
+  return '<svg viewBox="0 0 420 200" aria-hidden="true">'
+    + '<defs>'
+    + '<linearGradient id="ohim" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#101a3a"/><stop offset="1" stop-color="#3a3350"/></linearGradient>'
+    + '<radialGradient id="oglo"><stop offset="30%" stop-color="#ffdd9a" stop-opacity=".7"/><stop offset="100%" stop-color="#ff9f45" stop-opacity="0"/></radialGradient>'
+    + '<linearGradient id="okup" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#dfe4ee"/><stop offset="1" stop-color="#8f97ab"/></linearGradient>'
+    + '</defs>'
+    + '<rect width="420" height="200" fill="url(#ohim)"/>'
+    + '<circle cx="86" cy="86" r="1" fill="#fff" opacity=".7"/><circle cx="212" cy="42" r="1.2" fill="#fff" opacity=".6"/>'
+    + '<circle cx="330" cy="66" r="1" fill="#fff" opacity=".5"/><circle cx="146" cy="34" r="1" fill="#fff" opacity=".55"/>'
+    + '<circle cx="352" cy="122" r="58" fill="url(#oglo)"/>'
+    + '<circle cx="352" cy="122" r="24" fill="#ffe484"/>'
+    + '<circle cx="336" cy="112" r="22" fill="#243055" opacity=".92"/>'
+    + '<path d="M0 152 L60 152 L60 140 L96 140 L96 152 L170 152 L170 132 L210 132 L210 152 L420 152 L420 200 L0 200 Z" fill="#0d1430"/>'
+    + '<rect x="150" y="96" width="88" height="40" fill="#131c3c"/>'
+    + '<path d="M150 96 a44 34 0 0 1 88 0 z" fill="url(#okup)"/>'
+    + '<path d="M186 96 a44 34 0 0 1 16 -32 l6 4 a40 30 0 0 0 -14 28 z" fill="#f4f6fb" opacity=".35"/>'
+    + '<rect x="188" y="64" width="9" height="34" rx="3" fill="#5c6580" transform="rotate(-28 192 80)"/>'
+    + '<rect x="196" y="56" width="26" height="9" rx="4" fill="#8f97ab" transform="rotate(-28 209 60)"/>'
+    + '<g fill="#ffd68a" opacity=".8">'
+    + '<rect x="24" y="162" width="7" height="9"/><rect x="44" y="162" width="7" height="9"/>'
+    + '<rect x="262" y="160" width="7" height="9"/><rect x="286" y="168" width="7" height="9"/>'
+    + '<rect x="342" y="162" width="7" height="9"/><rect x="378" y="170" width="7" height="9"/>'
+    + '</g>'
+    + '<g fill="#060a18">'
+    + '<circle cx="112" cy="140" r="8"/><path d="M99 172 q13 -22 26 0 z"/>'
+    + '<circle cx="136" cy="146" r="6"/><path d="M126 172 q10 -18 20 0 z"/>'
+    + '</g>'
+    + '<text x="210" y="192" fill="#8f9ab8" font-size="9" text-anchor="middle" font-family="monospace" letter-spacing="2">TAGHAVEN, KL. 17:00</text>'
+    + '</svg>';
+}
+
+function startGame(){
+  state = { i:0, history:[], rigtige:0, slots:[], started:true, felt:{}, gjort:{} };
+  recordEl.style.display = 'flex';
+  renderRecord();
+  /* Aabningsklippet: maanen glider ind foran solen */
+  filmSekvens([VIDEO.intro], showPunkt);
+}
+
+function showPunkt(){
+  const p = PUNKTER[state.i];
+  const b = parseBased(p.based);
+  const nr = String(state.i+1).padStart(2,'0');
+  const saet = svarSaet(p);
+  const ord = shuffle(saet.map(function(_,i){ return i; }));
+  state.slots = ord;
+
+  caseCount.textContent = 'PUNKT ' + (state.i+1) + ' / ' + RUNDE + ' \u00b7 kl. ' + TIDER[state.i];
+  renderRecord();
+
+  const buttons = ord.map(function(optIdx, slot){
+    return '<button class="choice" data-slot="'+slot+'"><span class="key">'+BOGSTAV[slot]+'</span><span>'+saet[optIdx].t+'</span></button>';
+  }).join('');
+  const portraet = PORTRAETTER[p.id]
+    ? '<div class="portrait"><img src="'+PORTRAETTER[p.id]+'" alt="" onerror="this.parentElement.style.display=\'none\';this.closest(\'.card\').classList.remove(\'has-portrait\')"></div>'
+    : '';
+
+  app.innerHTML = '<div class="panel fade"><div class="card'+(portraet?' has-portrait':'')+'">'
+    + portraet
+    + '<div class="meta">Punkt '+nr+' \u00b7 aftenens missionsplan</div>'
+    + '<div class="country">'+p.kat+'</div>'
+    + '<h2 class="case-title">'+p.titel+'</h2>'
+    + '<div class="cardsub">'+p.based+'</div>'
+    + '<p class="situation">'+p.situation+'</p>'
+    + '<div class="prompt">Spørgsmål</div>'
+    + '<p class="question">'+p.spm+'</p>'
+    + '<div class="choices">'+buttons+'</div>'
+    + (state.i > 0 ? '<div class="backrow"><button class="backlink" id="backbtn">\u2039 Forrige punkt</button></div>' : '')
+    + '</div></div>';
+  window.scrollTo(0,0);
+
+  app.querySelectorAll('.choice').forEach(function(btn){
+    btn.onclick = function(){ vaelg(parseInt(btn.dataset.slot,10)); };
+  });
+  window.onkeydown = function(e){
+    const k = (e.key || '').toLowerCase();
+    let idx = BOGSTAV.indexOf(k);
+    if(idx < 0 && /^[1-5]$/.test(k)) idx = parseInt(k,10) - 1;
+    if(idx >= 0){ const btns = app.querySelectorAll('.choice'); if(btns[idx]) btns[idx].click(); }
+  };
+  const bb = document.getElementById('backbtn');
+  if(bb) bb.onclick = function(){
+    state.i--;
+    state.history[state.i] = undefined;
+    tally(); renderRecord(); showPunkt();
+  };
+}
+
+function vaelg(slot){
+  const p = PUNKTER[state.i];
+  const b = parseBased(p.based);
+  const nr = String(state.i+1).padStart(2,'0');
+  const saet = svarSaet(p);
+  const picked = saet[ state.slots[slot] ];
+  const good = !!picked.ok;
+  const correct = saet.find(function(o){ return o.ok; });
+
+  state.history[state.i] = good;
+  tally();
+  renderRecord();
+  good ? lydJa() : lydNej();
+
+  const portraet = PORTRAETTER[p.id]
+    ? '<div class="portrait"><img src="'+PORTRAETTER[p.id]+'" alt="" onerror="this.parentElement.style.display=\'none\';this.closest(\'.card\').classList.remove(\'has-portrait\')"></div>'
+    : '';
+
+  app.innerHTML = '<div class="panel fade"><div class="card'+(portraet?' has-portrait':'')+'">'
+    + '<div class="stamp land" style="'+(good?'color:var(--green)':'')+'">'+(good ? 'Bekræftet' : 'Rettet')+'</div>'
+    + portraet
+    + '<div class="meta">Punkt '+nr+' \u00b7 dit svar</div>'
+    + '<div class="country">'+p.kat+'</div>'
+    + '<h2 class="case-title">'+p.titel+'</h2>'
+    + '<div class="verdict '+(good?'good':'bad')+'"><span class="dot"></span>'+(good ? 'Rigtigt' : 'Ikke helt')+'</div>'
+    + (good ? '' : '<div class="vsub">Du svarede: '+picked.t+'</div>')
+    + '<div class="answer"><span class="alab">Det rigtige svar</span>'+correct.t+'</div>'
+    + '<div class="truth"><span class="lab">Sådan er det i virkeligheden</span>'+p.forklaring+'</div>'
+    + '<div class="qbox"><div class="qlab">Vidste du at</div><div class="qt">'+p.ekstra+'</div></div>'
+    + '<div class="actions" id="act"></div>'
+    + '</div></div>';
+  window.scrollTo(0,0);
+
+  const act = document.getElementById('act');
+  act.style.justifyContent = 'space-between';
+  window.onkeydown = function(e){ if(e.key === 'Enter'){ const n = document.getElementById('next'); if(n) n.click(); } };
+  const tilbage = '<button class="backlink" id="svarom">\u2039 Svar om</button>';
+
+  if(state.i === RUNDE - 1){
+    /* Sidste punkt: hulkameraplanchen og derefter sikkerhedstjekket */
+    act.innerHTML = tilbage + '<button class="btn go big" id="next">Sidste feltøvelse \u25b8</button>';
+    enGang(document.getElementById('next'), function(){
+      planche('hulkamera', function(){ sikkerhedstjek(ending); });
+    });
+  } else {
+    const mellemspil = MELLEMSPIL[String(state.i+2).padStart(2,'0')];
+    if(mellemspil && !state.gjort[state.i+1]){
+      act.innerHTML = tilbage + '<button class="btn go big" id="next">'+mellemspil.knap+' \u25b8</button>';
+      enGang(document.getElementById('next'), function(){
+        state.gjort[state.i+1] = true;
+        mellemspil.kald(function(){ state.i++; showPunkt(); });
+      });
+    } else {
+      act.innerHTML = tilbage + '<button class="btn big" id="next">Næste punkt \u25b8</button>';
+      enGang(document.getElementById('next'), function(){ state.i++; showPunkt(); });
+    }
+  }
+  const so = document.getElementById('svarom');
+  if(so) so.onclick = function(){
+    state.history[state.i] = undefined;
+    tally(); renderRecord(); showPunkt();
+  };
+}
+
+/* ====================== 14) MELLEMSPIL ======================
+   Noeglen er id'et paa det NAESTE punkt. Mellemspillet koeres
+   altsaa lige foer det punkt, det hoerer til. */
+const MELLEMSPIL = {
+  "02": { knap:"Se ulven",  kald:function(n){ filmSekvens([VIDEO.ulv], n); } },
+  "03": { knap:"Se dragen", kald:function(n){ filmSekvens([VIDEO.drage], n); } },
+  "04": { knap:"Se slaget", kald:function(n){ filmSekvens([VIDEO.krig], n); } },
+  "05": { knap:"Følg lysstrålen", kald:function(n){ lysrejseSekvens(n); } },
+  "07": { knap:"Se plancherne", kald:function(n){ planche('stoerrelser', function(){ planche('afstand', n); }); } },
+  "09": { knap:"Se det fra rummet", kald:function(n){ filmSekvens([VIDEO.rummet], function(){ maanemission(n); }); } },
+  "11": { knap:"Se hvad dyrene gør", kald:function(n){ filmSekvens([VIDEO.dyr], n); } },
+  "12": { knap:"Find tidspunktet", kald:function(n){ urmission(n); } },
+  "13": { knap:"Se hvordan man kigger", kald:function(n){ planche('sjaeldent', function(){ filmSekvens([VIDEO.briller], n); }); } }
+};
+
+/* Lysstraalens rejse som billedsekvens med Ken Burns */
+function lysrejseSekvens(next){
+  /* Tider afstemt efter felt.mp3 (30,04 sek.). Sekvensen slutter 600 ms
+     efter sidste slide, saa 4200 + 4 gange 5300 + 4000 + 600 = 30,00 sek. */
+  const slides = [
+    { dur:4200, kicker:"8 minutter", title:"Lysets rejse", body:"Følg en solstråle hele vejen fra solen ned til Jorden" }
+  ];
+  LYSREJSE.tekster.forEach(function(t, i){
+    slides.push({ dur:5300, src:LYSREJSE.fil, cap:t, rude:i });
+  });
+  slides.push({ dur:4000, kicker:"Derfor", title:"Du ser fortiden", body:"Solen du kigger på, er 8 minutter gammel" });
+  billedSekvens(slides, MUSIK.planche, next);
+}
+
+/* ====================== 15) SLUTSKÆRMEN ====================== */
+function ending(){
+  const slutmusik = new Audio(MUSIK.slut);
+  slutmusik.preload = 'auto';
+  slutmusik._start = false;
+  try{
+    slutmusik.muted = true; slutmusik.setAttribute('muted','');
+    const pm = slutmusik.play();
+    if(pm) pm.then(function(){ if(slutmusik._start) return; slutmusik.pause(); slutmusik.currentTime = 0; }).catch(function(){});
+  }catch(e){}
+  setTimeout(function(){
+    try{ slutmusik._start = true; slutmusik.removeAttribute('muted'); slutmusik.muted = false; slutmusik.currentTime = 0; slutmusik.play().catch(function(){}); }catch(e){}
+  }, 1000);
+
+  const r = state.rigtige;
+  const grid = state.history.map(function(h){ return h ? '\u2705' : '\u274c'; }).join('');
+  const bestod = r >= BESTAAET;
+
+  let rang, rubrik, manchet, brod;
+  if(r === RUNDE){
+    rang = "Chefastronom";
+    rubrik = "Ikke ét fejlsvar på taget";
+    manchet = "Observatoriet har aldrig set nogen klare alle tretten punkter på én aften. Nøglen til taghaven blev udleveret uden diskussion.";
+    brod = "Der findes ikke fortilfælde. En vagt, hvis navn ingen på observatoriet kunne huske i forgårs, gennemførte i aften samtlige tretten punkter uden en enkelt fejl, inklusive de tre feltøvelser. Den ældste af astronomerne kalder resultatet urimeligt. Kaffen blev sat over igen, og nøglen til taghaven lå på bordet klokken 19:08, to minutter før månen rørte solen.";
+  } else if(bestod && r >= 10){
+    rang = "Solformørkelsesvagt";
+    rubrik = "Danmark så formørkelsen";
+    manchet = "Vagten på taget kendte både myterne, tallene og brillerne. Skyerne holdt sig væk, og resten er historie.";
+    brod = "Op mod 88 procent af solen forsvandt i aften over Danmark, og på taget stod en vagt, der vidste præcis, hvad der skete. Prøven blev klaret med god margin, og feltøvelserne gik uden ophold. Solen stod lavt i vest, som forudsagt, og de måneformede lyspletter under træerne blev fotograferet af halvdelen af naboerne. Næste gang bliver i 2048.";
+  } else if(bestod){
+    rang = "Assistent i observatoriet";
+    rubrik = "Beviset i hus i sidste øjeblik";
+    manchet = "Det blev ikke elegant, men brillerne kom på i tide, og det er det, der tæller på en aften som denne.";
+    brod = "Prøven blev bestået få minutter før første kontakt, og ingen på observatoriet ville i aften sætte navn på, hvilke punkter der gik galt. Til gengæld sad sikkerhedstjekket lige i skabet, og det er det eneste punkt, der ikke må gå galt. Vagten fik nøglen, en trøje og en advarsel om at holde øje med uret. Det holdt hele aftenen.";
+  } else if(r >= 4){
+    rang = "Praktikant";
+    rubrik = "Halvvejs oppe ad trappen";
+    manchet = "Flere punkter faldt på plads i løbet af aftenen, men ikke nok til nøglen. Formørkelsen blev set fra fortovet.";
+    brod = "Længe så det ud til at lykkes. Myterne gik godt, og feltøvelserne blev klaret uden problemer. Men tallene drillede, og ved prøvens afslutning manglede der stadig nogle punkter. Vagten så formørkelsen fra fortovet sammen med resten af gaden, med briller på og med en helt fin udsigt mod vest. Prøven kan tages igen. Det er der ingen regler imod.";
+  } else {
+    rang = "Ny på holdet";
+    rubrik = "Første aften på observatoriet";
+    manchet = "Alle starter et sted. Det vigtigste var på plads: brillerne kom på, og ingen kiggede op uden.";
+    brod = "Prøven gik ikke som håbet, og nøglen til taghaven blev ikke udleveret i aften. Til gengæld blev sikkerhedstjekket klaret, og det er det, der betyder noget, når 88 procent af solen forsvinder over en hel by. Formørkelsen blev set fra fortovet, gennem briller, i godt selskab. Astronomerne foreslår at tage prøven igen. Historien om ulven Sköll bliver bedre for hver gang.";
+  }
+
+  caseCount.textContent = 'KL. 19:10 \u00b7 FØRSTE KONTAKT';
+  recordEl.style.display = 'flex';
+  renderRecord();
+
+  const protokol = state.history.map(function(hv, i){
+    const p = PUNKTER[i];
+    return '<div class="prow">'
+      + '<div class="pmark '+(hv?'r':'w')+'">'+(hv?'\u2713':'\u2717')+'</div>'
+      + '<div><div class="pnm">'+p.titel+'</div><div class="pln">'+p.based+'</div></div>'
+      + '</div>';
+  }).join('');
+
+  const felt = [
+    { n:"Skab formørkelsen", ok:!!state.felt.maane },
+    { n:"Minut for minut", ok:!!state.felt.ur },
+    { n:"Sikkerhedstjekket", ok:!!state.felt.sikkerhed }
+  ].map(function(f){
+    return '<div class="prow"><div class="pmark '+(f.ok?'r':'w')+'">'+(f.ok?'\u2713':'\u2717')+'</div>'
+      + '<div><div class="pnm">'+f.n+'</div><div class="pln">Feltøvelse</div></div></div>';
+  }).join('');
+
+  app.innerHTML = '<div class="panel fade"><div class="avis">'
+    + '<div class="ahoved">Himmelposten</div>'
+    + '<div class="aslogan">Uafhængig af vejrudsigten siden 1969</div>'
+    + '<div class="adato">Torsdag den 13. august 2026 \u00b7 Løssalg 12 kr. \u00b7 Nr. 226</div>'
+    + '<div class="aover">'+(bestod ? 'Missionsbevis udstedt' : 'Prøven gentages')+'</div>'
+    + '<div class="arubrik">'+rubrik+'</div>'
+    + '<div class="amanchet">'+manchet+'</div>'
+    + '<div class="abyline">Af redaktionen \u00b7 Observatoriet, København</div>'
+    + '<div class="abrod">'+brod+'</div>'
+    + '<div class="aresultat">'
+    + '<div class="ares-h">Aftenens protokol</div>'
+    + '<div class="ares-row"><div class="ares-score">'+r+'<span>/'+RUNDE+'</span></div><div class="ares-grid">'+grid+'</div></div>'
+    + '</div>'
+    + '</div></div>'
+
+    + '<div class="panel fade"><div class="card bevis">'
+    + '<div class="segl">'+(bestod ? '\ud83c\udfc5' : '\ud83c\udf18')+'</div>'
+    + '<div class="meta">'+(bestod ? 'Officielt bevis' : 'Foreløbig udnævnelse')+'</div>'
+    + '<p class="situation">Hermed udnævnes du til</p>'
+    + '<div class="rang">'+rang+'</div>'
+    + '<hr>'
+    + '<div id="nedtaelling"></div>'
+    + '<hr>'
+    + '<div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:4px">'
+    + '<button class="btn go" id="share">Del dit resultat</button>'
+    + '<button class="btn" id="again">Prøv igen \u25b8</button>'
+    + '</div>'
+    + '</div></div>'
+
+    + '<div class="panel fade"><div class="card">'
+    + '<div class="meta">Huskeliste til den '+FAKTA.dato+'</div>'
+    + '<h2 class="case-title">Tag det her med</h2>'
+    + '<ul class="huske">'
+    + '<li>Solformørkelsesbriller mærket <b>ISO 12312-2</b>. Køb dem i god tid.</li>'
+    + '<li>Vær klar kl. <b>'+FAKTA.start+'</b>. Den topper <b>'+FAKTA.maksimum+'</b> og slutter <b>'+FAKTA.slut+'</b>.</li>'
+    + '<li>Find et sted med <b>frit udsyn mod vest og nordvest</b>. Solen står meget lavt.</li>'
+    + '<li>Lav et hulkamera af en papkasse dagen før.</li>'
+    + '<li>Tag en trøje med. Det bliver køligere.</li>'
+    + '<li>Kig ned under et træ og find de måneformede lyspletter.</li>'
+    + '<li>Bliv ude bagefter. Samme aften topper stjerneskuddene fra Perseiderne.</li>'
+    + '</ul>'
+    + '</div></div>'
+
+    + '<div class="screen fade">'
+    + '<div class="protokol" style="margin-top:0">'
+    + '<h3>Missionsloggen</h3>'
+    + '<div class="psub">Dine '+RUNDE+' punkter og tre feltøvelser, som de blev ført til protokols.</div>'
+    + protokol + felt
+    + '</div></div>';
+
+  window.scrollTo(0,0);
+  enGang(document.getElementById('again'), function(){ forside(); });
+  document.getElementById('share').onclick = function(){ visDeling(r, grid, rang); };
   tikTak();
+}
+
+function visDeling(r, grid, rang){
+  const text = 'Solformørkelses-Missionen: En himmelhistorisk quiz\n'
+    + rang + '\n' + r + '/' + RUNDE + '\n' + grid + '\nKan du slå mig? ' + location.href;
+  const eText = encodeURIComponent(text);
+  const modal = document.createElement('div');
+  modal.className = 'share-modal';
+  modal.innerHTML = '<div class="share-box">'
+    + '<h3>Del dit resultat</h3>'
+    + '<div class="share-list">'
+    + '<a class="share-btn" href="https://twitter.com/intent/tweet?text='+eText+'" target="_blank" rel="noopener"><span class="ico x">X</span>X</a>'
+    + '<a class="share-btn" href="https://wa.me/?text='+eText+'" target="_blank" rel="noopener"><span class="ico wa">\u2706</span>WhatsApp</a>'
+    + '<a class="share-btn" href="sms:?&body='+eText+'"><span class="ico sms">\u2709</span>SMS</a>'
+    + '<button class="share-btn" id="share-copy"><span class="ico cp">\u2398</span>Kopiér resultat</button>'
+    + '</div>'
+    + '<button class="share-close" id="share-close">Luk</button>'
+    + '</div>';
+  document.body.appendChild(modal);
+  modal.addEventListener('click', function(e){ if(e.target === modal) modal.remove(); });
+  document.getElementById('share-close').onclick = function(){ modal.remove(); };
+  document.getElementById('share-copy').onclick = function(){
+    navigator.clipboard.writeText(text).then(function(){
+      document.getElementById('share-copy').innerHTML = '<span class="ico cp">\u2713</span>Kopieret';
+    });
+  };
 }
 
 function tikTak(){
   const boks = document.getElementById('nedtaelling');
   if(!boks) return;
-
-  const slutTid = new Date(2026, 7, 12, 20, 54, 0);   // formørkelsen er helt ovre
-  const dagSlut = new Date(2026, 7, 13,  4,  0, 0);   // natten efter
-
+  const dagSlut = new Date(2026, 7, 13, 4, 0, 0);
   function opd(){
-    if(!document.getElementById('nedtaelling')) return;   // brugeren er gået videre
+    if(!document.getElementById('nedtaelling')) return;
     const nu = new Date(), ms = FAKTA.maalTid - nu;
-
     if(ms > 0){
-      // Før formørkelsen — tæl ned
       const s = Math.floor(ms/1000);
-      boks.innerHTML = `
-        <p class="lille" style="letter-spacing:1px;margin-bottom:8px">DER ER NU</p>
-        <div class="nedtael">
-          <div><div class="t">${Math.floor(s/86400)}</div><div class="l">DAGE</div></div>
-          <div><div class="t">${Math.floor(s%86400/3600)}</div><div class="l">TIMER</div></div>
-          <div><div class="t">${Math.floor(s%3600/60)}</div><div class="l">MIN</div></div>
-          <div><div class="t">${s%60}</div><div class="l">SEK</div></div>
-        </div>
-        <p class="lille">til formørkelsen topper ${FAKTA.dato} kl. ${FAKTA.maksimum}</p>`;
-
-    }else if(nu < slutTid){
-      // Midt i det hele
-      boks.innerHTML = `
-        <p style="font-size:22px;font-weight:800;color:#ffd68a;margin:6px 0">Det sker lige nu! 🌘</p>
-        <p class="lille">Kig mod vest og nordvest — med solformørkelsesbriller på.</p>`;
-
-    }else if(nu < dagSlut){
-      // Samme aften, bagefter
-      boks.innerHTML = `
-        <p style="font-size:22px;font-weight:800;color:#ffd68a;margin:6px 0">Det skete i aften 🌘</p>
-        <p class="lille">Håber ${O.du()} så det. Bliv ude lidt endnu —
-        stjerneskuddene fra Perseiderne topper i nat.</p>`;
-
-    }else{
-      // Bagefter — tæl den anden vej
+      boks.innerHTML = '<div class="meta" style="text-align:center">Der er nu</div>'
+        + '<div class="nedtael">'
+        + '<div><div class="t">'+Math.floor(s/86400)+'</div><div class="l">DAGE</div></div>'
+        + '<div><div class="t">'+Math.floor(s%86400/3600)+'</div><div class="l">TIMER</div></div>'
+        + '<div><div class="t">'+Math.floor(s%3600/60)+'</div><div class="l">MIN</div></div>'
+        + '<div><div class="t">'+(s%60)+'</div><div class="l">SEK</div></div>'
+        + '</div>'
+        + '<p class="situation" style="text-align:center;font-size:13.5px">til formørkelsen topper '+FAKTA.dato+' kl. '+FAKTA.maksimum+'</p>';
+    } else if(nu < FAKTA.slutTid){
+      boks.innerHTML = '<div class="rang" style="font-size:24px">Det sker lige nu</div>'
+        + '<p class="situation" style="text-align:center;font-size:13.5px">Kig mod vest og nordvest, med solformørkelsesbriller på.</p>';
+    } else if(nu < dagSlut){
+      boks.innerHTML = '<div class="rang" style="font-size:24px">Det skete i aften</div>'
+        + '<p class="situation" style="text-align:center;font-size:13.5px">Bliv ude lidt endnu. Stjerneskuddene fra Perseiderne topper i nat.</p>';
+    } else {
       const dage = Math.floor((nu - FAKTA.maalTid)/86400000);
-      boks.innerHTML = `
-        <p style="font-size:20px;font-weight:800;color:#ffd68a;margin:6px 0">Formørkelsen er overstået 🌘</p>
-        <p class="lille">Det er <b style="color:#ffd68a">${dage}</b>
-        ${dage === 1 ? 'dag' : 'dage'} siden den 12. august 2026.<br>
-        Den næste lige så kraftige solformørkelse i Danmark er i <b style="color:#ffd68a">2048</b>.</p>`;
+      boks.innerHTML = '<div class="rang" style="font-size:22px">Formørkelsen er overstået</div>'
+        + '<p class="situation" style="text-align:center;font-size:13.5px">Det er <b>'+dage+'</b> '+(dage === 1 ? 'dag' : 'dage')+' siden den 12. august 2026.<br>Den næste lige så kraftige solformørkelse i Danmark er i <b>2048</b>.</p>';
     }
     setTimeout(opd, 1000);
   }
   opd();
 }
 
-start();
+/* Til test i konsollen: previewEnding(9) */
+function previewEnding(fakeScore){
+  state.rigtige = fakeScore;
+  state.history = [];
+  for(let i=0;i<RUNDE;i++) state.history.push(i < fakeScore);
+  state.felt = { maane:true, ur:true, sikkerhed:true };
+  ending();
+}
+
+forside();
 </script>
 </body>
 </html>
