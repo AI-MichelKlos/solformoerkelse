@@ -212,7 +212,11 @@
   .avis .abyline{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:#7d745d;text-align:center;margin-bottom:13px}
   .avis .abrod{font-family:'Fraunces',serif;font-size:13px;line-height:1.5;color:#16130d;columns:2;column-gap:20px;column-rule:1px solid #c9c0ad;text-align:justify;hyphens:auto;-webkit-hyphens:auto}
   .avis .abrod::first-letter{float:left;font-family:'Fraunces',serif;font-weight:700;font-size:33px;line-height:.82;padding:3px 6px 0 0}
+  .avis-foto{display:block;width:100%;height:auto;border-radius:2px;border:1px solid #c9c0ad;
+    box-shadow:0 1px 0 rgba(0,0,0,.05),0 14px 0 -7px #efe9da,0 15px 0 -6px rgba(0,0,0,.18),var(--shadow);margin-bottom:22px}
+  .avis-kort{padding:14px 16px 12px}
   .avis .aresultat{margin-top:16px;border:1.5px solid #16130d;padding:11px 13px}
+  .avis-kort .ares-h{border-bottom:1px solid #c9c0ad;padding-bottom:7px;margin-bottom:10px}
   .avis .ares-h{font-family:'IBM Plex Mono',monospace;font-weight:700;font-size:11px;letter-spacing:2px;text-transform:uppercase;text-align:center;border-bottom:1px solid #c9c0ad;padding-bottom:7px;margin-bottom:10px}
   .avis .ares-row{display:flex;align-items:center;gap:16px}
   .avis .ares-score{font-family:'Fraunces',serif;font-weight:700;font-size:46px;line-height:1;flex:none}
@@ -1649,20 +1653,24 @@ function ending(){
       + '<div><div class="pnm">'+f.n+'</div><div class="pln">Feltøvelse</div></div></div>';
   }).join('');
 
-  app.innerHTML = '<div class="panel fade"><div class="avis">'
-    + '<div class="ahoved">Himmelposten</div>'
-    + '<div class="aslogan">Uafhængig af vejrudsigten siden 1969</div>'
-    + '<div class="adato">Torsdag den 13. august 2026 \u00b7 Løssalg 12 kr. \u00b7 Nr. 226</div>'
-    + '<div class="aover">Missionsbevis udstedt</div>'
-    + '<div class="arubrik">'+rubrik+'</div>'
-    + '<div class="amanchet">'+manchet+'</div>'
-    + '<div class="abyline">Af redaktionen \u00b7 Observatoriet, København</div>'
-    + '<div class="abrod">'+brod+'</div>'
-    + '<div class="aresultat">'
-    + '<div class="ares-h">Aftenens protokol</div>'
-    + '<div class="ares-row"><div class="ares-score">'+r+'<span>/'+RUNDE+'</span></div><div class="ares-grid">'+grid+'</div></div>'
-    + '</div>'
+  app.innerHTML = '<div class="panel fade">'
+    + '<img class="avis-foto" src="billeder/avis.jpg" alt="Avisforside med overskriften Du har bestået"'
+    +   ' onerror="this.style.display=\'none\';var t=document.getElementById(\'avis-tekst\');if(t)t.style.display=\'\'">'
+    + '<div id="avis-tekst" style="display:none"><div class="avis">'
+    +   '<div class="ahoved">Himmelposten</div>'
+    +   '<div class="aslogan">Uafhængig af vejrudsigten siden 1969</div>'
+    +   '<div class="adato">Torsdag den 13. august 2026 \u00b7 Løssalg 12 kr. \u00b7 Nr. 226</div>'
+    +   '<div class="aover">Missionsbevis udstedt</div>'
+    +   '<div class="arubrik">'+rubrik+'</div>'
+    +   '<div class="amanchet">'+manchet+'</div>'
+    +   '<div class="abyline">Af redaktionen \u00b7 Observatoriet, København</div>'
+    +   '<div class="abrod">'+brod+'</div>'
     + '</div></div>'
+    + '<div class="avis avis-kort">'
+    +   '<div class="ares-h">Aftenens protokol</div>'
+    +   '<div class="ares-row"><div class="ares-score">'+r+'<span>/'+RUNDE+'</span></div><div class="ares-grid">'+grid+'</div></div>'
+    + '</div>'
+    + '</div>'
 
     + '<div class="panel fade"><div class="card bevis">'
     + '<div class="segl">\ud83c\udfc5</div>'
