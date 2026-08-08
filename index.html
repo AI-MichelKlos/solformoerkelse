@@ -91,6 +91,8 @@
   .question{font-size:16px;line-height:1.45;color:#2c2823;font-weight:500;margin:0 0 14px}
   .answer{margin:4px 0 0;padding:12px 14px;background:rgba(46,107,79,.12);border-left:3px solid var(--green-dk);border-radius:4px;font-size:14.5px;line-height:1.5;color:#2a2620}
   .answer .alab{font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:1.2px;text-transform:uppercase;color:var(--green-dk);display:block;margin-bottom:6px}
+  .answer .asvar{display:block;font-weight:500}
+  .answer .aforkl{display:block;margin-top:8px;padding-top:8px;border-top:1px solid rgba(46,107,79,.22);color:#4a443a}
   .prompt{font-family:'Fraunces',serif;font-weight:600;font-size:13px;letter-spacing:1.5px;text-transform:uppercase;color:#6b6457;margin:20px 0 10px;display:flex;align-items:center;gap:8px}
   .prompt::after{content:"";flex:1;height:1px;background:var(--line-paper)}
 
@@ -433,7 +435,7 @@ const PUNKTER = [
       {t:"Begge hære blev så forskrækkede, at de lagde våbnene og sluttede fred.", ok:true},
       {t:"Soldaterne fortsatte kampen i mørket med fakler.", ok:false}
     ],
-    forklaring:"Begge hære blev så forskrækkede, at de lagde våbnene og sluttede fred samme dag.",
+    forklaring:"Det skete for omkring 2600 år siden, og krigen sluttede samme dag.",
     mere:"Det skete for omkring 2600 år siden, og historikeren Herodot fortæller om det. I dag bruges formørkelsen til at datere slaget, fordi man kan regne baglæns og finde den præcise dag. Det er en af de ældste begivenheder i verdenshistorien, der kan tidsfæstes helt nøjagtigt." },
 
   { id:"04", kat:"Myternes tid", titel:"Er det farligt at gå udenfor?",
@@ -455,7 +457,7 @@ const PUNKTER = [
       {t:"Cirka 8 minutter.", ok:true},
       {t:"Det kommer med det samme.", ok:false}
     ],
-    forklaring:"Lyset er det hurtigste i universet, og alligevel tager turen 8 minutter.",
+    forklaring:"Lyset er det hurtigste i hele universet, og alligevel er turen så lang.",
     mere:"Det betyder, at du ser solen, som den så ud for 8 minutter siden. Fra månen tager lyset kun 1,3 sekunder. Solen står 150 millioner kilometer væk, og kørte man i bil uden pauser, ville turen tage over 170 år." },
 
   { id:"06", kat:"Sol og måne", titel:"Hvor månelyset kommer fra",
@@ -477,7 +479,7 @@ const PUNKTER = [
       {t:"Solen er cirka 400 gange større end månen, men også cirka 400 gange længere væk.", ok:true},
       {t:"De er faktisk lige store, men solen ser større ud på grund af sit lys.", ok:false}
     ],
-    forklaring:"Solen er cirka 400 gange større end månen, men også cirka 400 gange længere væk.",
+    forklaring:"Derfor kan den lille måne lige præcis nå at dække den enorme sol.",
     mere:"Det er et helt vildt tilfælde, og netop derfor kan den lille måne nå at dække den enorme sol. Ingen andre planeter i solsystemet har en måne, der passer så præcist. Månen fjerner sig cirka 3,8 cm om året, så om nogle hundrede millioner år er totale solformørkelser umulige." },
 
   { id:"08", kat:"Sol og måne", titel:"En million jordkloder",
@@ -1433,8 +1435,11 @@ function vaelg(slot){
     + fotokreditHTML(p.id)
     + '<div class="verdict '+(good?'good':'bad')+'"><span class="dot"></span>'+(good ? 'Rigtigt' : 'Ikke helt')+'</div>'
     + (good ? '' : '<div class="vsub">Du svarede: '+picked.t+'</div>')
-    + (good ? '' : '<div class="answer"><span class="alab">Det rigtige svar</span>'+correct.t+'</div>')
-    + '<div class="truth"><span class="lab">'+(good ? 'Derfor' : 'Sådan er det')+'</span>'+p.forklaring+'</div>'
+    + (good
+        ? '<div class="truth"><span class="lab">Derfor</span>'+p.forklaring+'</div>'
+        : '<div class="answer"><span class="alab">Det rigtige svar</span>'
+          + '<span class="asvar">'+correct.t+'</span>'
+          + '<span class="aforkl">'+p.forklaring+'</span></div>')
     + '<button class="merebtn" id="merebtn" aria-expanded="false">Mere <span class="pil">\u25be</span></button>'
     + '<div class="qbox" id="merebox" hidden><div class="qt">'+p.mere+'</div></div>'
     + '<div class="actions" id="act"></div>'
