@@ -6,7 +6,7 @@
 <title>Solformørkelses-Missionen · En himmelhistorisk quiz</title>
 <meta property="og:type" content="website">
 <meta property="og:title" content="Solformørkelses-Missionen: En himmelhistorisk quiz">
-<meta property="og:description" content="Klokken er 17:00 i observatoriet. Om to timer forsvinder 85 procent af solen over Danmark. 13 punkter skal klares, før du må gå udenfor.">
+<meta property="og:description" content="Klokken er 17:00 i observatoriet. Om to timer forsvinder 85 procent af solen over Danmark. 12 punkter skal klares, før du må gå udenfor.">
 <meta property="og:url" content="https://ai-michelklos.github.io/solformoerkelse/">
 <meta property="og:locale" content="da_DK">
 <meta property="og:image" content="https://ai-michelklos.github.io/solformoerkelse/delebillede.jpg">
@@ -17,7 +17,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://ai-michelklos.github.io/solformoerkelse/delebillede.jpg">
 <meta name="theme-color" content="#080c1c">
-<meta name="description" content="Den 12. august 2026 dækkes op mod 85 procent af solen over Danmark. 13 punkter om myter, sol, måne og sikkerhed. Bestå prøven og få missionsbeviset.">
+<meta name="description" content="Den 12. august 2026 dækkes op mod 85 procent af solen over Danmark. 12 punkter om myter, sol, måne og sikkerhed, plus tre feltøvelser.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;700&family=Permanent+Marker&display=swap" rel="stylesheet">
@@ -173,7 +173,7 @@
   .maaler{flex:1;text-align:center;border:1px solid var(--line-paper);border-radius:4px;padding:8px 4px;background:rgba(24,34,64,.06)}
   .maaler .v{font-family:'Fraunces',serif;font-weight:700;font-size:20px;color:#221c10;line-height:1}
   .maaler .n{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:1.4px;color:var(--muted-paper);margin-top:4px}
-  #scene{position:relative;border-radius:4px;overflow:hidden;background:#0a1024;border:1px solid var(--line-paper);touch-action:none;cursor:grab}
+  #scene{position:relative;border-radius:4px;overflow:hidden;background:#7ea8c8;border:1px solid var(--line-paper);touch-action:none;cursor:grab}
   #scene svg{width:100%;height:auto;display:block}
   #hjaelp{position:absolute;left:0;right:0;bottom:10px;text-align:center;font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:1px;color:#ffe9b8;transition:opacity .4s;text-shadow:0 2px 8px #000}
   .felt-fb{margin-top:14px;padding:13px 15px;background:rgba(216,178,92,.16);border-left:3px solid var(--gold);border-radius:4px;font-size:14px;line-height:1.55;color:#3f3a31}
@@ -236,8 +236,6 @@
   .nedtael{display:flex;justify-content:center;gap:14px;margin:8px 0}
   .nedtael .t{font-family:'Fraunces',serif;font-weight:700;font-size:26px;color:var(--gold-dk);line-height:1}
   .nedtael .l{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:1.4px;color:var(--muted-paper);margin-top:3px}
-  .huske{margin:6px 0 0;padding-left:20px;font-size:14.5px;line-height:1.7;color:#2c2823}
-  .huske li{margin-bottom:5px}
 
   .protokol{margin-top:26px;text-align:left}
   .protokol h3{font-family:'Fraunces',serif;text-transform:uppercase;letter-spacing:2px;font-size:15px;color:var(--gold);margin-bottom:4px}
@@ -332,7 +330,7 @@
 <script>
 /* ---------------------------------------------------------
    SOLFORMØRKELSES-MISSIONEN v2.0
-   13 punkter om myter, sol, måne og sikkerhed.
+   12 punkter om myter, sol, måne og sikkerhed.
    Tre svar pr. punkt i barnetilstand, fem i vokentilstand.
    Videoer, musik og billeder ligger i mapperne videos/ og
    billeder/. Mangler en fil, springer spillet den over.
@@ -358,7 +356,7 @@ const VIDEO = {
   krig:   "videos/krig.mp4",     /* slaget der gik i stå */
   rummet: "videos/sol3.mp4",     /* månens skygge set fra rummet */
   dyr:    "videos/dyrsover.mp4", /* fuglene bliver stille */
-  briller:"videos/sol5.mp4",     /* barn tager formørkelsesbriller på */
+  briller:"videos/sol5.mp4",     /* to piger tager formørkelsesbriller på */
   pige:   "videos/pige.mp4"      /* pigen der drømmer sig ud i rummet */
 };
 const MUSIK = {
@@ -405,21 +403,13 @@ function portraetHTML(id){
 
 /* ====================== 3) PUNKTERNE ====================== */
 const PUNKTER = [
-  { id:"01", kat:"Myternes tid", titel:"Ulven der bed i solen",
+    { id:"01", kat:"Myternes tid", titel:"Ulven der bed i solen",
     based:"Norden · vikingetiden",
     situation:"For tusind år siden vidste ingen, hvorfor solen kunne forsvinde midt om dagen. Så folk fandt selv på forklaringer, og i Norden var de ret dramatiske.",
     spm:"Hvad troede vikingerne, der skete med solen?",
     svar:[
       {t:"En kæmpe ulv ved navn Sköll indhentede solen og bed et stykke af den.", ok:true},
-      {t:"En kæmpeslange lagde sig i en ring om solen og kvalte lyset.", ok:false},
-      {t:"Guderne slukkede solen som straf, når mennesker havde løjet.", ok:false}
-    ],
-    svar5:[
-      {t:"Sköll jagtede solen, og folk larmede for at skræmme ulven væk.", ok:true},
-      {t:"Sköll jagtede månen, ikke solen.", ok:false},
-      {t:"I nordisk mytologi var det en kæmpeslange.", ok:false},
-      {t:"Historien blev opdigtet af digtere i 1800-tallet.", ok:false},
-      {t:"Solen blev stjålet af dværge og måtte købes tilbage.", ok:false}
+      {t:"En kæmpeslange lagde sig i en ring om solen og kvalte lyset.", ok:false}
     ],
     forklaring:"Ulven hed Sköll. Folk larmede for at skræmme den væk, og hver gang virkede det.",
     mere:"Der var to ulve. Sköll jagtede solen, og hans bror Hate jagtede månen. Ordet formørkelse hedder eclipse på engelsk. Det kommer af et græsk ord, der betyder at forlade." },
@@ -430,15 +420,7 @@ const PUNKTER = [
     spm:"Hvad gjorde man i Kina, når solen blev væk?",
     svar:[
       {t:"Man slog på trommer og gryder for at få dragen til at spytte solen ud igen.", ok:true},
-      {t:"Man tændte tusind lygter, så solen kunne finde vej tilbage.", ok:false},
-      {t:"Man gik indendørs og var helt stille, indtil det var overstået.", ok:false}
-    ],
-    svar5:[
-      {t:"Man slog på trommer, så dragen ville spytte solen ud igen.", ok:true},
-      {t:"Man tændte tusind lygter, så solen kunne finde vej hjem.", ok:false},
-      {t:"Man var helt stille, indtil det var overstået.", ok:false},
-      {t:"Dragen hører til i japansk mytologi, ikke i den kinesiske.", ok:false},
-      {t:"Myten gjaldt kun måneformørkelser.", ok:false}
+      {t:"Man tændte tusind lygter, så solen kunne finde vej tilbage.", ok:false}
     ],
     forklaring:"Man troede, en drage spiste solen, og larmen skulle få den til at slippe.",
     mere:"Kinesiske astronomer kunne for længst regne ud, hvornår formørkelser kom, så myten levede videre ved siden af videnskaben. Hofastronomerne skulle forudsige dem, og ramte de forkert, kunne det koste dem stillingen." },
@@ -449,15 +431,7 @@ const PUNKTER = [
     spm:"Hvad skete der, da solformørkelsen kom midt i slaget mellem mederne og lyderne?",
     svar:[
       {t:"Begge hære blev så forskrækkede, at de lagde våbnene og sluttede fred.", ok:true},
-      {t:"Den ene hær tog det som et godt varsel og vandt slaget samme dag.", ok:false},
       {t:"Soldaterne fortsatte kampen i mørket med fakler.", ok:false}
-    ],
-    svar5:[
-      {t:"Begge hære lagde våbnene og sluttede fred.", ok:true},
-      {t:"Den ene hær så det som et varsel og vandt slaget.", ok:false},
-      {t:"De kæmpede videre i mørket med fakler.", ok:false},
-      {t:"Det skete ved slaget ved Hastings i 1066.", ok:false},
-      {t:"Historien stammer fra en roman fra 1700-tallet.", ok:false}
     ],
     forklaring:"Begge hære blev så forskrækkede, at de lagde våbnene og sluttede fred samme dag.",
     mere:"Det skete for omkring 2600 år siden, og historikeren Herodot fortæller om det. I dag bruges formørkelsen til at datere slaget, fordi man kan regne baglæns og finde den præcise dag. Det er en af de ældste begivenheder i verdenshistorien, der kan tidsfæstes helt nøjagtigt." },
@@ -468,33 +442,17 @@ const PUNKTER = [
     spm:"Bliver man syg af at være udenfor under en solformørkelse?",
     svar:[
       {t:"Nej. Kroppen tager ingen skade. Det eneste farlige er at kigge direkte på solen.", ok:true},
-      {t:"Ja. Strålingen stiger, når solskiven bliver dækket.", ok:false},
-      {t:"Ja, men kun for helt små børn og for gravide.", ok:false}
-    ],
-    svar5:[
-      {t:"Nej. Kroppen tager ingen skade. Kun øjnene, hvis man kigger direkte på solen.", ok:true},
-      {t:"Ja. Strålingen stiger, når solskiven dækkes.", ok:false},
-      {t:"Ja, men kun for helt små børn.", ok:false},
-      {t:"Nej, men gravide blev historisk frarådet at gå ud, og det holder stik.", ok:false},
-      {t:"Ja. Luften bliver kortvarigt iltfattig.", ok:false}
+      {t:"Ja. Strålingen stiger, når solskiven bliver dækket.", ok:false}
     ],
     forklaring:"Der sker ingenting med kroppen. Kun øjnene kan tage skade, hvis du kigger lige på solen.",
     mere:"Strålingen stiger ikke, den falder, fordi der kommer mindre sol frem. Myten findes over hele verden, og flere steder blev gravide historisk rådet til at blive inde. Der er ingen målbar effekt." },
 
-  { id:"05", kat:"Sol og måne", titel:"Lysets otte minutter",
+  { id:"05", kat:"Sol og måne", titel:"Lysets vej",
     based:"Fra solen til din kind",
     situation:"Du har lige set lysstrålens rejse. Nu er spørgsmålet, hvor lang tid den tur egentlig tager.",
     spm:"Hvor lang tid tager sollyset om at nå ned til os?",
     svar:[
       {t:"Cirka 8 minutter.", ok:true},
-      {t:"Det kommer med det samme.", ok:false},
-      {t:"Cirka 8 timer.", ok:false}
-    ],
-    svar5:[
-      {t:"Cirka 8 minutter.", ok:true},
-      {t:"1,3 sekunder.", ok:false},
-      {t:"Cirka 22 minutter.", ok:false},
-      {t:"Cirka 8 timer.", ok:false},
       {t:"Det kommer med det samme.", ok:false}
     ],
     forklaring:"Lyset er det hurtigste i universet, og alligevel tager turen 8 minutter.",
@@ -506,15 +464,7 @@ const PUNKTER = [
     spm:"Hvor kommer månens lys fra?",
     svar:[
       {t:"Månen spejler sollys. Den er selv en kold, grå klippekugle.", ok:true},
-      {t:"Månen brænder svagt, ligesom solen gør det kraftigt.", ok:false},
       {t:"Månen har sit eget lys indeni, som skinner ud gennem overfladen.", ok:false}
-    ],
-    svar5:[
-      {t:"Den spejler sollys.", ok:true},
-      {t:"Den gløder svagt af sig selv.", ok:false},
-      {t:"Den lyser af jordskin.", ok:false},
-      {t:"Solvinden får overfladen til at lyse.", ok:false},
-      {t:"Den brænder som en stjerne, bare koldere.", ok:false}
     ],
     forklaring:"Månen laver ikke selv lys. Solen skinner på den, og noget af lyset kastes tilbage.",
     mere:"Jordskin findes godt nok: sollys fra Jorden gør den mørke del af nymånen svagt synlig. Men det er ikke der, månelyset kommer fra. Månen er faktisk mørkegrå som gammel asfalt og ser kun hvid ud, fordi den står på en helt sort himmel." },
@@ -525,15 +475,7 @@ const PUNKTER = [
     spm:"Hvorfor ser sol og måne næsten lige store ud fra Jorden?",
     svar:[
       {t:"Solen er cirka 400 gange større end månen, men også cirka 400 gange længere væk.", ok:true},
-      {t:"De er faktisk lige store, men solen ser større ud på grund af sit lys.", ok:false},
-      {t:"Månen vokser lidt, når den kommer tæt på Jorden.", ok:false}
-    ],
-    svar5:[
-      {t:"Solen er cirka 400 gange større og cirka 400 gange længere væk.", ok:true},
-      {t:"De er faktisk lige store.", ok:false},
-      {t:"Solen er 100 gange større og 100 gange længere væk.", ok:false},
-      {t:"Månen er 400 gange større, men står tættere på.", ok:false},
-      {t:"Det ser kun sådan ud på vores breddegrader.", ok:false}
+      {t:"De er faktisk lige store, men solen ser større ud på grund af sit lys.", ok:false}
     ],
     forklaring:"Solen er cirka 400 gange større end månen, men også cirka 400 gange længere væk.",
     mere:"Det er et helt vildt tilfælde, og netop derfor kan den lille måne nå at dække den enorme sol. Ingen andre planeter i solsystemet har en måne, der passer så præcist. Månen fjerner sig cirka 3,8 cm om året, så om nogle hundrede millioner år er totale solformørkelser umulige." },
@@ -544,15 +486,7 @@ const PUNKTER = [
     spm:"Hvor mange jordkloder er der plads til inde i solen?",
     svar:[
       {t:"Over en million.", ok:true},
-      {t:"Cirka 10.000.", ok:false},
       {t:"Cirka 100.", ok:false}
-    ],
-    svar5:[
-      {t:"Cirka 1,3 millioner.", ok:true},
-      {t:"Cirka 1.300.", ok:false},
-      {t:"Cirka 130.000.", ok:false},
-      {t:"Cirka 13 millioner.", ok:false},
-      {t:"Cirka 1,3 milliarder.", ok:false}
     ],
     forklaring:"Cirka 1,3 millioner. Solen er så stor, at alt andet i solsystemet er smuler.",
     mere:"Til sammenligning er der plads til cirka 1.300 jordkloder inde i Jupiter. Solen udgør omkring 99,8 procent af hele solsystemets masse. Alle planeterne tilsammen er resten." },
@@ -563,15 +497,7 @@ const PUNKTER = [
     spm:"Hvad sker der med astronauternes fodspor på månen?",
     svar:[
       {t:"De bliver liggende i millioner af år, helt skarpe.", ok:true},
-      {t:"De blæser væk efter et par dage.", ok:false},
-      {t:"De smelter, når solen rammer dem.", ok:false}
-    ],
-    svar5:[
-      {t:"De bliver liggende i millioner af år.", ok:true},
-      {t:"De er allerede væk.", ok:false},
-      {t:"De holder nogle hundrede år.", ok:false},
-      {t:"De holder til næste månelanding.", ok:false},
-      {t:"De forsvinder ved den næste måneformørkelse.", ok:false}
+      {t:"De blæser væk efter et par dage.", ok:false}
     ],
     forklaring:"Der er hverken vind eller regn på månen, så ingenting kan viske dem ud.",
     mere:"Fodsporene fra 1969 står der stadig. Kun mikroskopisk meteorstøv sliber langsomt på dem, og det tager titusinder af årtusinder. Astronauterne efterlod også et spejl deroppe, og forskere sender stadig laserlys op for at måle afstanden præcist." },
@@ -582,15 +508,7 @@ const PUNKTER = [
     spm:"Hvad gjorde den amerikanske astronaut Christina Koch?",
     svar:[
       {t:"Hun fløj rundt om månen som den første kvinde nogensinde.", ok:true},
-      {t:"Hun landede på månen som den første kvinde.", ok:false},
-      {t:"Hun byggede en rumstation i kredsløb om månen.", ok:false}
-    ],
-    svar5:[
-      {t:"Hun fløj rundt om månen som den første kvinde nogensinde.", ok:true},
-      {t:"Hun landede på månen som den første kvinde.", ok:false},
-      {t:"Hun var den første kvinde på rumstationen ISS.", ok:false},
-      {t:"Hun gik en rumvandring uden for månen.", ok:false},
-      {t:"Hun styrede en månebil fra kredsløb.", ok:false}
+      {t:"Hun landede på månen som den første kvinde.", ok:false}
     ],
     forklaring:"Turen hed Artemis II. De fløj hele vejen rundt om månen og hjem igen, men landede ikke.",
     mere:"Rejsen varede fra 1. til 10. april 2026, og de nåede 406.771 km hjemmefra, længere væk end nogen mennesker før dem. Christina Koch har i forvejen rekorden for den længste rumrejse af en kvinde med 328 dage i træk, og hun var med på den allerførste rumvandring, hvor der kun var kvinder ude." },
@@ -601,15 +519,7 @@ const PUNKTER = [
     spm:"Hvad gør fuglene, når lyset pludselig forsvinder om aftenen?",
     svar:[
       {t:"De bliver stille og søger mod reden, fordi de tror, at natten er kommet.", ok:true},
-      {t:"De begynder at synge ekstra højt for at holde sammen på flokken.", ok:false},
-      {t:"De flyver i en stor cirkel, indtil lyset kommer tilbage.", ok:false}
-    ],
-    svar5:[
-      {t:"De bliver stille og søger mod reden.", ok:true},
-      {t:"De begynder at synge ekstra højt.", ok:false},
-      {t:"De flyver højere op for at finde lyset.", ok:false},
-      {t:"De reagerer ikke. 83 procent er ikke nok.", ok:false},
-      {t:"De flokkes og kredser i en stor cirkel.", ok:false}
+      {t:"De begynder at synge ekstra højt for at holde sammen på flokken.", ok:false}
     ],
     forklaring:"Fuglene tror, at det er ved at blive nat, og bliver helt stille.",
     mere:"Mange, der har oplevet en kraftig solformørkelse, fortæller, at det mest uhyggelige ikke var mørket, men stilheden. Køer går mod stalden, og edderkopper begynder at pille deres net ned. Nogle sætter det op igen bagefter." },
@@ -620,42 +530,14 @@ const PUNKTER = [
     spm:"Hvad sker der med temperaturen under formørkelsen?",
     svar:[
       {t:"Den falder typisk 2 til 5 grader.", ok:true},
-      {t:"Den stiger, fordi vinden lægger sig.", ok:false},
       {t:"Der sker ingenting målbart.", ok:false}
-    ],
-    svar5:[
-      {t:"Den falder typisk 2 til 5 grader.", ok:true},
-      {t:"Den falder 10 til 15 grader.", ok:false},
-      {t:"Den stiger let, fordi vinden lægger sig.", ok:false},
-      {t:"Den ændrer sig ikke målbart.", ok:false},
-      {t:"Den falder først en time bagefter.", ok:false}
     ],
     forklaring:"Der forsvinder pludselig en masse varme, og temperaturen kan falde 2 til 5 grader.",
     mere:"Tag en trøje med. Det laveste punkt kommer typisk nogle minutter efter maksimum, fordi jorden ikke når at følge med. Vinden kan også lægge sig eller skifte retning, og det fænomen kaldes formørkelsesvinden." },
-
-  { id:"13", kat:"Mission mørke", titel:"Seglene under træet",
-    based:"Det bedste trick af dem alle",
-    situation:"Det sidste punkt er også det fedeste. Du behøver ikke kigge op på himlen for at se formørkelsen. Du kan kigge ned.",
-    spm:"Hvad kan du se på jorden under et træ, mens formørkelsen sker?",
-    svar:[
-      {t:"Hundredvis af små måneformede segl, fordi hver lysplet har samme form som den halvspiste sol.", ok:true},
-      {t:"Almindelige runde lyspletter, bare svagere end ellers.", ok:false},
-      {t:"Skarpe firkantede pletter, fordi lyset brydes i bladene.", ok:false}
-    ],
-    svar5:[
-      {t:"Hundredvis af små måneformede segl.", ok:true},
-      {t:"Almindelige runde lyspletter, bare svagere.", ok:false},
-      {t:"Skarpe firkantede pletter.", ok:false},
-      {t:"Bølgende mørke striber, der løber hen over jorden.", ok:false},
-      {t:"Ingenting. Der er for lidt lys.", ok:false}
-    ],
-    forklaring:"Hullerne mellem bladene virker som bittesmå kameraer, så hver lysplet får solens form.",
-    mere:"Du kan lave det selv med et dørslag eller et stykke pap med et hul. Fænomenet kaldes hulkameraeffekten, og det er præcis samme princip som i det allerførste kamera. De bølgende mørke striber findes, men ses kun lige omkring en total formørkelse." }
 ];
-
 const RUNDE = PUNKTER.length;      /* 13 */
 const BOGSTAV = ["a","b","c","d","e"];
-const TIDER = ["17:00","17:10","17:20","17:30","17:40","17:50","18:00","18:10","18:20","18:30","18:40","18:50","19:00"];
+const TIDER = ["17:00","17:10","17:20","17:30","17:40","17:50","18:00","18:10","18:20","18:30","18:40","18:50"];
 
 /* ====================== 4) PLANCHER ======================
    Tegnede kort mellem punkterne. Alt er tegnet i koden, saa
@@ -665,40 +547,55 @@ const PLANCHER = {
     over:"Det sker sjældent",
     tekst:"Sidst solen blev så kraftigt dækket over Danmark var i 2015. Næste gang bliver i 2048.",
     tegn(){
-      const p = [[110,"2015","80-85 %",false],[300,"2026","83-85 %",true],[500,"2048","",false]];
-      return '<svg viewBox="0 0 600 230">'
-        + '<line x1="60" y1="120" x2="560" y2="120" stroke="rgba(255,255,255,.22)" stroke-width="3"/>'
+      const p = [[110,"År 2015","80-85 %",false],[300,"År 2026","83-85 %",true],[500,"År 2048","",false]];
+      return '<svg viewBox="0 0 600 250">'
+        + '<line x1="60" y1="126" x2="560" y2="126" stroke="rgba(255,255,255,.22)" stroke-width="3"/>'
+        /* Hvert mellemrum faar sit eget tal. Foer stod der ét samlet tal
+           ved to forskellige afstande, og det var til at misforstaa. */
+        + '<text x="205" y="118" fill="#8e97b5" font-size="21" font-weight="700" text-anchor="middle">11 år</text>'
+        + '<text x="400" y="118" fill="#8e97b5" font-size="21" font-weight="700" text-anchor="middle">22 år</text>'
         + p.map(function(a){ var x=a[0],aar=a[1],pct=a[2],nu=a[3];
-            return '<circle cx="'+x+'" cy="120" r="'+(nu?26:17)+'" fill="'+(nu?"#d8b25c":"#3b4668")+'"/>'
-              + '<circle cx="'+(x+(nu?9:6))+'" cy="'+(120-(nu?7:5))+'" r="'+(nu?20:13)+'" fill="#0a1024"/>'
-              + '<text x="'+x+'" y="'+(nu?76:82)+'" fill="'+(nu?"#ffd68a":"#9aa3c0")+'" font-size="'+(nu?26:21)+'" font-weight="800" text-anchor="middle">'+aar+'</text>'
-              + '<text x="'+x+'" y="'+(nu?172:166)+'" fill="#8e97b5" font-size="15" text-anchor="middle">'+pct+'</text>';
+            return '<circle cx="'+x+'" cy="126" r="'+(nu?26:17)+'" fill="'+(nu?"#d8b25c":"#3b4668")+'"/>'
+              + '<circle cx="'+(x+(nu?9:6))+'" cy="'+(126-(nu?7:5))+'" r="'+(nu?20:13)+'" fill="#0a1024"/>'
+              + '<text x="'+x+'" y="'+(nu?78:84)+'" fill="'+(nu?"#ffd68a":"#9aa3c0")+'" font-size="'+(nu?34:28)+'" font-weight="800" text-anchor="middle">'+aar+'</text>'
+              + '<text x="'+x+'" y="'+(nu?184:178)+'" fill="#b3bdd4" font-size="21" text-anchor="middle">'+pct+'</text>';
           }).join('')
-        + '<text x="300" y="212" fill="#ffd68a" font-size="15" font-weight="700" text-anchor="middle">33 år imellem</text></svg>';
+        + '<text x="300" y="234" fill="#ffd68a" font-size="21" font-weight="700" text-anchor="middle">Du skal være voksen, før det sker igen</text></svg>';
     }
   },
   stoerrelser: {
-    over:"Solen fylder alt",
-    tekst:"Solen er 109 gange bredere end Jorden. Den kan slet ikke være på siden her, kun kanten af den er med.",
+    over:"Hvorfor der er plads til så mange",
+    tekst:"Solen er 109 jordkloder bred. Den er lige så høj og lige så dyb, og derfor bliver der plads til over en million inde i den.",
     tegn(){
-      return '<svg viewBox="0 0 600 262">'
-        + '<defs><radialGradient id="ksol" cx="0.15" cy="0.5">'
-        + '<stop offset="70%" stop-color="#ffd166"/><stop offset="100%" stop-color="#ff9f45"/></radialGradient></defs>'
-        + '<circle cx="-530" cy="131" r="656" fill="url(#ksol)"/>'
-        + '<text x="44" y="116" fill="#7a4a12" font-size="18" font-weight="800">SOLEN</text>'
-        + '<text x="44" y="137" fill="#8a5a1c" font-size="13">fortsætter</text>'
-        + '<text x="44" y="154" fill="#8a5a1c" font-size="13">ud af siden</text>'
-        + '<circle cx="330" cy="92" r="6" fill="#5b9bd5"/>'
-        + '<text x="330" y="72" fill="#9dc6ee" font-size="14" font-weight="700" text-anchor="middle">Jorden</text>'
-        + '<circle cx="432" cy="92" r="1.64" fill="#c9cddb"/>'
-        + '<text x="432" y="72" fill="#c9cddb" font-size="14" font-weight="700" text-anchor="middle">Månen</text>'
-        + '<text x="381" y="120" fill="#8e97b5" font-size="13" text-anchor="middle">i samme skala som solen</text>'
-        + '<line x1="248" y1="150" x2="576" y2="150" stroke="rgba(255,255,255,.13)"/>'
-        + '<text x="412" y="177" fill="#8e97b5" font-size="13" text-anchor="middle">de to samme, forstørret</text>'
-        + '<circle cx="356" cy="216" r="26" fill="#5b9bd5"/><circle cx="444" cy="216" r="7.1" fill="#c9cddb"/>'
-        + '<text x="356" y="254" fill="#9dc6ee" font-size="13" font-weight="700" text-anchor="middle">Jorden</text>'
-        + '<text x="444" y="254" fill="#c9cddb" font-size="13" font-weight="700" text-anchor="middle">Månen</text>'
-        + '<text x="510" y="221" fill="#ffd68a" font-size="15" font-weight="700">3,7 x</text></svg>';
+      /* Jorden er tegnet i rigtig skala: 109 gange mindre end solen.
+         Maalestokken nedenunder viser bredden med maerker for hver tiende,
+         for 109 enkelte kugler ville flyde sammen paa en telefon. */
+      const R = 150, cx = 300, cy = 152, rJord = R / 109;
+      let maerker = "";
+      for(let i = 0; i <= 109; i += 10){
+        const x = cx - R + (i / 109) * R * 2;
+        const lang = (i % 50 === 0);
+        maerker += '<line x1="' + x.toFixed(1) + '" y1="322" x2="' + x.toFixed(1)
+                 + '" y2="' + (lang ? 306 : 312) + '" stroke="#8a5a1c" stroke-width="' + (lang ? 2.5 : 1.5) + '"/>';
+      }
+      return '<svg viewBox="0 0 600 398">'
+        + '<defs><radialGradient id="ksol2" cx="0.4" cy="0.36">'
+        + '<stop offset="60%" stop-color="#ffd97a"/><stop offset="100%" stop-color="#ef9c38"/></radialGradient></defs>'
+        + '<text x="' + cx + '" y="34" fill="#ffd68a" font-size="30" font-weight="800" text-anchor="middle">SOLEN</text>'
+        + '<circle cx="' + cx + '" cy="' + cy + '" r="' + R + '" fill="url(#ksol2)"/>'
+        /* Jorden i samme skala som solen ovenfor */
+        + '<circle cx="' + (cx + R + 62) + '" cy="' + cy + '" r="' + rJord.toFixed(2) + '" fill="#5b9bd5"/>'
+        + '<circle cx="' + (cx + R + 62) + '" cy="' + cy + '" r="13" fill="none" stroke="#9dc6ee" stroke-width="1.2" opacity=".8"/>'
+        + '<line x1="' + (cx + R + 62) + '" y1="' + (cy - 15) + '" x2="' + (cx + R + 62) + '" y2="' + (cy - 34) + '" stroke="#9dc6ee" stroke-width="1.2"/>'
+        + '<text x="' + (cx + R + 62) + '" y="' + (cy - 46) + '" fill="#9dc6ee" font-size="24" font-weight="700" text-anchor="middle">Jorden</text>'
+        + '<text x="' + (cx + R + 62) + '" y="' + (cy + 38) + '" fill="#8e97b5" font-size="18" text-anchor="middle">i samme</text>'
+        + '<text x="' + (cx + R + 62) + '" y="' + (cy + 60) + '" fill="#8e97b5" font-size="18" text-anchor="middle">størrelse</text>'
+        /* Maalestok under solen */
+        + '<line x1="' + (cx - R) + '" y1="322" x2="' + (cx + R) + '" y2="322" stroke="#8a5a1c" stroke-width="2.5"/>'
+        + maerker
+        + '<text x="' + cx + '" y="356" fill="#ffd68a" font-size="24" font-weight="700" text-anchor="middle">109 jordkloder bred</text>'
+        + '<text x="' + cx + '" y="386" fill="#b3bdd4" font-size="20" text-anchor="middle">109 høj og 109 dyb giver 1,3 millioner</text>'
+        + '</svg>';
     }
   },
   afstand: {
@@ -706,43 +603,42 @@ const PLANCHER = {
     tekst:"Der er plads til 30 jordkloder på række mellem Jorden og månen. Apollo-raketterne var tre dage undervejs.",
     tegn(){
       var raekke = "";
-      for(var i=0;i<30;i++) raekke += '<circle cx="'+(92+i*14.6)+'" cy="115" r="6" fill="#5b9bd5" opacity=".42"/>';
-      return '<svg viewBox="0 0 600 230">'
+      for(var i=0;i<30;i++) raekke += '<circle cx="'+(92+i*13.8)+'" cy="115" r="6" fill="#5b9bd5" opacity=".42"/>';
+      return '<svg viewBox="0 0 600 248">'
         + '<circle cx="52" cy="115" r="30" fill="#4f92cf"/>'
         + '<path d="M34 104 q18 -10 34 3 q-10 13 -28 10 z" fill="#5aa06a" opacity=".85"/>'
         + '<path d="M46 130 q20 -6 30 7 q-16 8 -30 -2 z" fill="#5aa06a" opacity=".8"/>'
-        + '<text x="52" y="172" fill="#9dc6ee" font-size="15" font-weight="700" text-anchor="middle">Jorden</text>'
+        + '<text x="52" y="182" fill="#9dc6ee" font-size="24" font-weight="700" text-anchor="middle">Jorden</text>'
         + raekke
-        + '<circle cx="556" cy="115" r="14" fill="#c9cddb"/>'
-        + '<circle cx="551" cy="110" r="3.4" fill="#a2a7b4"/><circle cx="561" cy="120" r="2.6" fill="#a2a7b4"/>'
-        + '<text x="556" y="152" fill="#c9cddb" font-size="15" font-weight="700" text-anchor="middle">Månen</text>'
-        + '<text x="300" y="66" fill="#ffd68a" font-size="16" font-weight="700" text-anchor="middle">30 jordkloder på række</text>'
-        + '<text x="300" y="205" fill="#8e97b5" font-size="14" text-anchor="middle">384.400 km</text></svg>';
+        + '<circle cx="536" cy="115" r="14" fill="#c9cddb"/>'
+        + '<circle cx="531" cy="110" r="3.4" fill="#a2a7b4"/><circle cx="541" cy="120" r="2.6" fill="#a2a7b4"/>'
+        + '<text x="536" y="162" fill="#c9cddb" font-size="24" font-weight="700" text-anchor="middle">Månen</text>'
+        + '<text x="300" y="58" fill="#ffd68a" font-size="24" font-weight="700" text-anchor="middle">30 jordkloder på række</text>'
+        + '<text x="300" y="222" fill="#b3bdd4" font-size="20" text-anchor="middle">384.400 km</text></svg>';
     }
   },
   hulkamera: {
     over:"Se solen uden at kigge op",
     tekst:"Et lille hul i et stykke pap tegner solen på jorden. Under formørkelsen bliver pletten formet som en måne.",
     tegn(){
-      return '<svg viewBox="0 0 600 240">'
+      return '<svg viewBox="0 0 600 252">'
         + '<circle cx="74" cy="62" r="30" fill="#ffe484"/><circle cx="91" cy="50" r="25" fill="#0a1024"/>'
-        + '<text x="74" y="114" fill="#ffd68a" font-size="13.5" font-weight="700" text-anchor="middle">solen bag dig</text>'
+        + '<text x="10" y="120" fill="#ffd68a" font-size="20" font-weight="700" text-anchor="start">solen bag dig</text>'
         + '<line x1="102" y1="74" x2="288" y2="116" stroke="#ffd166" stroke-width="2" opacity=".45"/>'
         + '<line x1="102" y1="86" x2="288" y2="124" stroke="#ffd166" stroke-width="2" opacity=".45"/>'
         + '<rect x="288" y="34" width="16" height="172" rx="5" fill="#c9a06a"/>'
         + '<circle cx="296" cy="120" r="5.5" fill="#0a1024"/>'
-        + '<text x="296" y="230" fill="#c9cddb" font-size="13.5" font-weight="700" text-anchor="middle">pap med ét lille hul</text>'
+        + '<text x="286" y="240" fill="#c9cddb" font-size="20" font-weight="700" text-anchor="middle">pap med ét lille hul</text>'
         + '<line x1="304" y1="116" x2="450" y2="80" stroke="#ffd166" stroke-width="2" opacity=".42"/>'
         + '<line x1="304" y1="124" x2="450" y2="162" stroke="#ffd166" stroke-width="2" opacity=".42"/>'
         + '<rect x="446" y="48" width="126" height="148" rx="8" fill="#efece0"/>'
         + '<circle cx="509" cy="122" r="33" fill="#d8a52e"/><circle cx="524" cy="111" r="29" fill="#efece0"/>'
-        + '<text x="509" y="230" fill="#c9cddb" font-size="13.5" font-weight="700" text-anchor="middle">papir på jorden</text></svg>';
+        + '<text x="516" y="240" fill="#c9cddb" font-size="20" font-weight="700" text-anchor="middle">papir på jorden</text></svg>';
     }
   }
 };
 
 /* ====================== 5) TILSTAND ====================== */
-let niveau = "barn";     /* barn = 3 svar, voksen = 5 svar */
 let state = { i:0, history:[], rigtige:0, slots:[], started:false, felt:{} };
 
 const app = document.getElementById('app');
@@ -762,7 +658,7 @@ function noedudgang(boksId, next){
   return function(){ clearTimeout(t); };
 }
 
-function svarSaet(p){ return (niveau === "voksen" && p.svar5) ? p.svar5 : p.svar; }
+function svarSaet(p){ return p.svar; }
 
 /* Et tryk paa en videre-knap maa aldrig kunne taelle to gange. Uden dette
    kan et dobbelttryk paa mobil springe et helt punkt over. */
@@ -1055,14 +951,22 @@ function maanemission(next){
     + '<div class="maaler"><div class="v" id="mTemp">22\u00b0</div><div class="n">GRADER</div></div>'
     + '</div>'
     + '<div id="scene">'
-    + '<div id="himmel" style="position:absolute;inset:0;background:#000;opacity:0"></div>'
+    + '<div id="himmel" style="position:absolute;inset:0;background:#0a1024;opacity:0"></div>'
     + '<svg viewBox="0 0 300 300" id="msvg">'
-    + '<defs><radialGradient id="glod"><stop offset="45%" stop-color="#fff8d0" stop-opacity=".85"/><stop offset="100%" stop-color="#ffd166" stop-opacity="0"/></radialGradient></defs>'
+    + '<defs>'
+    +   '<linearGradient id="skumring" x1="0" y1="0" x2="0" y2="1">'
+    +     '<stop offset="0%" stop-color="#4d7fb0"/><stop offset="55%" stop-color="#93b8d2"/>'
+    +     '<stop offset="100%" stop-color="#f3c98a"/></linearGradient>'
+    +   '<radialGradient id="glod"><stop offset="45%" stop-color="#fff8d0" stop-opacity=".85"/><stop offset="100%" stop-color="#ffd166" stop-opacity="0"/></radialGradient>'
+    + '</defs>'
+    /* Formoerkelsen sker kl. 19 til 21, altsaa i aftenskumring. Himlen
+       starter derfor lys og moerkner foerst, naar maanen daekker solen. */
+    + '<rect width="300" height="300" fill="url(#skumring)"/>'
     + '<circle id="glow" cx="150" cy="120" r="96" fill="url(#glod)"/>'
     + '<circle id="sol" cx="150" cy="120" r="52" fill="#ffe484"/>'
-    + '<g><path d="M0 246 Q 55 214 110 244 Q 165 268 220 240 Q 262 218 300 240 L300 300 L0 300 Z" fill="#22331f"/>'
-    + '<path d="M150 246 l-9 -26 l9 -9 l9 9 l-9 26 z" fill="#1a2817"/></g>'
-    + '<circle id="maane" cx="58" cy="48" r="48.5" fill="#12141f" stroke="rgba(255,255,255,.35)" stroke-width="1.5"/>'
+    + '<g><path d="M0 246 Q 55 214 110 244 Q 165 268 220 240 Q 262 218 300 240 L300 300 L0 300 Z" fill="#3d5a37"/>'
+    + '<path d="M150 246 l-9 -26 l9 -9 l9 9 l-9 26 z" fill="#2c4227"/></g>'
+    + '<circle id="maane" cx="58" cy="48" r="48.5" fill="#2a2f42" stroke="rgba(255,255,255,.45)" stroke-width="1.5"/>'
     + '</svg>'
     + '<div id="hjaelp">Træk månen hen over solen</div>'
     + '</div>'
@@ -1107,7 +1011,7 @@ function maanemission(next){
     document.getElementById('mDaek').textContent = Math.round(pct) + ' %';
     document.getElementById('mLys').textContent = Math.max(4, Math.round(100 - Math.pow(pct/100,2.6)*96)) + ' %';
     document.getElementById('mTemp').textContent = Math.round(22 - pct/100*5) + '\u00b0';
-    himmel.style.opacity = Math.pow(pct/100,2.6)*.82;
+    himmel.style.opacity = Math.pow(pct/100,2.6)*.62;   /* gaar mod skumring, ikke nat */
     glow.setAttribute('r', 96 - pct*0.42);
     if(pct > 8 && hjaelp) hjaelp.style.opacity = 0;
     if(pct >= 78 && !laast){ laast = true; ramt(Math.round(maxNaaet)); }
@@ -1309,7 +1213,7 @@ function forside(){
     + '</g></svg></div>'
     + taeller
     + '<div class="fakta3">'
-    + '<div><div class="t">13</div><div class="u">PUNKTER</div></div>'
+    + '<div><div class="t">'+RUNDE+'</div><div class="u">PUNKTER</div></div>'
     + '<div><div class="t">3</div><div class="u">FELTØVELSER</div></div>'
     + '<div><div class="t">20</div><div class="u">MINUTTER</div></div>'
     + '</div>'
@@ -1409,13 +1313,10 @@ function intro(){
     + '<p class="situation">Klokken er 17:00, og om godt to timer sker der noget over Danmark, som ikke er sket siden 2015. Månen lægger sig delvist i vejen for solen, og op mod <strong>85 procent</strong> af den forsvinder.</p>'
     + '<p class="situation" style="margin-top:12px">Observatoriet mangler en vagt på taget. Men de vil ikke sende nogen derop, der ikke ved, hvad de kigger på, og allermindst nogen der ikke ved, hvordan man kigger. Derfor: først en prøve.</p>'
     + '<p class="situation" style="margin-top:12px"><strong>'+RUNDE+' spørgsmål eller opgaver</strong>.</p>'
-    + '<div class="prompt">Vælg niveau</div>'
-    + '<button class="btn go fuld" id="niv-barn">Jeg er barn <small>Tre svar at vælge imellem</small></button>'
-    + '<button class="btn fuld" id="niv-voksen">Jeg er voksen <small>Fem svar, og nogle af dem driller</small></button>'
+    + '<button class="btn go fuld big" id="start-go" style="margin-top:22px">Start missionen \u25b8</button>'
     + '</div></div>';
   window.scrollTo(0,0);
-  enGang(document.getElementById('niv-barn'), function(){ niveau = "barn"; startGame(); });
-  enGang(document.getElementById('niv-voksen'), function(){ niveau = "voksen"; startGame(); });
+  enGang(document.getElementById('start-go'), startGame);
 }
 
 /* Tegnet scene: observatoriet i skumringen */
@@ -1554,11 +1455,13 @@ function vaelg(slot){
   const tilbage = '<button class="backlink" id="svarom">\u2039 Svar om</button>';
 
   if(state.i === RUNDE - 1){
-    /* Sidste punkt: hulkameraplanchen og derefter sikkerhedstjekket */
-    act.innerHTML = tilbage + '<button class="btn go big" id="next">Se hvordan man kigger \u25b8</button>';
+    /* Efter sidste punkt koeres de to sidste feltoevelser og sikkerhedstjekket. */
+    act.innerHTML = tilbage + '<button class="btn go big" id="next">Sidste opgaver \u25b8</button>';
     enGang(document.getElementById('next'), function(){
-      planche('hulkamera', function(){
-        filmSekvens([VIDEO.briller], function(){ sikkerhedstjek(ending); });
+      urmission(function(){
+        planche('hulkamera', function(){
+          filmSekvens([VIDEO.briller], function(){ sikkerhedstjek(ending); });
+        });
       });
     });
   } else {
@@ -1594,8 +1497,7 @@ const MELLEMSPIL = {
   "09": { knap:"Se hvor stor solen er", kald:function(n){ planche('stoerrelser', function(){
             filmSekvens([VIDEO.rummet], function(){ maanemission(n); }); }); } },
   "11": { knap:"Se hende drømme",   kald:function(n){ filmSekvens([VIDEO.pige], n); } },
-  "12": { knap:"Se hvad dyrene gør", kald:function(n){ filmSekvens([VIDEO.dyr], n); } },
-  "13": { knap:"Find tidspunktet",   kald:function(n){ urmission(n); } }
+  "12": { knap:"Se hvad dyrene gør", kald:function(n){ filmSekvens([VIDEO.dyr], n); } }
 };
 
 /* Lysstraalens rejse som billedsekvens med Ken Burns */
@@ -1634,8 +1536,8 @@ function ending(){
   if(r === RUNDE){
     rang = "Chefastronom";
     rubrik = "Ikke ét fejlsvar på taget";
-    manchet = "Observatoriet har aldrig set nogen klare alle tretten punkter på én aften. Nøglen til observatoriet på Egernvej blev udleveret uden diskussion.";
-    brod = "Der findes ikke fortilfælde. En vagt, hvis navn ingen på observatoriet kunne huske i forgårs, gennemførte i aften samtlige tretten punkter uden en enkelt fejl, inklusive de tre feltøvelser. Den ældste af astronomerne kalder resultatet urimeligt. Kaffen blev sat over igen, og nøglen til observatoriet på Egernvej lå på bordet klokken 19:08, to minutter før månen rørte solen.";
+    manchet = "Observatoriet har aldrig set nogen klare alle punkter på én aften. Nøglen til observatoriet på Egernvej blev udleveret uden diskussion.";
+    brod = "Der findes ikke fortilfælde. En vagt, hvis navn ingen på observatoriet kunne huske i forgårs, gennemførte i aften samtlige punkter uden en enkelt fejl, inklusive de tre feltøvelser. Den ældste af astronomerne kalder resultatet urimeligt. Kaffen blev sat over igen, og nøglen til observatoriet på Egernvej lå på bordet klokken 19:08, to minutter før månen rørte solen.";
   } else if(r >= 10){
     rang = "Solformørkelsesvagt";
     rubrik = "Danmark så formørkelsen";
@@ -1712,19 +1614,6 @@ function ending(){
     + '</div>'
     + '</div></div>'
 
-    + '<div class="panel fade"><div class="card">'
-    + '<div class="meta">Huskeliste til den '+FAKTA.dato+'</div>'
-    + '<h2 class="case-title">Tag det her med</h2>'
-    + '<ul class="huske">'
-    + '<li>Solformørkelsesbriller mærket <b>ISO 12312-2</b>. Køb dem i god tid.</li>'
-    + '<li>Vær klar kl. <b>'+FAKTA.start+'</b>. Den topper <b>'+FAKTA.maksimum+'</b> og slutter <b>'+FAKTA.slut+'</b>.</li>'
-    + '<li>Find et sted med <b>frit udsyn mod vest og nordvest</b>. Solen står meget lavt.</li>'
-    + '<li>Lav et hulkamera af en papkasse dagen før.</li>'
-    + '<li>Tag en trøje med. Det bliver køligere.</li>'
-    + '<li>Kig ned under et træ og find de måneformede lyspletter.</li>'
-    + '<li>Bliv ude bagefter. Samme aften topper stjerneskuddene fra Perseiderne.</li>'
-    + '</ul>'
-    + '</div></div>'
 
     + '<div class="screen fade">'
     + '<div class="protokol" style="margin-top:0">'
